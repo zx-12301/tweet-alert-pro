@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  name          String?
+  password      String?
+  phone         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  tasks         MonitorTask[]
+  notifications Notification[]
+  subscription  Subscription?
+  totalNotifications Int @default(0)
+}
+
+model MonitorTask {
+  id            String    @id @default(uuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id])
+  twitterHandle String
+  keywords      String?
+  minLikes      Int?
+  minRetweets   Int?
+  notifyChannels String?
+  phoneNumbers  String?
+  webhooks      String?
+  isActive      Boolean   @default(true)
+  lastCheckedAt DateTime?
+  lastTweetId   String?
+  totalNotifications Int @default(0)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  notifications Notification[]
+}
+
+model Notification {
+  id            String    @id @default(uuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id])
+  taskId        String
+  task          MonitorTask @relation(fields: [taskId], references: [id])
+  tweetId       String
+  tweetContent  String
+  tweetUrl      String
+  tweetCreatedAt DateTime
+  channel       String
+  status        String
+  errorMessage  String?
+  createdAt     DateTime  @default(now())
+}
+
+model Subscription {
+  id            String    @id @default(uuid())
+  userId        String    @unique
+  user          User      @relation(fields: [userId], references: [id])
+  plan          String
+  status        String
+  dailyNotificationLimit Int @default(5)
+  maxTasks      Int       @default(3)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}

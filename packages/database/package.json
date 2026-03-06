@@ -1,0 +1,13 @@
+﻿{
+  "name": "@tweet-alert/database",
+  "version": "1.0.0",
+  "main": "./dist/index.js",
+  "scripts": {
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.10.0",
+    "prisma": "^5.10.0"
+  }
+}
