@@ -620,13 +620,8 @@ page {
    ========================================================================== */
 
 .bottom-save-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 20rpx 40rpx calc(20rpx + env(safe-area-inset-bottom));
-  background: linear-gradient(to top, #0B1120 0%, rgba(11, 17, 32, 0.9) 100%);
-  z-index: 100;
+  padding: 40rpx 40rpx calc(40rpx + env(safe-area-inset-bottom));
+  background: transparent;
 }
 
 .save-btn {
