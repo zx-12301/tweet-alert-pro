@@ -1,0 +1,95 @@
+<!--
+  🎨 高级设计首页 - Premium Design Homepage
+  设计原则应用：
+  1. 极简留白 - 增加模块间距，去除装饰线
+  2. 莫兰迪配色 - 使用低饱和度、高级色调
+  3. 精细阴影 - 多层叠加，模拟真实光照
+  4. 微交互 - 细腻的过渡和反馈
+  5. 非对称圆角 - 避免通用圆角，根据场景选择
+-->
+<view class="premium-container page-enter">
+
+  <!-- 极简头部 - 极简留白，去除渐变 -->
+  <view class="premium-header">
+    <view class="header-greeting">
+      <text class="greeting-time">{{greetingTime}}</text>
+      <text class="greeting-emoji">·</text>
+      <text class="greeting-name">{{userName || '您好'}}</text>
+    </view>
+
+    <!-- 极简统计数据 - 卡片式，留白 -->
+    <view class="header-stats">
+      <view class="stat-card">
+        <view class="stat-icon">📋</view>
+        <view class="stat-content">
+          <text class="stat-value">{{stats.taskCount}}</text>
+          <text class="stat-label">监控任务</text>
+        </view>
+      </view>
+      <view class="stat-card">
+        <view class="stat-icon">🔔</view>
+        <view class="stat-content">
+          <text class="stat-value">{{stats.todayNotify}}</text>
+          <text class="stat-label">今日通知</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 快捷操作 - 极简卡片 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">快捷操作</text>
+    </view>
+    <view class="action-grid">
+      <view class="action-item" bindtap="navigateTo" data-url="/pages/tasks/create">
+        <view class="action-icon">➕</view>
+        <view class="action-label">创建任务</view>
+        <view class="action-desc">新建监控</view>
+      </view>
+      <view class="action-item" bindtap="switchTab" data-url="/pages/subscription/subscription">
+        <view class="action-icon">💳</view>
+        <view class="action-label">订阅管理</view>
+        <view class="action-desc">查看用量</view>
+      </view>
+      <view class="action-item" bindtap="switchTab" data-url="/pages/settings/settings">
+        <view class="action-icon">⚙️</view>
+        <view class="action-label">功能配置</view>
+        <view class="action-desc">API 设置</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 最近通知 - 极简列表 -->
+  <view class="section section-last">
+    <view class="section-header">
+      <text class="section-title">最近通知</text>
+      <text class="section-link" bindtap="viewAllNotifications">全部 →</text>
+    </view>
+
+    <!-- 空状态 -->
+    <view wx:if="{{!notifications.length}}" class="empty-state">
+      <view class="empty-icon">📭</view>
+      <text class="empty-title">暂无新通知</text>
+      <text class="empty-desc">创建监控任务后，新通知将显示在这里</text>
+    </view>
+
+    <!-- 通知列表 -->
+    <view wx:else class="notification-list">
+      <view wx:for="{{notifications}}" wx:key="id"
+            class="notification-item"
+            bindtap="viewNotification"
+            data-id="{{item.id}}">
+        <view class="notification-meta">
+          <text class="notification-handle">@{{item.handle}}</text>
+          <text class="notification-time">{{item.time}}</text>
+        </view>
+        <view class="notification-content">
+          <text class="notification-text">{{item.content}}</text>
+        </view>
+        <view wx:if="{{!item.read}}" class="unread-dot"></view>
+      </view>
+    </view>
+  </view>
+
+</view>

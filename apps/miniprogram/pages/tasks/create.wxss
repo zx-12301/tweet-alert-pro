@@ -235,10 +235,19 @@
 .form-card {
   padding: 0;
   overflow: hidden;
+  background: #ffffff;
+  border-radius: 28rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.06);
+  border: 1rpx solid rgba(226, 232, 240, 0.6);
 }
 
 .form-item {
   padding: 28rpx 32rpx;
+  transition: background 0.2s ease;
+}
+
+.form-item:active {
+  background: #f8fafc;
 }
 
 .form-label {
@@ -256,12 +265,16 @@
 
 .required {
   color: var(--danger-color);
+  font-weight: 700;
 }
 
 .optional {
   font-size: 22rpx;
   color: var(--text-muted);
   font-weight: 400;
+  background: #f1f5f9;
+  padding: 2rpx 10rpx;
+  border-radius: 8rpx;
 }
 
 .input-wrapper {
@@ -272,17 +285,18 @@
   width: 100%;
   padding: 24rpx 28rpx;
   background: #f8fafc;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   font-size: 28rpx;
   color: var(--text-primary);
-  border: 1rpx solid var(--border-color);
-  transition: all 0.2s ease;
+  border: 2rpx solid var(--border-color);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .form-input:focus {
   background: #ffffff;
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 4rpx rgba(37, 99, 235, 0.1);
+  box-shadow: 0 0 0 4rpx rgba(37, 99, 235, 0.1), 0 4rpx 12rpx rgba(37, 99, 235, 0.15);
+  transform: translateY(-2rpx);
 }
 
 .input-placeholder {
@@ -294,7 +308,9 @@
   font-size: 22rpx;
   color: var(--text-muted);
   margin-top: 12rpx;
-  line-height: 1.4;
+  line-height: 1.5;
+  padding-left: 8rpx;
+  border-left: 3rpx solid var(--primary-color);
 }
 
 .form-row {
@@ -316,11 +332,17 @@
 .notification-card {
   padding: 0;
   overflow: hidden;
-  transition: all 0.2s ease;
+  background: #ffffff;
+  border-radius: 20rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.06);
+  border: 1rpx solid rgba(226, 232, 240, 0.5);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .notification-card:active {
   background: linear-gradient(90deg, #eff6ff 0%, #ffffff 100%);
+  transform: scale(0.99);
+  box-shadow: 0 4rpx 16rpx rgba(37, 99, 235, 0.15);
 }
 
 .notification-header {
@@ -338,20 +360,22 @@
 }
 
 .checkbox {
-  width: 44rpx;
-  height: 44rpx;
-  border: 2rpx solid var(--border-color);
-  border-radius: 10rpx;
+  width: 48rpx;
+  height: 48rpx;
+  border: 3rpx solid var(--border-color);
+  border-radius: 12rpx;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   flex-shrink: 0;
 }
 
 .checkbox.checked {
   background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
   border-color: var(--primary-color);
+  box-shadow: 0 4rpx 12rpx rgba(37, 99, 235, 0.3);
+  transform: scale(1.05);
 }
 
 .checkmark {
@@ -385,6 +409,7 @@
 
 .notification-content {
   padding: 0 32rpx 28rpx;
+  background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
 }
 
 /* 操作区域 */
@@ -398,15 +423,36 @@
 .action-btn {
   width: 100%;
   padding: 32rpx;
-  border-radius: var(--radius-md);
+  border-radius: 20rpx;
   font-size: 32rpx;
   font-weight: 600;
   border: none;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.action-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.action-btn:active::before {
+  width: 300rpx;
+  height: 300rpx;
 }
 
 .action-btn[disabled] {
   opacity: 0.6;
+  pointer-events: none;
 }
 
 /* 分割线 */

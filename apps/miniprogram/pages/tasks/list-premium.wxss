@@ -15,7 +15,7 @@
 .premium-container {
   background: #fafafa;
   min-height: 100vh;
-  padding-bottom: calc(180rpx + env(safe-area-inset-bottom));
+  padding-bottom: 160rpx;
 }
 
 /* ====================
@@ -179,7 +179,7 @@
   border-radius: 20rpx;
   padding: 24rpx;
   margin-bottom: 16rpx;
-  border:1px solid #f0f0f0;
+  border: 1px solid #f0f0f0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -319,7 +319,7 @@
   align-items: center;
   gap: 16rpx;
   padding-top: 16rpx;
-  border-top:1px solid #f3f4f6;
+  border-top: 1px solid #f3f4f6;
 }
 
 .footer-stat {

@@ -1,0 +1,348 @@
+/*
+ * 🎨 高级设计首页样式 - Premium Homepage Styles
+ *
+ * 设计心理学解析：
+ * - 大间距（32rpx - 48rpx）营造高端品牌的疏离感和尊贵感
+ * - 微妙阴影模拟真实物理光照，避免生硬黑色投影
+ * - 莫兰迪色系传递优雅、高级的品牌调性
+ * - 非对称圆角（8px / 20px / 24px）避免廉价模板感
+ * - 精细过渡动画（200ms - 300ms）提供愉悦的触感反馈
+ */
+
+/* ====================
+   页面容器 - Page Container
+   ==================== */
+.premium-container {
+  /* 纯白背景，无需渐变干扰 */
+  background: #fafafa;
+  min-height: 100vh;
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* ====================
+   极简头部 - Minimal Header
+   ==================== */
+.premium-header {
+  padding: 48rpx 32rpx;
+  background: #ffffff;
+}
+
+.header-greeting {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-bottom: 48rpx;
+}
+
+.greeting-time {
+  font-size: 28rpx;
+  color: var(--color-neutral-500);
+  font-weight: 500;
+}
+
+.greeting-emoji {
+  font-size: 32rpx;
+  color: var(--color-text-tertiary);
+}
+
+.greeting-name {
+  font-size: 40rpx;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* ====================
+   精致统计卡片 - Elegant Stats Cards
+   ==================== */
+.header-stats {
+  display: flex;
+  gap: 16rpx;
+}
+
+.stat-card {
+  flex: 1;
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 24rpx;
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+  border: 1px solid #f0f0f0;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.stat-card:active {
+  transform: translateY(-2rpx);
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
+}
+
+.stat-icon {
+  width: 48rpx;
+  height: 48rpx;
+  background: #fafafa;
+  border-radius: 12rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  color: var(--color-neutral-400);
+}
+
+.stat-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+
+.stat-value {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  color: var(--color-text-tertiary);
+  font-weight: 500;
+}
+
+/* ====================
+   区块 - Sections
+   ==================== */
+.section {
+  padding: 48rpx 32rpx;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32rpx;
+}
+
+.section-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: 0.5rpx;
+}
+
+.section-link {
+  font-size: 24rpx;
+  color: var(--color-primary);
+  font-weight: 500;
+  padding: 8rpx 16rpx;
+  border-radius: 8rpx;
+  background: var(--color-neutral-100);
+  transition: all 200ms ease;
+}
+
+.section-link:active {
+  background: var(--color-neutral-200);
+}
+
+.section-last {
+  padding-bottom: 100rpx;
+}
+
+/* ====================
+   快捷操作 - Action Grid
+   ==================== */
+.action-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16rpx;
+}
+
+.action-item {
+  background: #ffffff;
+  border-radius: 24rpx;
+  padding: 32rpx 24rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+  border: 1px solid #f0f0f0;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.action-item:active {
+  transform: translateY(-2rpx);
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
+  border-color: #e5e5e5;
+}
+
+.action-icon {
+  width: 48rpx;
+  height: 48rpx;
+  background: var(--color-neutral-100);
+  border-radius: 12rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  color: var(--color-neutral-500);
+  margin-bottom: 8rpx;
+  transition: all 200ms ease;
+}
+
+.action-item:active .action-icon {
+  background: var(--color-accent-lavender);
+  color: var(--text-primary);
+}
+
+.action-label {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4rpx;
+}
+
+.action-desc {
+  font-size: 22rpx;
+  color: var(--color-text-tertiary);
+  font-weight: 400;
+}
+
+/* ====================
+   通知列表 - Notification List
+   ==================== */
+.notification-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.notification-item {
+  background: #ffffff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  display: flex;
+  align-items: flex-start;
+  gap: 20rpx;
+  box-shadow: 0 1rpx 4rpx rgba(0, 0, 0, 0.03);
+  border: 1px solid #f0f0f0;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.notification-item:active {
+  transform: translateX(4rpx);
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
+}
+
+.notification-meta {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-bottom: 16rpx;
+  width: 100%;
+}
+
+.notification-handle {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: var(--color-primary);
+  font-family: 'SF Mono', 'Monaco', monospace;
+}
+
+.notification-time {
+  font-size: 22rpx;
+  color: var(--color-neutral-400);
+  font-weight: 400;
+  margin-left: auto;
+}
+
+.notification-content {
+  flex: 1;
+}
+
+.notification-text {
+  font-size: 28rpx;
+  color: var(--text-primary);
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.unread-dot {
+  width: 8rpx;
+  height: 8rpx;
+  background: var(--color-primary);
+  border-radius: 50%;
+  margin-top: 8rpx;
+  box-shadow: 0 0 0 3rpx rgba(15, 23, 42, 0.15);
+}
+
+/* ====================
+   空状态 - Empty State
+   ==================== */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120rpx 32rpx;
+}
+
+.empty-icon {
+  font-size: 64rpx;
+  color: var(--color-neutral-300);
+  margin-bottom: 32rpx;
+}
+
+.empty-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 12rpx;
+}
+
+.empty-desc {
+  font-size: 24rpx;
+  color: var(--color-text-secondary);
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* ====================
+   页面进入动画 - Page Entry Animation
+   ==================== */
+.page-enter {
+  animation: pageEnter 400ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(20rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ====================
+   CSS 变量定义 - CSS Variables
+   ==================== */
+page {
+  --primary: #334155;
+  --primary-soft: #475569;
+  --color-accent-lavender: #8b5cf6;
+  --color-accent-sage: #84a98c;
+  --color-accent-rose: #f43f5e;
+  --text-primary: #111827;
+  --text-secondary: #374151;
+  --color-text-tertiary: #9ca3af;
+  --color-neutral-100: #f5f5f5;
+  --color-neutral-400: #d1d5db;
+  --bg-secondary: #fafafa;
+  --shadow-md: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
+}

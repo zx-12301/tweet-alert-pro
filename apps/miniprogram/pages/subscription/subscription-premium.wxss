@@ -15,7 +15,7 @@
 .premium-container {
   background: #fafafa;
   min-height: 100vh;
-  padding-bottom: calc(180rpx + env(safe-area-inset-bottom));
+  padding-bottom: 160rpx;
 }
 
 /* ====================
@@ -225,7 +225,6 @@
   background: #f3f4f6;
   border-radius: 6rpx;
   overflow: hidden;
-  position: relative;
 }
 
 .progress-fill-premium {
@@ -233,7 +232,6 @@
   background: #334155;
   border-radius: 6rpx;
   transition: width 400ms cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
 }
 
 .progress-percent {
@@ -396,8 +394,8 @@
 }
 
 .btn-upgrade:active {
-  transform: translateY(-1rpx);
-  box-shadow: 0 4px 12px rgba(51, 65, 85, 0.2);
+  transform: translateY(2rpx);
+  box-shadow: 0 1px 4px rgba(51, 65, 85, 0.1);
 }
 
 .btn-icon-upgrade {

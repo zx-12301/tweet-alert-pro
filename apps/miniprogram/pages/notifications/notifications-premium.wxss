@@ -1,10 +1,10 @@
 /*
- * 🎨 任务列表页 - 高级设计样式
+ * 🎨 通知中心页 - 高级设计样式
  *
  * 设计原则：
- * - 去除廉价渐变，使用纯净背景 + 精致阴影
+ * - 去除廉价渐变，使用纯净背景
  * - 统一圆角系统，使用 12px/16px/20px
- * - 颜色系统使用莫兰迪色系，降低饱和度
+ * - 颜色系统使用莫兰迪色系
  * - 间距使用 24px/32px/48px 标准体系
  * - 动画使用 200ms 微触感反馈
  */
@@ -15,7 +15,7 @@
 .premium-container {
   background: #fafafa;
   min-height: 100vh;
-  padding-bottom: calc(180rpx + env(safe-area-inset-bottom));
+  padding-bottom: 40rpx;
 }
 
 /* ====================
@@ -30,24 +30,12 @@
   margin-bottom: 32rpx;
 }
 
-.header-title-row {
-  display: flex;
-  align-items: baseline;
-  gap: 16rpx;
-  margin-bottom: 8rpx;
-}
-
 .page-title {
   font-size: 40rpx;
   font-weight: 700;
   color: #111827;
   letter-spacing: -0.5rpx;
-}
-
-.page-count {
-  font-size: 26rpx;
-  font-weight: 500;
-  color: #9ca3af;
+  margin-bottom: 8rpx;
 }
 
 .page-subtitle {
@@ -61,8 +49,8 @@
    ==================== */
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16rpx;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12rpx;
 }
 
 .stat-mini-card {
@@ -71,9 +59,15 @@
   padding: 20rpx;
   display: flex;
   align-items: center;
-  gap: 16rpx;
+  gap: 12rpx;
   border: 1px solid #f0f0f0;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  position: relative;
+}
+
+.stat-mini-card.has-unread {
+  border-color: #e5e7eb;
+  background: #fffbeb;
 }
 
 .stat-mini-icon {
@@ -100,11 +94,32 @@
   font-weight: 500;
 }
 
+.unread-badge {
+  position: absolute;
+  top: -4rpx;
+  right: -4rpx;
+  min-width: 24rpx;
+  height: 24rpx;
+  background: #ef4444;
+  border-radius: 12rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18rpx;
+  font-weight: 700;
+  color: #ffffff;
+  padding: 0 6rpx;
+}
+
 /* ====================
    区块 - Section
    ==================== */
 .section {
   padding: 32rpx 24rpx;
+}
+
+.section-last {
+  padding-bottom: 100rpx;
 }
 
 /* ====================
@@ -172,33 +187,74 @@
 }
 
 /* ====================
-   任务卡片 - Task Cards
+   日期分组 - Date Group
    ==================== */
-.task-mini-card {
+.date-group-premium {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  padding: 32rpx 0 16rpx;
+}
+
+.date-label-premium {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #111827;
+}
+
+.date-count-premium {
+  font-size: 22rpx;
+  color: #9ca3af;
+  background: #f3f4f6;
+  padding: 4rpx 12rpx;
+  border-radius: 8rpx;
+}
+
+/* ====================
+   通知卡片 - Notification Cards
+   ==================== */
+.notification-mini-card {
   background: #ffffff;
   border-radius: 20rpx;
   padding: 24rpx;
   margin-bottom: 16rpx;
-  border:1px solid #f0f0f0;
+  border: 1px solid #f0f0f0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
 }
 
-.task-mini-card:active {
+.notification-mini-card.unread {
+  background: #ffffff;
+  border-color: #e5e7eb;
+  border-left: 3px solid #334155;
+}
+
+.notification-mini-card:active {
   transform: translateY(-2rpx);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  border-color: #e5e5e5;
 }
 
-/* 顶部信息 */
-.task-mini-header {
+/* 未读指示器 */
+.unread-dot-premium {
+  position: absolute;
+  top: 20rpx;
+  right: 20rpx;
+  width: 8rpx;
+  height: 8rpx;
+  background: #334155;
+  border-radius: 50%;
+}
+
+/* 通知头部 */
+.notification-mini-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16rpx;
 }
 
-.task-mini-left {
+.notification-mini-left {
   display: flex;
   align-items: center;
   gap: 16rpx;
@@ -206,9 +262,9 @@
   min-width: 0;
 }
 
-.task-mini-avatar {
-  width: 56rpx;
-  height: 56rpx;
+.notification-mini-avatar {
+  width: 48rpx;
+  height: 48rpx;
   background: #f3f4f6;
   border-radius: 12rpx;
   display: flex;
@@ -218,12 +274,12 @@
 }
 
 .avatar-mini {
-  font-size: 28rpx;
+  font-size: 24rpx;
   font-weight: 700;
   color: #9ca3af;
 }
 
-.task-mini-info {
+.notification-mini-info {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -231,8 +287,8 @@
   min-width: 0;
 }
 
-.task-mini-handle {
-  font-size: 28rpx;
+.notification-handle-premium {
+  font-size: 26rpx;
   font-weight: 600;
   color: #111827;
   overflow: hidden;
@@ -240,132 +296,75 @@
   white-space: nowrap;
 }
 
-.task-mini-meta {
+.notification-time-premium {
   font-size: 22rpx;
   color: #9ca3af;
-  font-family: 'SF Mono', 'Monaco', monospace;
 }
 
-/* 状态标签 */
-.task-mini-status {
-  display: flex;
-  align-items: center;
-  gap: 6rpx;
-  padding: 8rpx 16rpx;
-  border-radius: 10rpx;
+.channel-badge-mini {
+  padding: 6rpx 12rpx;
+  background: #f8fafc;
+  border-radius: 8rpx;
+  border: 1px solid #e5e7eb;
   flex-shrink: 0;
 }
 
-.task-mini-status.active {
-  background: #f0fdf4;
-  border: 1px solid #bbf7d0;
-}
-
-.task-mini-status.inactive {
-  background: #f9fafb;
-  border: 1px solid #e5e7eb;
-}
-
-.status-mini-dot {
-  font-size: 12rpx;
-  line-height: 1;
-}
-
-.task-mini-status.active .status-mini-dot {
-  color: #22c55e;
-}
-
-.task-mini-status.inactive .status-mini-dot {
-  color: #9ca3af;
-}
-
-.status-mini-text {
+.channel-icon-mini {
   font-size: 22rpx;
-  font-weight: 500;
 }
 
-.task-mini-status.active .status-mini-text {
-  color: #16a34a;
+/* 通知内容 */
+.notification-content-premium {
+  margin-bottom: 16rpx;
 }
 
-.task-mini-status.inactive .status-mini-text {
-  color: #6b7280;
+.tweet-text-premium {
+  font-size: 28rpx;
+  color: #374151;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-/* 关键词 */
-.task-mini-keywords {
+/* 关键词行 */
+.keywords-row-premium {
   display: flex;
   flex-wrap: wrap;
   gap: 8rpx;
   margin-bottom: 16rpx;
 }
 
-.keyword-mini {
-  padding: 6rpx 12rpx;
-  background: #f8fafc;
-  border-radius: 8rpx;
-  border: 1px solid #e5e7eb;
-}
-
-.keyword-mini-text {
-  font-size: 22rpx;
-  font-weight: 500;
-  color: #475569;
-}
-
-/* 底部数据 */
-.task-mini-footer {
+/* 通知底部 */
+.notification-footer-premium {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 16rpx;
   padding-top: 16rpx;
-  border-top:1px solid #f3f4f6;
+  border-top: 1px solid #f3f4f6;
 }
 
-.footer-stat {
+.stats-mini {
+  display: flex;
+  gap: 24rpx;
+}
+
+.stat-mini-inline {
   display: flex;
   align-items: center;
   gap: 6rpx;
 }
 
-.footer-stat-icon {
-  font-size: 24rpx;
+.stat-icon-mini {
+  font-size: 22rpx;
   opacity: 0.6;
 }
 
-.footer-stat-value {
+.stat-value-mini {
   font-size: 22rpx;
   font-weight: 500;
   color: #6b7280;
-}
-
-.footer-divider {
-  width: 1px;
-  height: 24rpx;
-  background: #e5e7eb;
-}
-
-.footer-actions {
-  margin-left: auto;
-}
-
-.icon-btn-mini {
-  padding: 6rpx 12rpx;
-  background: #f3f4f6;
-  border-radius: 8rpx;
-  font-size: 22rpx;
-  font-weight: 500;
-  color: #374151;
-  border: none;
-  transition: all 200ms ease;
-}
-
-.icon-btn-mini.btn-toggle:active {
-  background: #e5e7eb;
-}
-
-.icon-btn-mini-text {
-  font-size: 22rpx;
 }
 
 /* ====================
@@ -425,47 +424,28 @@
   box-shadow: 0 4px 12px rgba(51, 65, 85, 0.2);
 }
 
-/* 底部固定按钮 */
-.bottom-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 24rpx;
-  background: linear-gradient(to top, #ffffff 80%, transparent);
-  border-top: 1px solid #f0f0f0;
-}
-
-.create-btn-fixed {
-  width: 100%;
+/* ====================
+   加载状态 - Loading
+   ==================== */
+.loading-section {
   display: flex;
-  align-items: center;
   justify-content: center;
-  gap: 12rpx;
-  padding: 28rpx;
-  background: #334155;
-  color: #ffffff;
-  border-radius: 12rpx;
-  font-size: 28rpx;
-  font-weight: 600;
-  border: none;
-  box-shadow: 0 4px 12px rgba(51, 65, 85, 0.2);
-  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 60rpx;
 }
 
-.create-btn-fixed:active {
-  transform: translateY(2rpx);
-  box-shadow: 0 2px 6px rgba(51, 65, 85, 0.15);
+.loading-spinner-premium {
+  width: 48rpx;
+  height: 48rpx;
+  border: 3px solid #e5e7eb;
+  border-top-color: #334155;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
 }
 
-.create-btn-icon {
-  font-size: 32rpx;
-  font-weight: 300;
-  line-height: 1;
-}
-
-.create-btn-text {
-  font-size: 28rpx;
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* ====================
