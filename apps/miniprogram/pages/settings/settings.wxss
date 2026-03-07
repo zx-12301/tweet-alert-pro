@@ -497,17 +497,24 @@
   border-left: 4rpx solid #07c160;
 }
 
+/* 保存按钮占位区域（防止内容被遮挡） */
+.save-button-spacer {
+  height: 140rpx; /* 保存按钮高度 + 安全区域 */
+  flex-shrink: 0;
+}
+
 /* 保存按钮 */
 .save-section {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 24rpx;
-  background: linear-gradient(180deg, transparent 0%, rgba(248, 250, 252, 0.9) 100%);
+  padding: 24rpx 24rpx calc(24rpx + env(safe-area-inset-bottom));
+  background: linear-gradient(180deg, transparent 0%, rgba(248, 250, 252, 0.95) 100%);
   backdrop-filter: blur(20rpx);
   -webkit-backdrop-filter: blur(20rpx);
   z-index: 100;
+  box-shadow: 0 -4rpx 24rpx rgba(0, 0, 0, 0.06);
 }
 
 .save-btn {
