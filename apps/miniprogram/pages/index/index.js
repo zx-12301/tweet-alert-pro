@@ -1,5 +1,6 @@
 Page({
   data: {
+    greetingText: '早上好',
     stats: {
       totalTasks: 0,
       activeTasks: 0,
@@ -9,11 +10,26 @@ Page({
   },
 
   onLoad: function () {
+    this.updateGreeting();
     this.loadData();
   },
 
   onShow: function () {
     this.loadData();
+  },
+
+  // 更新时间问候
+  updateGreeting: function () {
+    const hour = new Date().getHours();
+    let greeting = '晚上好';
+    
+    if (hour >= 5 && hour < 9) greeting = '早上好';
+    else if (hour >= 9 && hour < 12) greeting = '上午好';
+    else if (hour >= 12 && hour < 14) greeting = '中午好';
+    else if (hour >= 14 && hour < 18) greeting = '下午好';
+    else if (hour >= 18 && hour < 22) greeting = '晚上好';
+    
+    this.setData({ greetingText: greeting });
   },
 
   loadData: async function () {
@@ -36,20 +52,32 @@ Page({
           'stats.todayNotifications': subscription.dailyNotificationLimit || 0
         });
       }
+      
+      // 模拟通知数据（实际应从 API 获取）
+      this.setData({
+        notifications: [
+          {
+            id: '1',
+            twitterHandle: 'elonmusk',
+            tweetContent: 'Just launched Starship! 🚀',
+            createdAt: '5 分钟前',
+            read: false
+          },
+          {
+            id: '2',
+            twitterHandle: 'sama',
+            tweetContent: 'Excited about the future of AI',
+            createdAt: '1 小时前',
+            read: true
+          }
+        ]
+      });
     } catch (error) {
       console.error('加载数据失败:', error);
     }
   },
 
   // 跳转函数
-  goToTasks: function () {
-    wx.switchTab({ url: '/pages/tasks/list' });
-  },
-
-  goToSubscription: function () {
-    wx.switchTab({ url: '/pages/subscription/subscription' });
-  },
-
   createTask: function () {
     wx.navigateTo({ url: '/pages/tasks/create' });
   },
@@ -62,11 +90,28 @@ Page({
     wx.switchTab({ url: '/pages/settings/settings' });
   },
 
+  viewAll: function () {
+    wx.switchTab({ url: '/pages/tasks/list' });
+  },
+
+  viewAllNotifications: function () {
+    wx.navigateTo({ url: '/pages/notifications/notifications' });
+  },
+
+  viewNotificationDetail: function (e) {
+    const notifId = e.currentTarget.dataset.id;
+    wx.showToast({
+      title: '通知详情开发中',
+      icon: 'none'
+    });
+  },
+
   viewHelp: function () {
     wx.showModal({
       title: '使用帮助',
       content: '推文哨兵可以帮助您实时监控 Twitter 用户动态，当关注用户发布新推文时自动通知您。\n\n如需帮助请联系：support@tweetalert.pro',
-      showCancel: false
+      showCancel: false,
+      confirmColor: '#2563eb'
     });
   }
 });

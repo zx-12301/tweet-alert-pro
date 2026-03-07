@@ -15,9 +15,10 @@ Page({
       const subscription = await app.request({ url: '/billing/subscription' });
       
       if (subscription) {
+        const limit = subscription.dailyNotificationLimit || 5;
         this.setData({
           subscription: subscription,
-          usagePercent: Math.round((this.data.usedNotifications / (subscription.dailyNotificationLimit || 5)) * 100)
+          usagePercent: Math.round((this.data.usedNotifications / limit) * 100)
         });
       }
     } catch (error) {
@@ -26,16 +27,17 @@ Page({
   },
 
   upgradePlan: function () {
-    wx.showToast({
-      title: '请访问网页版升级',
-      icon: 'none'
+    wx.switchTab({
+      url: '/pages/pricing/pricing'
     });
   },
 
   cancelSubscription: function () {
     wx.showModal({
       title: '确认取消',
-      content: '取消后当前周期结束将降级为免费版',
+      content: '取消后当前周期结束将降级为免费版，确定继续吗？',
+      confirmText: '确认取消',
+      confirmColor: '#ef4444',
       success: async (res) => {
         if (res.confirm) {
           try {
@@ -47,12 +49,17 @@ Page({
             
             wx.showToast({
               title: '已取消订阅',
-              icon: 'success'
+              icon: 'success',
+              duration: 2000
             });
             
             this.loadSubscription();
           } catch (error) {
             console.error('取消失败:', error);
+            wx.showToast({
+              title: '取消失败',
+              icon: 'none'
+            });
           }
         }
       }

@@ -1,57 +1,101 @@
-<view class="container">
-  <!-- 头部欢迎 -->
-  <view class="header card">
-    <view class="welcome-text">欢迎使用推文哨兵</view>
-    <view class="welcome-sub">实时监控 Twitter 动态，不错过任何重要信息</view>
+<view class="page-container">
+  <!-- 头部欢迎区域 - 渐变背景 -->
+  <view class="header-section card-gradient-blue">
+    <view class="header-content">
+      <view class="welcome-row">
+        <text class="welcome-greeting">{{greetingText}}</text>
+        <text class="welcome-emoji">👋</text>
+      </view>
+      <text class="welcome-subtitle">实时监控 Twitter 动态，不错过任何重要信息</text>
+      
+      <!-- 快捷统计 -->
+      <view class="header-stats">
+        <view class="header-stat-item">
+          <view class="stat-icon-wrapper">
+            <text class="stat-icon">📋</text>
+          </view>
+          <view class="stat-info">
+            <text class="stat-value">{{stats.totalTasks}}</text>
+            <text class="stat-label">监控任务</text>
+          </view>
+        </view>
+        <view class="stat-divider-vertical"></view>
+        <view class="header-stat-item">
+          <view class="stat-icon-wrapper">
+            <text class="stat-icon">📧</text>
+          </view>
+          <view class="stat-info">
+            <text class="stat-value">{{stats.todayNotifications}}</text>
+            <text class="stat-label">今日通知</text>
+          </view>
+        </view>
+      </view>
+    </view>
   </view>
 
-  <!-- 统计卡片 -->
-  <view class="stats-grid">
-    <view class="stat-card card" bindtap="goToTasks">
-      <view class="stat-icon">📋</view>
-      <view class="stat-value">{{stats.totalTasks}}</view>
-      <view class="stat-label">监控任务</view>
+  <!-- 快捷操作 - 卡片网格 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">快捷操作</text>
+      <text class="section-more" bindtap="viewAll">查看全部 ›</text>
     </view>
-    <view class="stat-card card" bindtap="goToSubscription">
-      <view class="stat-icon">📧</view>
-      <view class="stat-value">{{stats.todayNotifications}}</view>
-      <view class="stat-label">今日通知</view>
-    </view>
-  </view>
-
-  <!-- 快捷操作 -->
-  <view class="quick-actions card">
-    <view class="section-title">快捷操作</view>
+    
     <view class="action-grid">
-      <view class="action-item" bindtap="createTask">
-        <view class="action-icon">➕</view>
-        <view class="action-text">创建任务</view>
+      <view class="action-card" bindtap="createTask">
+        <view class="action-icon-wrapper action-icon-blue">
+          <text class="action-icon">➕</text>
+        </view>
+        <text class="action-text">创建任务</text>
+        <text class="action-desc">新建监控</text>
       </view>
-      <view class="action-item" bindtap="viewSubscription">
-        <view class="action-icon">💳</view>
-        <view class="action-text">订阅管理</view>
+      
+      <view class="action-card" bindtap="viewSubscription">
+        <view class="action-icon-wrapper action-icon-purple">
+          <text class="action-icon">💳</text>
+        </view>
+        <text class="action-text">订阅管理</text>
+        <text class="action-desc">查看用量</text>
       </view>
-      <view class="action-item" bindtap="viewSettings">
-        <view class="action-icon">⚙️</view>
-        <view class="action-text">功能配置</view>
+      
+      <view class="action-card" bindtap="viewSettings">
+        <view class="action-icon-wrapper action-icon-orange">
+          <text class="action-icon">⚙️</text>
+        </view>
+        <text class="action-text">功能配置</text>
+        <text class="action-desc">API 设置</text>
       </view>
-      <view class="action-item" bindtap="viewHelp">
-        <view class="action-icon">❓</view>
-        <view class="action-text">使用帮助</view>
+      
+      <view class="action-card" bindtap="viewHelp">
+        <view class="action-icon-wrapper action-icon-green">
+          <text class="action-icon">❓</text>
+        </view>
+        <text class="action-text">使用帮助</text>
+        <text class="action-desc">常见问题</text>
       </view>
     </view>
   </view>
 
-  <!-- 最近通知 -->
-  <view class="recent-notifications card">
-    <view class="section-title">最近通知</view>
-    <view wx:if="{{notifications.length === 0}}" class="empty-state">
-      <view class="empty-icon">📭</view>
-      <view class="empty-text">暂无通知</view>
+  <!-- 最近通知 - 列表 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">最近通知</text>
+      <text class="section-more" bindtap="viewAllNotifications">全部 ›</text>
     </view>
-    <view wx:for="{{notifications}}" wx:key="id" class="notification-item">
-      <view class="notification-content">{{item.tweetContent}}</view>
-      <view class="notification-time">{{item.createdAt}}</view>
+    
+    <view wx:if="{{notifications.length === 0}}" class="empty-state-small">
+      <text class="empty-icon-small">📭</text>
+      <text class="empty-text-small">暂无新通知</text>
+    </view>
+    
+    <view wx:else class="notification-list">
+      <view wx:for="{{notifications}}" wx:key="id" class="notification-item card" bindtap="viewNotificationDetail" data-id="{{item.id}}">
+        <view class="notification-avatar">@{{item.twitterHandle}}</view>
+        <view class="notification-content">
+          <text class="notification-text">{{item.tweetContent}}</text>
+          <text class="notification-time">{{item.createdAt}}</text>
+        </view>
+        <view wx:if="{{!item.read}}" class="notification-dot"></view>
+      </view>
     </view>
   </view>
 </view>
