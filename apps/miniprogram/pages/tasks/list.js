@@ -36,10 +36,8 @@ Page({
 
   viewTaskDetail: function (e) {
     const taskId = e.currentTarget.dataset.id;
-    // TODO: 跳转到任务详情页
-    wx.showToast({
-      title: '任务详情开发中',
-      icon: 'none'
+    wx.navigateTo({
+      url: `/pages/tasks/detail?id=${taskId}`
     });
   },
 

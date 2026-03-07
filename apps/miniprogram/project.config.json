@@ -1,5 +1,5 @@
 {
-  "appid": "wxYOUR_APPID_HERE",
+  "appid": "wx28ef07fef6b6e042",
   "projectname": "tweet-alert-pro",
   "miniprogramRoot": "./",
   "setting": {
@@ -36,8 +36,20 @@
     "disableUseStrict": false,
     "minifyWXML": true,
     "showES6CompileOption": false,
-    "useCompilerPlugins": false
+    "useCompilerPlugins": false,
+    "compileWorklet": false,
+    "localPlugins": false,
+    "condition": false,
+    "swc": false,
+    "disableSWC": true
   },
   "libVersion": "2.19.4",
-  "condition": {}
+  "condition": {},
+  "compileType": "miniprogram",
+  "simulatorPluginLibVersion": {},
+  "packOptions": {
+    "ignore": [],
+    "include": []
+  },
+  "editorSetting": {}
 }

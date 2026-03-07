@@ -1,0 +1,76 @@
+<view class="container">
+  <!-- 任务头部 -->
+  <view class="task-header card">
+    <view class="task-title">@{{task.twitterHandle}}</view>
+    <view class="task-status {{task.isActive ? 'active' : 'inactive'}}">
+      {{task.isActive ? '运行中' : '已暂停'}}
+    </view>
+  </view>
+
+  <!-- 任务信息 -->
+  <view class="task-info card">
+    <view class="info-section">
+      <view class="section-title">监控配置</view>
+      <view class="info-item">
+        <text class="info-label">平台</text>
+        <text class="info-value">{{task.platform === 'twitter' ? 'Twitter' : '微博'}}</text>
+      </view>
+      <view wx:if="{{task.keywords}}" class="info-item">
+        <text class="info-label">关键词</text>
+        <view class="keyword-list">
+          <text wx:for="{{task.keywords}}" wx:key="*this" class="keyword-tag">{{item}}</text>
+        </view>
+      </view>
+      <view class="info-item">
+        <text class="info-label">最小点赞</text>
+        <text class="info-value">{{task.minLikes || '无限制'}}</text>
+      </view>
+      <view class="info-item">
+        <text class="info-label">最小转发</text>
+        <text class="info-value">{{task.minRetweets || '无限制'}}</text>
+      </view>
+    </view>
+
+    <view class="info-section">
+      <view class="section-title">通知渠道</view>
+      <view wx:if="{{task.notifyChannels}}" class="channel-list">
+        <view wx:if="{{JSON.parse(task.notifyChannels).email}}" class="channel-item">
+          <text class="channel-icon">📧</text>
+          <text class="channel-name">邮件通知</text>
+        </view>
+        <view wx:if="{{JSON.parse(task.notifyChannels).wechat}}" class="channel-item">
+          <text class="channel-icon">💬</text>
+          <text class="channel-name">Webhook 通知</text>
+        </view>
+        <view wx:if="{{JSON.parse(task.notifyChannels).phone}}" class="channel-item">
+          <text class="channel-icon">📞</text>
+          <text class="channel-name">语音电话</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 统计数据 -->
+  <view class="task-stats card">
+    <view class="stats-title">统计数据</view>
+    <view class="stats-grid">
+      <view class="stat-box">
+        <view class="stat-value">{{task.totalNotifications || 0}}</view>
+        <view class="stat-label">总通知数</view>
+      </view>
+      <view class="stat-box">
+        <view class="stat-value">{{lastCheckedAt}}</view>
+        <view class="stat-label">最后检查</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-buttons">
+    <button class="action-btn primary" bindtap="toggleTask">
+      {{task.isActive ? '暂停任务' : '恢复任务'}}
+    </button>
+    <button class="action-btn secondary" bindtap="editTask">编辑任务</button>
+    <button class="action-btn danger" bindtap="deleteTask">删除任务</button>
+  </view>
+</view>
