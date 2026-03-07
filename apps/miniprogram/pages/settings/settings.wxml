@@ -213,7 +213,7 @@
               <text>端口</text>
             </view>
             <picker class="form-picker" mode="selector" range="{{smtpPorts}}" value="{{smtpPortIndex}}" bindchange="onSmtpPortChange">
-              <view class="form-input form-picker-value">{{smtpPorts[smtpPortIndex]}}</view>
+              <view class="form-picker-value">{{smtpPorts[smtpPortIndex]}}</view>
             </picker>
           </view>
         </view>
