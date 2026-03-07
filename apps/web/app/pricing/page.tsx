@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 const DEMO_USER_ID = '4c590dec-2c16-44b9-8291-8855cecc824f';
