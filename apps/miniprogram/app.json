@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/index/index-figma",
     "pages/index/index",
     "pages/tasks/list",
     "pages/tasks/create",

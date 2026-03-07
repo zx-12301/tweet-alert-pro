@@ -1,9 +1,10 @@
 {
   "usingComponents": {},
   "navigationBarTitleText": "推文哨兵",
-  "navigationBarBackgroundColor": "#0d1117",
+  "navigationBarBackgroundColor": "#0B1120",
   "navigationBarTextStyle": "white",
-  "backgroundColor": "#0d1117",
+  "backgroundColor": "#0B1120",
   "navigationStyle": "custom",
-  "style": "v2"
+  "style": "v2",
+  "disableScroll": false
 }

@@ -1,35 +1,20 @@
 Page({
   data: {
-    greetingText: '早上好',
+    currentTab: 0,
     stats: {
       totalTasks: 0,
       activeTasks: 0,
-      todayNotifications: 0
+      todayNotifications: 100
     },
     notifications: []
   },
 
   onLoad: function () {
-    this.updateGreeting();
     this.loadData();
   },
 
   onShow: function () {
     this.loadData();
-  },
-
-  // 更新时间问候
-  updateGreeting: function () {
-    const hour = new Date().getHours();
-    let greeting = '晚上好';
-    
-    if (hour >= 5 && hour < 9) greeting = '早上好';
-    else if (hour >= 9 && hour < 12) greeting = '上午好';
-    else if (hour >= 12 && hour < 14) greeting = '中午好';
-    else if (hour >= 14 && hour < 18) greeting = '下午好';
-    else if (hour >= 18 && hour < 22) greeting = '晚上好';
-    
-    this.setData({ greetingText: greeting });
   },
 
   loadData: async function () {
@@ -49,25 +34,32 @@ Page({
       const subscription = await app.request({ url: '/billing/subscription' });
       if (subscription) {
         this.setData({
-          'stats.todayNotifications': subscription.dailyNotificationLimit || 0
+          'stats.todayNotifications': subscription.dailyNotificationLimit || 100
         });
       }
       
-      // 模拟通知数据（实际应从 API 获取）
+      // 模拟通知数据
       this.setData({
         notifications: [
           {
             id: '1',
-            twitterHandle: 'elonmusk',
+            twitterHandle: '@elonmusk',
             tweetContent: 'Just launched Starship! 🚀',
             createdAt: '5 分钟前',
             read: false
           },
           {
             id: '2',
-            twitterHandle: 'sama',
-            tweetContent: 'Excited about the future of AI',
+            twitterHandle: '@sama',
+            tweetContent: 'Excited about the future of AI. We are building the tools of tomorrow.',
             createdAt: '1 小时前',
+            read: true
+          },
+          {
+            id: '3',
+            twitterHandle: '@vercel',
+            tweetContent: 'Next.js 15 is now stable and ready for production.',
+            createdAt: '3 小时前',
             read: true
           }
         ]
@@ -75,6 +67,29 @@ Page({
     } catch (error) {
       console.error('加载数据失败:', error);
     }
+  },
+
+  // 切换底部导航
+  switchTab: function (e) {
+    const index = e.currentTarget.dataset.index;
+    this.setData({ currentTab: index });
+    
+    // 页面跳转
+    const pages = [
+      '/pages/index/index',
+      '/pages/tasks/list',
+      '/pages/subscription/subscription',
+      '/pages/settings/settings'
+    ];
+    
+    if (index === 0) {
+      // 当前页，不跳转
+      return;
+    }
+    
+    wx.switchTab({
+      url: pages[index]
+    });
   },
 
   // 跳转函数
@@ -101,7 +116,7 @@ Page({
   viewNotificationDetail: function (e) {
     const notifId = e.currentTarget.dataset.id;
     wx.showToast({
-      title: '通知详情开发中',
+      title: '通知详情',
       icon: 'none'
     });
   },
@@ -111,7 +126,7 @@ Page({
       title: '使用帮助',
       content: '推文哨兵可以帮助您实时监控 Twitter 用户动态，当关注用户发布新推文时自动通知您。\n\n如需帮助请联系：support@tweetalert.pro',
       showCancel: false,
-      confirmColor: '#2563eb'
+      confirmColor: '#60a5fa'
     });
   }
 });
