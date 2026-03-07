@@ -1,0 +1,50 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/tasks/list",
+    "pages/tasks/create",
+    "pages/subscription/subscription",
+    "pages/settings/settings"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#2563eb",
+    "navigationBarTitleText": "推文哨兵",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f3f4f6"
+  },
+  "tabBar": {
+    "color": "#9ca3af",
+    "selectedColor": "#2563eb",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/home.png",
+        "selectedIconPath": "images/home-active.png"
+      },
+      {
+        "pagePath": "pages/tasks/list",
+        "text": "任务",
+        "iconPath": "images/task.png",
+        "selectedIconPath": "images/task-active.png"
+      },
+      {
+        "pagePath": "pages/subscription/subscription",
+        "text": "订阅",
+        "iconPath": "images/subscription.png",
+        "selectedIconPath": "images/subscription-active.png"
+      },
+      {
+        "pagePath": "pages/settings/settings",
+        "text": "设置",
+        "iconPath": "images/settings.png",
+        "selectedIconPath": "images/settings-active.png"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json",
+  "style": "v2"
+}

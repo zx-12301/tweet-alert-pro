@@ -1,0 +1,133 @@
+.container {
+  padding: 20rpx;
+}
+
+.header {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: #ffffff;
+  padding: 40rpx 30rpx;
+}
+
+.welcome-text {
+  font-size: 40rpx;
+  font-weight: 600;
+  margin-bottom: 10rpx;
+}
+
+.welcome-sub {
+  font-size: 26rpx;
+  opacity: 0.9;
+}
+
+/* 统计网格 */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.stat-card {
+  background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+  color: #ffffff;
+  text-align: center;
+  padding: 40rpx 20rpx;
+}
+
+.stat-icon {
+  font-size: 48rpx;
+  margin-bottom: 10rpx;
+}
+
+.stat-value {
+  font-size: 48rpx;
+  font-weight: 700;
+  margin-bottom: 8rpx;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  opacity: 0.9;
+}
+
+/* 快捷操作 */
+.section-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 24rpx;
+}
+
+.action-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20rpx;
+}
+
+.action-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30rpx 20rpx;
+  background-color: #f9fafb;
+  border-radius: 12rpx;
+  transition: background-color 0.2s;
+}
+
+.action-item:active {
+  background-color: #eff6ff;
+}
+
+.action-icon {
+  font-size: 40rpx;
+  margin-bottom: 12rpx;
+}
+
+.action-text {
+  font-size: 24rpx;
+  color: #374151;
+}
+
+/* 最近通知 */
+.recent-notifications {
+  margin-top: 20rpx;
+}
+
+.notification-item {
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #f3f4f6;
+}
+
+.notification-item:last-child {
+  border-bottom: none;
+}
+
+.notification-content {
+  font-size: 28rpx;
+  color: #1f2937;
+  margin-bottom: 8rpx;
+  line-height: 1.5;
+}
+
+.notification-time {
+  font-size: 22rpx;
+  color: #9ca3af;
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60rpx 0;
+}
+
+.empty-icon {
+  font-size: 80rpx;
+  margin-bottom: 20rpx;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  color: #9ca3af;
+}

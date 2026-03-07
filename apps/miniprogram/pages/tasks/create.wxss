@@ -1,0 +1,120 @@
+.container {
+  padding: 20rpx;
+}
+
+.section {
+  margin-bottom: 20rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 24rpx;
+}
+
+/* 平台选择 */
+.platform-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20rpx;
+}
+
+.platform-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40rpx 20rpx;
+  background-color: #f9fafb;
+  border-radius: 12rpx;
+  border: 2rpx solid transparent;
+  transition: all 0.2s;
+}
+
+.platform-item.selected {
+  background-color: #eff6ff;
+  border-color: #2563eb;
+}
+
+.platform-icon {
+  font-size: 48rpx;
+  margin-bottom: 12rpx;
+}
+
+.platform-name {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #1f2937;
+  margin-bottom: 8rpx;
+}
+
+.platform-status {
+  font-size: 22rpx;
+  color: #6b7280;
+}
+
+/* 表单 */
+.form-input {
+  width: 100%;
+  padding: 20rpx;
+  background-color: #f9fafb;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+  border: 1rpx solid #e5e7eb;
+  margin-bottom: 12rpx;
+}
+
+.form-tip {
+  font-size: 22rpx;
+  color: #9ca3af;
+}
+
+/* 复选框 */
+.checkbox-item {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 0;
+}
+
+.checkbox {
+  width: 40rpx;
+  height: 40rpx;
+  border: 2rpx solid #d1d5db;
+  border-radius: 8rpx;
+  margin-right: 16rpx;
+  position: relative;
+}
+
+.checkbox.checked {
+  background-color: #2563eb;
+  border-color: #2563eb;
+}
+
+.checkbox.checked::after {
+  content: '';
+  position: absolute;
+  left: 12rpx;
+  top: 4rpx;
+  width: 10rpx;
+  height: 20rpx;
+  border: solid white;
+  border-width: 0 3rpx 3rpx 0;
+  transform: rotate(45deg);
+}
+
+.checkbox-label {
+  font-size: 28rpx;
+  color: #374151;
+}
+
+/* 提交按钮 */
+.submit-btn {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: #ffffff;
+  margin-top: 40rpx;
+  padding: 24rpx;
+  border-radius: 12rpx;
+  font-size: 30rpx;
+  font-weight: 500;
+  border: none;
+}

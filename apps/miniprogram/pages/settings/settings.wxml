@@ -1,0 +1,27 @@
+<view class="container">
+  <view class="section card">
+    <view class="section-title">API 配置</view>
+    <view class="form-item">
+      <text class="form-label">后端 API 地址</text>
+      <input class="form-input" value="{{apiBaseUrl}}" bindinput="onApiUrlChange" placeholder="http://localhost:3001/api" />
+    </view>
+    <view class="form-item">
+      <text class="form-label">用户 ID</text>
+      <input class="form-input" value="{{userId}}" disabled />
+    </view>
+  </view>
+
+  <view class="section card">
+    <view class="section-title">关于</view>
+    <view class="about-item">
+      <text class="about-label">版本</text>
+      <text class="about-value">1.0.0</text>
+    </view>
+    <view class="about-item">
+      <text class="about-label">技术支持</text>
+      <text class="about-value" bindtap="contactSupport">support@tweetalert.pro</text>
+    </view>
+  </view>
+
+  <button class="save-btn" bindtap="saveSettings">保存设置</button>
+</view>

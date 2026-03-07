@@ -1,0 +1,57 @@
+<view class="container">
+  <!-- 头部欢迎 -->
+  <view class="header card">
+    <view class="welcome-text">欢迎使用推文哨兵</view>
+    <view class="welcome-sub">实时监控 Twitter 动态，不错过任何重要信息</view>
+  </view>
+
+  <!-- 统计卡片 -->
+  <view class="stats-grid">
+    <view class="stat-card card" bindtap="goToTasks">
+      <view class="stat-icon">📋</view>
+      <view class="stat-value">{{stats.totalTasks}}</view>
+      <view class="stat-label">监控任务</view>
+    </view>
+    <view class="stat-card card" bindtap="goToSubscription">
+      <view class="stat-icon">📧</view>
+      <view class="stat-value">{{stats.todayNotifications}}</view>
+      <view class="stat-label">今日通知</view>
+    </view>
+  </view>
+
+  <!-- 快捷操作 -->
+  <view class="quick-actions card">
+    <view class="section-title">快捷操作</view>
+    <view class="action-grid">
+      <view class="action-item" bindtap="createTask">
+        <view class="action-icon">➕</view>
+        <view class="action-text">创建任务</view>
+      </view>
+      <view class="action-item" bindtap="viewSubscription">
+        <view class="action-icon">💳</view>
+        <view class="action-text">订阅管理</view>
+      </view>
+      <view class="action-item" bindtap="viewSettings">
+        <view class="action-icon">⚙️</view>
+        <view class="action-text">功能配置</view>
+      </view>
+      <view class="action-item" bindtap="viewHelp">
+        <view class="action-icon">❓</view>
+        <view class="action-text">使用帮助</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 最近通知 -->
+  <view class="recent-notifications card">
+    <view class="section-title">最近通知</view>
+    <view wx:if="{{notifications.length === 0}}" class="empty-state">
+      <view class="empty-icon">📭</view>
+      <view class="empty-text">暂无通知</view>
+    </view>
+    <view wx:for="{{notifications}}" wx:key="id" class="notification-item">
+      <view class="notification-content">{{item.tweetContent}}</view>
+      <view class="notification-time">{{item.createdAt}}</view>
+    </view>
+  </view>
+</view>
