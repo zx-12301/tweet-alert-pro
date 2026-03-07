@@ -7,7 +7,8 @@
     "pages/subscription/subscription",
     "pages/settings/settings",
     "pages/notifications/notifications",
-    "pages/pricing/pricing"
+    "pages/pricing/pricing",
+    "pages/account/account"
   ],
   "window": {
     "backgroundTextStyle": "light",
