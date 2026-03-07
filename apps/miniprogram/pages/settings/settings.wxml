@@ -34,37 +34,37 @@
 
       <!-- Tab 导航 -->
       <view class="tab-navigation">
-      <view class="tab-item {{activeTab === 'twitter' ? 'active' : ''}}" bindtap="switchTab" data-tab="twitter">
-        <view class="tab-icon-wrapper {{activeTab === 'twitter' ? 'active' : ''}}">
-          <text class="tab-icon">𝕏</text>
+        <view class="tab-item {{activeTab === 'twitter' ? 'active' : ''}}" bindtap="switchTab" data-tab="twitter">
+          <view class="tab-icon-wrapper {{activeTab === 'twitter' ? 'active' : ''}}">
+            <text class="tab-icon">𝕏</text>
+          </view>
+          <text class="tab-label">Twitter</text>
+          <view class="required-dot"></view>
         </view>
-        <text class="tab-label">Twitter</text>
-        <view class="required-dot"></view>
-      </view>
-      
-      <view class="tab-item {{activeTab === 'twilio' ? 'active' : ''}}" bindtap="switchTab" data-tab="twilio">
-        <view class="tab-icon-wrapper {{activeTab === 'twilio' ? 'active' : ''}}">
-          <text class="tab-icon">📞</text>
+        
+        <view class="tab-item {{activeTab === 'twilio' ? 'active' : ''}}" bindtap="switchTab" data-tab="twilio">
+          <view class="tab-icon-wrapper {{activeTab === 'twilio' ? 'active' : ''}}">
+            <text class="tab-icon">📞</text>
+          </view>
+          <text class="tab-label">语音电话</text>
+          <view class="required-dot"></view>
         </view>
-        <text class="tab-label">语音电话</text>
-        <view class="required-dot"></view>
-      </view>
-      
-      <view class="tab-item {{activeTab === 'email' ? 'active' : ''}}" bindtap="switchTab" data-tab="email">
-        <view class="tab-icon-wrapper {{activeTab === 'email' ? 'active' : ''}}">
-          <text class="tab-icon">📧</text>
+        
+        <view class="tab-item {{activeTab === 'email' ? 'active' : ''}}" bindtap="switchTab" data-tab="email">
+          <view class="tab-icon-wrapper {{activeTab === 'email' ? 'active' : ''}}">
+            <text class="tab-icon">📧</text>
+          </view>
+          <text class="tab-label">邮件服务</text>
+          <view class="required-dot"></view>
         </view>
-        <text class="tab-label">邮件服务</text>
-        <view class="required-dot"></view>
-      </view>
-      
-      <view class="tab-item {{activeTab === 'webhook' ? 'active' : ''}}" bindtap="switchTab" data-tab="webhook">
-        <view class="tab-icon-wrapper {{activeTab === 'webhook' ? 'active' : ''}}">
-          <text class="tab-icon">💬</text>
+        
+        <view class="tab-item {{activeTab === 'webhook' ? 'active' : ''}}" bindtap="switchTab" data-tab="webhook">
+          <view class="tab-icon-wrapper {{activeTab === 'webhook' ? 'active' : ''}}">
+            <text class="tab-icon">💬</text>
+          </view>
+          <text class="tab-label">消息通知</text>
         </view>
-        <text class="tab-label">消息通知</text>
       </view>
-    </view>
 
     <!-- Twitter 配置 -->
     <view wx:if="{{activeTab === 'twitter'}}" class="config-panel animate-show">
