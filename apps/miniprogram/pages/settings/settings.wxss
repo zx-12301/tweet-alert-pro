@@ -73,11 +73,7 @@ page {
   color: #94a3b8;
 }
 
-/* 顶部占位 */
-.top-spacer {
-  height: calc(220rpx + env(safe-area-inset-top));
-  flex-shrink: 0;
-}
+
 
 /* ==========================================================================
    全局提示框
@@ -207,9 +203,10 @@ page {
 
 .config-panel {
   padding: 0 40rpx 40rpx;
-  margin-top: 32rpx;
+  margin-top: 24rpx;
   width: 100%;
   box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 .animate-show {
