@@ -16,7 +16,7 @@
   </view>
 
   <!-- 主滚动表单 -->
-  <scroll-view class="main-scroll" scroll-y="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}">
+  <scroll-view class="main-scroll" scroll-y="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}" bounces="{{false}}">
     
     <!-- 顶部占位 -->
     <view class="top-spacer"></view>
@@ -57,6 +57,26 @@
       <view class="section-header">
         <text class="section-title">基本信息</text>
         <text class="section-link" bindtap="showRecommendations">推荐账号 ›</text>
+      </view>
+
+      <!-- 推荐账号弹窗 -->
+      <view wx:if="{{showRecommendations}}" class="recommendations-overlay" bindtap="hideRecommendations">
+        <view class="recommendations-card" catchtap="stop">
+          <view class="recommendations-header">
+            <text class="recommendations-title">推荐账号</text>
+            <text class="recommendations-close" bindtap="hideRecommendations">✕</text>
+          </view>
+          <view class="recommendations-grid">
+            <view wx:for="{{recommendedAccounts}}" wx:key="handle" class="recommendation-item" bindtap="selectRecommendation" data-handle="{{item.handle}}">
+              <view class="rec-avatar">{{item.avatar}}</view>
+              <view class="rec-info">
+                <text class="rec-name">{{item.name}}</text>
+                <text class="rec-handle">@{{item.handle}}</text>
+                <text class="rec-desc">{{item.description}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
       </view>
 
       <view class="info-card">
@@ -122,10 +142,55 @@
     <view class="form-section">
       <view class="section-header">
         <text class="section-title">通知设置</text>
-        <text class="section-link">展开高级选项 ›</text>
+        <text class="section-link" bindtap="toggleAdvanced">{{showAdvanced ? '收起' : '展开'}}高级选项 ›</text>
       </view>
 
       <view class="notify-options">
+        <!-- 简化通知选项（默认显示） -->
+        <view class="notify-option {{notifyMail ? 'selected' : ''}}" bindtap="toggleNotify" data-type="mail">
+          <view class="notify-checkbox {{notifyMail ? 'checked' : ''}}">
+            <text wx:if="{{notifyMail}}" class="checkmark">✓</text>
+          </view>
+          <view class="notify-content">
+            <text class="notify-title">邮件通知</text>
+            <text class="notify-desc">发送邮件到指定邮箱</text>
+          </view>
+          <view class="notify-config">需要配置 SMTP</view>
+        </view>
+
+        <!-- 高级选项（展开显示） -->
+        <view wx:if="{{showAdvanced}}" class="advanced-options animate-show">
+          <view class="notify-option {{notifyWebhook ? 'selected' : ''}}" bindtap="toggleNotify" data-type="webhook">
+            <view class="notify-checkbox {{notifyWebhook ? 'checked' : ''}}">
+              <text wx:if="{{notifyWebhook}}" class="checkmark">✓</text>
+            </view>
+            <view class="notify-content">
+              <text class="notify-title">微信/钉钉/飞书通知</text>
+              <text class="notify-desc">发送消息到协作平台</text>
+            </view>
+            <view class="notify-config">需要配置 Webhook</view>
+          </view>
+
+          <view class="notify-option {{notifyPhone ? 'selected' : ''}}" bindtap="toggleNotify" data-type="phone">
+            <view class="notify-checkbox {{notifyPhone ? 'checked' : ''}}">
+              <text wx:if="{{notifyPhone}}" class="checkmark">✓</text>
+            </view>
+            <view class="notify-content">
+              <text class="notify-title">语音电话通知</text>
+              <text class="notify-desc">接到自动语音电话通知</text>
+            </view>
+            <view class="notify-config">需要配置 Twilio</view>
+          </view>
+        </view>
+      </view>
+
+      <view wx:if="{{showAdvanced}}" class="alert-box">
+        <text class="alert-icon">💡</text>
+        <text class="alert-text">还没有配置？前往 </text>
+        <text class="alert-link" bindtap="goToSettings">功能配置</text>
+        <text class="alert-text"> 页面设置 Twitter API、Twilio、邮件服务等</text>
+      </view>
+    </view>
         <!-- 邮件通知 -->
         <view class="notify-option {{notifyMail ? 'selected' : ''}}" bindtap="toggleNotify" data-type="mail">
           <view class="notify-checkbox {{notifyMail ? 'checked' : ''}}">
@@ -178,11 +243,14 @@
 
   <!-- 底部操作栏（固定） -->
   <view class="bottom-action-bar">
-    <view class="action-btn action-btn-primary" bindtap="submitTask">
-      <text>创建监控任务</text>
-    </view>
-    <view class="action-btn action-btn-secondary" bindtap="goBack">
-      <text>取消</text>
+    <view class="action-btns-row">
+      <view class="action-btn action-btn-secondary" bindtap="goBack">
+        <text>取消</text>
+      </view>
+      <view class="action-btn action-btn-primary" bindtap="submitTask">
+        <text>创建监控任务</text>
+      </view>
     </view>
   </view>
+</view>
 </view>

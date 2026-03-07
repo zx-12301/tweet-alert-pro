@@ -7,7 +7,17 @@ Page({
     minRetweets: '',
     notifyMail: false,
     notifyWebhook: false,
-    notifyPhone: false
+    notifyPhone: false,
+    showAdvanced: false,
+    showRecommendations: false,
+    recommendedAccounts: [
+      { handle: 'elonmusk', name: 'Elon Musk', description: 'Tesla & SpaceX CEO', avatar: '🚀' },
+      { handle: 'sama', name: 'Sam Altman', description: 'OpenAI CEO', avatar: '🤖' },
+      { handle: 'realDonaldTrump', name: 'Donald Trump', description: '45th US President', avatar: '🇺🇸' },
+      { handle: 'BarackObama', name: 'Barack Obama', description: '44th US President', avatar: '📚' },
+      { handle: 'billgates', name: 'Bill Gates', description: 'Microsoft Co-founder', avatar: '💻' },
+      { handle: 'jeffbezos', name: 'Jeff Bezos', description: 'Amazon Founder', avatar: '📦' }
+    ]
   },
 
   onLoad: function () {
@@ -84,19 +94,35 @@ Page({
 
   // 显示推荐账号
   showRecommendations: function () {
-    wx.showActionSheet({
-      itemList: ['Elon Musk', 'Sam Altman', 'Donald Trump', 'Barack Obama', 'Bill Gates', 'Jeff Bezos'],
-      success: (res) => {
-        const handles = ['elonmusk', 'sama', 'realDonaldTrump', 'BarackObama', 'billgates', 'jeffbezos'];
-        this.setData({ twitterHandle: handles[res.tapIndex] });
-        
-        wx.showToast({
-          title: `已选择 @${handles[res.tapIndex]}`,
-          icon: 'success'
-        });
-      }
+    this.setData({ showRecommendations: true });
+  },
+
+  // 隐藏推荐账号
+  hideRecommendations: function () {
+    this.setData({ showRecommendations: false });
+  },
+
+  // 选择推荐账号
+  selectRecommendation: function (e) {
+    const handle = e.currentTarget.dataset.handle;
+    this.setData({ 
+      twitterHandle: handle,
+      showRecommendations: false
+    });
+    
+    wx.showToast({
+      title: `已选择 @${handle}`,
+      icon: 'success'
     });
   },
+
+  // 展开/收起高级选项
+  toggleAdvanced: function () {
+    this.setData({ showAdvanced: !this.data.showAdvanced });
+  },
+
+  // 阻止事件冒泡
+  stop: function () {},
 
   // 跳转
   goToSettings: function () {
