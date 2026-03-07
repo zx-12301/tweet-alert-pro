@@ -597,10 +597,9 @@ page {
   overflow-x: auto;
 }
 
-/* 底部占位 */
-.bottom-spacer-large {
-  height: calc(200rpx + env(safe-area-inset-bottom));
-  flex-shrink: 0;
+/* 内容包装器 */
+.content-wrapper {
+  padding-bottom: 240rpx;
 }
 
 /* ==========================================================================
@@ -608,15 +607,10 @@ page {
    ========================================================================== */
 
 .bottom-save-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
   padding: 24rpx 40rpx calc(24rpx + env(safe-area-inset-bottom));
-  background: linear-gradient(to top, #0B1120 0%, rgba(11, 17, 32, 0.95) 100%);
+  background: rgba(11, 17, 32, 0.95);
   backdrop-filter: blur(20rpx);
   -webkit-backdrop-filter: blur(20rpx);
-  z-index: 100;
 }
 
 .save-btn {
