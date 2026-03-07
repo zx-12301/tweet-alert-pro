@@ -15,23 +15,25 @@
   <!-- 主滚动内容 -->
   <scroll-view class="main-scroll" scroll-y="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}" bounces="{{false}}">
     
-    <!-- 全局提示框 -->
-    <view class="guide-alert">
-      <view class="alert-content">
-        <text class="alert-icon">💡</text>
-        <view class="alert-text-wrapper">
-          <text class="alert-title">配置指南</text>
-          <text class="alert-desc">详细配置步骤请查看 
-            <text class="alert-link" bindtap="viewDocs">配置清单文档</text> 
-            或访问 
-            <text class="alert-link" bindtap="viewGithub">GitHub 仓库</text>
-          </text>
+    <!-- 内容容器 -->
+    <view class="content-wrapper">
+      <!-- 全局提示框 -->
+      <view class="guide-alert">
+        <view class="alert-content">
+          <text class="alert-icon">💡</text>
+          <view class="alert-text-wrapper">
+            <text class="alert-title">配置指南</text>
+            <text class="alert-desc">详细配置步骤请查看 
+              <text class="alert-link" bindtap="viewDocs">配置清单文档</text> 
+              或访问 
+              <text class="alert-link" bindtap="viewGithub">GitHub 仓库</text>
+            </text>
+          </view>
         </view>
       </view>
-    </view>
 
-    <!-- Tab 导航 -->
-    <view class="tab-navigation">
+      <!-- Tab 导航 -->
+      <view class="tab-navigation">
       <view class="tab-item {{activeTab === 'twitter' ? 'active' : ''}}" bindtap="switchTab" data-tab="twitter">
         <view class="tab-icon-wrapper {{activeTab === 'twitter' ? 'active' : ''}}">
           <text class="tab-icon">𝕏</text>
