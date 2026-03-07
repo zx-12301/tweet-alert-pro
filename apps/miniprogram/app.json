@@ -1,5 +1,9 @@
 {
   "pages": [
+    "pages/index/index-premium",
+    "pages/tasks/list-premium",
+    "pages/subscription/subscription-premium",
+    "pages/notifications/notifications-premium",
     "pages/index/index",
     "pages/tasks/list",
     "pages/tasks/create",

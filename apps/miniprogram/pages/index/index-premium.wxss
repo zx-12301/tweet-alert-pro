@@ -3,18 +3,44 @@
    苹果风格极简主义
    ========================================================================== */
 
-/* 引入全局设计系统 */
-@import '../../styles/premium.css';
+/* 设计令牌 - 内联定义 */
+page {
+  --primary: #1a1a2e;
+  --primary-light: #2d2d44;
+  --accent: #5e60ce;
+  --bg: #faf9f8;
+  --bg-secondary: #f5f4f2;
+  --surface: #ffffff;
+  --text-primary: #1a1a2e;
+  --text-secondary: #6e6e73;
+  --text-tertiary: #a1a1a6;
+  --border: rgba(0, 0, 0, 0.06);
+  --shadow-xs: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 4rpx 16rpx rgba(0, 0, 0, 0.06);
+  --radius-lg: 20rpx;
+  --radius-xl: 28rpx;
+  --radius-2xl: 40rpx;
+  --radius-full: 9999rpx;
+  --space-xs: 4rpx;
+  --space-sm: 8rpx;
+  --space-md: 16rpx;
+  --space-lg: 32rpx;
+  --space-xl: 48rpx;
+  --space-2xl: 64rpx;
+  --space-3xl: 96rpx;
+  --h1-size: 44rpx;
+  --h2-size: 34rpx;
+  --body-size: 28rpx;
+  --caption-size: 24rpx;
+  --tiny-size: 22rpx;
+  --ease-standard: cubic-bezier(0.4, 0.0, 0.2, 1);
+}
 
 .page-container {
   min-height: 100vh;
   background-color: var(--bg);
   padding: 0;
 }
-
-/* ==========================================================================
-   头部区域 - 无边框无渐变
-   ========================================================================== */
 
 .header-section {
   background: var(--surface);
@@ -32,7 +58,6 @@
   color: var(--text-tertiary);
 }
 
-/* 统计行 - 极简设计 */
 .stats-row {
   display: flex;
   align-items: center;
@@ -66,10 +91,6 @@
   background: var(--border);
 }
 
-/* ==========================================================================
-   区块通用
-   ========================================================================== */
-
 .section {
   padding: var(--space-xl) var(--space-lg);
 }
@@ -91,10 +112,6 @@
   color: var(--accent);
   font-weight: 500;
 }
-
-/* ==========================================================================
-   快捷操作 - 无边框极简图标
-   ========================================================================== */
 
 .action-grid-minimal {
   display: grid;
@@ -125,10 +142,8 @@
   font-size: 40rpx;
   font-weight: 300;
   color: #ffffff;
-  transition: all 0.3s var(--ease-standard);
 }
 
-/* 低饱和色彩 */
 .action-icon-blue {
   background: linear-gradient(135deg, #5e60ce 0%, #4a4cb8 100%);
   box-shadow: 0 8rpx 24rpx rgba(94, 96, 206, 0.2);
@@ -156,10 +171,6 @@
   text-align: center;
 }
 
-/* ==========================================================================
-   通知列表 - 极简卡片
-   ========================================================================== */
-
 .notification-list-minimal {
   display: flex;
   flex-direction: column;
@@ -180,7 +191,6 @@
 
 .notification-item-minimal:active {
   background: var(--bg-secondary);
-  box-shadow: var(--shadow-xs);
 }
 
 .notification-avatar-minimal {
@@ -208,8 +218,6 @@
   color: var(--text-primary);
   line-height: 1.5;
   margin-bottom: var(--space-xs);
-  
-  /* 多行省略 */
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -230,10 +238,9 @@
   height: 12rpx;
   border-radius: 50%;
   background: var(--accent);
-  box-shadow: 0 0 0 4rpx var(--info-bg);
+  box-shadow: 0 0 0 4rpx rgba(0, 122, 255, 0.1);
 }
 
-/* 空状态 - 极简 */
 .empty-state-minimal {
   display: flex;
   flex-direction: column;
@@ -253,18 +260,16 @@
   color: var(--text-tertiary);
 }
 
-/* ==========================================================================
-   响应式优化
-   ========================================================================== */
+.tabbar-safe-area {
+  height: 140rpx;
+  flex-shrink: 0;
+}
 
-@media (min-width: 768px) {
-  .action-grid-minimal {
-    gap: var(--space-lg);
-  }
-  
-  .action-icon-minimal {
-    width: 100rpx;
-    height: 100rpx;
-    font-size: 48rpx;
-  }
+.animate-fade-in {
+  animation: fadeIn 0.4s var(--ease-standard);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
