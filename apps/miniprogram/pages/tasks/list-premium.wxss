@@ -1,487 +1,298 @@
-/*
- * 🎨 任务列表页 - 高级设计样式
- *
- * 设计原则：
- * - 去除廉价渐变，使用纯净背景 + 精致阴影
- * - 统一圆角系统，使用 12px/16px/20px
- * - 颜色系统使用莫兰迪色系，降低饱和度
- * - 间距使用 24px/32px/48px 标准体系
- * - 动画使用 200ms 微触感反馈
- */
+/* ==========================================================================
+   任务列表页 - Premium Design
+   极简主义卡片设计
+   ========================================================================== */
 
-/* ====================
-   页面容器 - Page Container
-   ==================== */
-.premium-container {
-  background: #fafafa;
+.page-container {
   min-height: 100vh;
-  padding-bottom: 160rpx;
+  background-color: var(--bg);
 }
 
-/* ====================
-   极简头部 - Minimal Header
-   ==================== */
-.premium-header {
-  padding: 48rpx 32rpx 24rpx;
-  background: #ffffff;
-}
+/* ==========================================================================
+   筛选器 - 极简胶囊
+   ========================================================================== */
 
-.header-content {
-  margin-bottom: 32rpx;
-}
-
-.header-title-row {
+.filter-row-minimal {
   display: flex;
-  align-items: baseline;
-  gap: 16rpx;
-  margin-bottom: 8rpx;
+  gap: var(--space-sm);
+  padding: 0 0 var(--space-lg);
 }
 
-.page-title {
-  font-size: 40rpx;
-  font-weight: 700;
-  color: #111827;
-  letter-spacing: -0.5rpx;
+.filter-pill-minimal {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 12rpx 24rpx;
+  background: var(--surface);
+  border-radius: var(--radius-full);
+  border: 1rpx solid var(--border);
+  transition: all 0.3s var(--ease-standard);
 }
 
-.page-count {
-  font-size: 26rpx;
-  font-weight: 500;
-  color: #9ca3af;
-}
-
-.page-subtitle {
-  font-size: 26rpx;
-  color: #6b7280;
+.filter-pill-minimal text {
+  font-size: var(--tiny-size);
+  color: var(--text-secondary);
   font-weight: 400;
 }
 
-/* ====================
-   统计网格 - Stats Grid
-   ==================== */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16rpx;
+.filter-pill-minimal.active {
+  background: var(--primary);
+  border-color: var(--primary);
 }
 
-.stat-mini-card {
-  background: #ffffff;
-  border-radius: 16rpx;
-  padding: 20rpx;
-  display: flex;
-  align-items: center;
-  gap: 16rpx;
-  border: 1px solid #f0f0f0;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-}
-
-.stat-mini-icon {
-  font-size: 32rpx;
-  opacity: 0.7;
-}
-
-.stat-mini-content {
-  display: flex;
-  flex-direction: column;
-  gap: 4rpx;
-}
-
-.stat-mini-value {
-  font-size: 32rpx;
-  font-weight: 700;
-  color: #111827;
-  line-height: 1;
-}
-
-.stat-mini-label {
-  font-size: 22rpx;
-  color: #9ca3af;
-  font-weight: 500;
-}
-
-/* ====================
-   区块 - Section
-   ==================== */
-.section {
-  padding: 32rpx 24rpx;
-}
-
-/* ====================
-   极简筛选 - Minimal Filters
-   ==================== */
-.filter-row {
-  display: flex;
-  gap: 12rpx;
-  overflow-x: auto;
-  padding-bottom: 8rpx;
-}
-
-.filter-pill {
-  display: flex;
-  align-items: center;
-  gap: 8rpx;
-  padding: 14rpx 24rpx;
-  background: #ffffff;
-  border-radius: 12rpx;
-  border: 1px solid #e5e7eb;
-  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
-  flex-shrink: 0;
-}
-
-.filter-pill:active {
-  transform: scale(0.96);
-}
-
-.filter-pill.active {
-  background: #334155;
-  border-color: #334155;
-  box-shadow: 0 2px 8px rgba(51, 65, 85, 0.2);
-}
-
-.filter-pill-text {
-  font-size: 26rpx;
-  font-weight: 500;
-  color: #6b7280;
-  transition: color 200ms ease;
-}
-
-.filter-pill.active .filter-pill-text {
+.filter-pill-minimal.active text {
   color: #ffffff;
-  font-weight: 600;
 }
 
-.filter-pill-count {
-  display: flex;
+.filter-count {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 24rpx;
-  height: 24rpx;
-  background: #e5e7eb;
-  border-radius: 8rpx;
+  min-width: 32rpx;
+  height: 32rpx;
+  padding: 0 8rpx;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-full);
   font-size: 20rpx;
   font-weight: 600;
-  color: #6b7280;
-  padding: 0 6rpx;
-  transition: all 200ms ease;
 }
 
-.filter-pill.active .filter-pill-count {
-  background: rgba(255, 255, 255, 0.2);
-  color: #ffffff;
+.filter-pill-minimal.active .filter-count {
+  background: rgba(255, 255, 255, 0.25);
 }
 
-/* ====================
-   任务卡片 - Task Cards
-   ==================== */
-.task-mini-card {
-  background: #ffffff;
-  border-radius: 20rpx;
-  padding: 24rpx;
-  margin-bottom: 16rpx;
-  border: 1px solid #f0f0f0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+/* ==========================================================================
+   任务列表 - 极简卡片
+   ========================================================================== */
+
+.task-list-minimal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
 }
 
-.task-mini-card:active {
-  transform: translateY(-2rpx);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  border-color: #e5e5e5;
+.task-card-minimal {
+  background: var(--surface);
+  border-radius: var(--radius-xl);
+  padding: var(--space-lg);
+  box-shadow: var(--shadow-xs);
+  transition: all 0.2s var(--ease-standard);
+  border: none;
 }
 
-/* 顶部信息 */
-.task-mini-header {
+.task-card-minimal:active {
+  transform: scale(0.98);
+  box-shadow: var(--shadow-xs);
+  background: var(--bg-secondary);
+}
+
+/* 任务头部 */
+.task-header-minimal {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16rpx;
+  align-items: flex-start;
+  margin-bottom: var(--space-md);
 }
 
-.task-mini-left {
+.task-left-minimal {
   display: flex;
-  align-items: center;
-  gap: 16rpx;
+  gap: var(--space-md);
   flex: 1;
-  min-width: 0;
 }
 
-.task-mini-avatar {
-  width: 56rpx;
-  height: 56rpx;
-  background: #f3f4f6;
-  border-radius: 12rpx;
+.task-avatar-minimal {
+  flex-shrink: 0;
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: var(--radius-full);
+  background: var(--bg-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--text-secondary);
 }
 
-.avatar-mini {
-  font-size: 28rpx;
-  font-weight: 700;
-  color: #9ca3af;
-}
-
-.task-mini-info {
-  flex: 1;
+.task-info-minimal {
   display: flex;
   flex-direction: column;
-  gap: 4rpx;
-  min-width: 0;
+  gap: var(--space-xs);
+  justify-content: center;
 }
 
-.task-mini-handle {
-  font-size: 28rpx;
+.task-handle-minimal {
+  font-size: var(--body-size);
   font-weight: 600;
-  color: #111827;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  color: var(--text-primary);
+  letter-spacing: -0.5rpx;
 }
 
-.task-mini-meta {
-  font-size: 22rpx;
-  color: #9ca3af;
-  font-family: 'SF Mono', 'Monaco', monospace;
+.task-meta-minimal {
+  font-size: var(--tiny-size);
+  color: var(--text-tertiary);
+  font-family: monospace;
 }
 
-/* 状态标签 */
-.task-mini-status {
+/* 任务状态 */
+.task-status-minimal {
   display: flex;
   align-items: center;
-  gap: 6rpx;
+  gap: var(--space-xs);
   padding: 8rpx 16rpx;
-  border-radius: 10rpx;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-full);
   flex-shrink: 0;
 }
 
-.task-mini-status.active {
-  background: #f0fdf4;
-  border: 1px solid #bbf7d0;
+.task-status-minimal.active {
+  background: var(--success-bg);
 }
 
-.task-mini-status.inactive {
-  background: #f9fafb;
-  border: 1px solid #e5e7eb;
+.task-status-minimal.inactive {
+  background: var(--bg-secondary);
 }
 
-.status-mini-dot {
-  font-size: 12rpx;
-  line-height: 1;
+.status-dot-minimal {
+  width: 8rpx;
+  height: 8rpx;
+  border-radius: 50%;
+  background: var(--text-tertiary);
 }
 
-.task-mini-status.active .status-mini-dot {
-  color: #22c55e;
+.task-status-minimal.active .status-dot-minimal {
+  background: var(--success);
+  box-shadow: 0 0 0 4rpx var(--success-bg);
 }
 
-.task-mini-status.inactive .status-mini-dot {
-  color: #9ca3af;
-}
-
-.status-mini-text {
-  font-size: 22rpx;
+.status-text-minimal {
+  font-size: var(--tiny-size);
   font-weight: 500;
+  color: var(--text-secondary);
 }
 
-.task-mini-status.active .status-mini-text {
-  color: #16a34a;
-}
-
-.task-mini-status.inactive .status-mini-text {
-  color: #6b7280;
+.task-status-minimal.active .status-text-minimal {
+  color: var(--success);
 }
 
 /* 关键词 */
-.task-mini-keywords {
+.task-keywords-minimal {
   display: flex;
   flex-wrap: wrap;
-  gap: 8rpx;
-  margin-bottom: 16rpx;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-md);
 }
 
-.keyword-mini {
-  padding: 6rpx 12rpx;
-  background: #f8fafc;
-  border-radius: 8rpx;
-  border: 1px solid #e5e7eb;
+.keyword-tag-minimal {
+  display: inline-flex;
+  padding: 8rpx 16rpx;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-full);
+  font-size: var(--tiny-size);
+  color: var(--text-secondary);
+  font-weight: 400;
 }
 
-.keyword-mini-text {
-  font-size: 22rpx;
-  font-weight: 500;
-  color: #475569;
-}
-
-/* 底部数据 */
-.task-mini-footer {
+/* 任务底部 */
+.task-footer-minimal {
   display: flex;
   align-items: center;
-  gap: 16rpx;
-  padding-top: 16rpx;
-  border-top: 1px solid #f3f4f6;
+  padding-top: var(--space-md);
+  border-top: 1rpx solid var(--border-light);
 }
 
-.footer-stat {
+.footer-stat-minimal {
   display: flex;
   align-items: center;
-  gap: 6rpx;
+  gap: var(--space-xs);
 }
 
 .footer-stat-icon {
-  font-size: 24rpx;
-  opacity: 0.6;
+  font-size: 28rpx;
 }
 
 .footer-stat-value {
-  font-size: 22rpx;
+  font-size: var(--tiny-size);
   font-weight: 500;
-  color: #6b7280;
+  color: var(--text-secondary);
 }
 
-.footer-divider {
-  width: 1px;
+.footer-divider-minimal {
+  width: 1rpx;
   height: 24rpx;
-  background: #e5e7eb;
+  background: var(--border);
+  margin: 0 var(--space-md);
 }
 
-.footer-actions {
+.footer-action-minimal {
   margin-left: auto;
 }
 
-.icon-btn-mini {
-  padding: 6rpx 12rpx;
-  background: #f3f4f6;
-  border-radius: 8rpx;
-  font-size: 22rpx;
+.icon-btn-minimal {
+  padding: 8rpx 20rpx;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-full);
+  font-size: var(--tiny-size);
   font-weight: 500;
-  color: #374151;
+  color: var(--text-primary);
   border: none;
-  transition: all 200ms ease;
+  transition: all 0.2s var(--ease-standard);
 }
 
-.icon-btn-mini.btn-toggle:active {
-  background: #e5e7eb;
+.icon-btn-minimal:active {
+  background: var(--border);
+  transform: scale(0.95);
 }
 
-.icon-btn-mini-text {
-  font-size: 22rpx;
-}
+/* ==========================================================================
+   空状态 - 极简设计
+   ========================================================================== */
 
-/* ====================
-   空状态 - Empty State
-   ==================== */
-.empty-section {
+.empty-section-minimal {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 120rpx 48rpx;
+  padding: var(--space-3xl) var(--space-lg);
+  text-align: center;
 }
 
-.empty-illustration {
-  margin-bottom: 32rpx;
+.empty-illustration-minimal {
+  margin-bottom: var(--space-xl);
 }
 
 .empty-icon-premium {
-  font-size: 96rpx;
-  opacity: 0.4;
+  font-size: 100rpx;
+  opacity: 0.3;
+  display: block;
 }
 
 .empty-title-premium {
-  font-size: 32rpx;
+  font-size: var(--h2-size);
   font-weight: 600;
-  color: #111827;
-  margin-bottom: 12rpx;
+  color: var(--text-primary);
+  margin-bottom: var(--space-sm);
+  display: block;
 }
 
 .empty-desc-premium {
-  font-size: 26rpx;
-  color: #6b7280;
-  text-align: center;
+  font-size: var(--caption-size);
+  color: var(--text-tertiary);
   line-height: 1.6;
-  max-width: 480rpx;
-  margin-bottom: 40rpx;
+  margin-bottom: var(--space-2xl);
+  display: block;
 }
 
-/* ====================
-   按钮系统 - Buttons
-   ==================== */
-.btn-primary-premium {
-  width: 100%;
-  max-width: 360rpx;
-  padding: 28rpx 48rpx;
-  background: #334155;
-  color: #ffffff;
-  border-radius: 12rpx;
-  font-size: 28rpx;
-  font-weight: 600;
-  border: none;
-  box-shadow: 0 2px 8px rgba(51, 65, 85, 0.15);
-  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
-}
+/* ==========================================================================
+   响应式优化
+   ========================================================================== */
 
-.btn-primary-premium:active {
-  transform: translateY(-1rpx);
-  box-shadow: 0 4px 12px rgba(51, 65, 85, 0.2);
-}
-
-/* 底部固定按钮 */
-.bottom-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 24rpx;
-  background: linear-gradient(to top, #ffffff 80%, transparent);
-  border-top: 1px solid #f0f0f0;
-}
-
-.create-btn-fixed {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12rpx;
-  padding: 28rpx;
-  background: #334155;
-  color: #ffffff;
-  border-radius: 12rpx;
-  font-size: 28rpx;
-  font-weight: 600;
-  border: none;
-  box-shadow: 0 4px 12px rgba(51, 65, 85, 0.2);
-  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.create-btn-fixed:active {
-  transform: translateY(2rpx);
-  box-shadow: 0 2px 6px rgba(51, 65, 85, 0.15);
-}
-
-.create-btn-icon {
-  font-size: 32rpx;
-  font-weight: 300;
-  line-height: 1;
-}
-
-.create-btn-text {
-  font-size: 28rpx;
-}
-
-/* ====================
-   页面进入动画 - Page Entry
-   ==================== */
-.page-enter {
-  animation: pageEnter 400ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@keyframes pageEnter {
-  from {
-    opacity: 0;
-    transform: translateY(16rpx);
+@media (min-width: 768px) {
+  .task-card-minimal {
+    padding: var(--space-xl);
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  
+  .task-avatar-minimal {
+    width: 96rpx;
+    height: 96rpx;
   }
 }

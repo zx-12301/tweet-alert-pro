@@ -1,115 +1,60 @@
-<view class="premium-container page-enter">
+<view class="page-container animate-fade-in">
   <!-- 极简头部 -->
-  <view class="premium-header">
+  <view class="header-section">
     <view class="header-content">
-      <text class="page-title">通知中心</text>
-      <text class="page-subtitle">实时接收 Twitter 动态通知</text>
+      <text class="premium-h1">通知历史</text>
+      <text class="premium-caption header-subtitle">{{stats.total}} 条通知</text>
     </view>
-
-    <!-- 简洁统计卡片 -->
-    <view class="stats-grid">
-      <view class="stat-mini-card">
-        <view class="stat-mini-icon">📬</view>
-        <view class="stat-mini-content">
-          <text class="stat-mini-value">{{stats.total}}</text>
-          <text class="stat-mini-label">全部</text>
-        </view>
+    
+    <!-- 统计行 -->
+    <view class="stats-row">
+      <view class="stat-card-minimal">
+        <text class="stat-value">{{stats.today}}</text>
+        <text class="stat-label">今日</text>
       </view>
-      <view class="stat-mini-card">
-        <view class="stat-mini-icon">📅</view>
-        <view class="stat-mini-content">
-          <text class="stat-mini-value">{{stats.today}}</text>
-          <text class="stat-mini-label">今日</text>
-        </view>
-      </view>
-      <view class="stat-mini-card {{stats.unread > 0 ? 'has-unread' : ''}}">
-        <view class="stat-mini-icon">🔔</view>
-        <view class="stat-mini-content">
-          <text class="stat-mini-value">{{stats.unread}}</text>
-          <text class="stat-mini-label">未读</text>
-        </view>
-        <view wx:if="{{stats.unread > 0}}" class="unread-badge">{{stats.unread}}</view>
+      <view class="stat-divider"></view>
+      <view class="stat-card-minimal">
+        <text class="stat-value">{{stats.unread}}</text>
+        <text class="stat-label">未读</text>
       </view>
     </view>
   </view>
 
-  <!-- 极简筛选 -->
+  <!-- 筛选器 -->
   <view class="section">
-    <view class="filter-row">
-      <view class="filter-pill {{filterType === 'all' ? 'active' : ''}}" bindtap="setFilter" data-type="all">
-        <text class="filter-pill-text">全部</text>
+    <view class="filter-row-minimal">
+      <view class="filter-pill-minimal {{filterType === 'all' ? 'active' : ''}}" bindtap="setFilter" data-type="all">
+        <text>全部</text>
       </view>
-      <view class="filter-pill {{filterType === 'unread' ? 'active' : ''}}" bindtap="setFilter" data-type="unread">
-        <text class="filter-pill-text">未读</text>
-        <view wx:if="{{stats.unread > 0}}" class="filter-pill-count">{{stats.unread}}</view>
+      <view class="filter-pill-minimal {{filterType === 'unread' ? 'active' : ''}}" bindtap="setFilter" data-type="unread">
+        <text>未读</text>
       </view>
-      <view class="filter-pill {{filterType === 'today' ? 'active' : ''}}" bindtap="setFilter" data-type="today">
-        <text class="filter-pill-text">今天</text>
+      <view class="filter-pill-minimal {{filterType === 'today' ? 'active' : ''}}" bindtap="setFilter" data-type="today">
+        <text>今天</text>
       </view>
-      <view class="filter-pill {{filterType === 'week' ? 'active' : ''}}" bindtap="setFilter" data-type="week">
-        <text class="filter-pill-text">本周</text>
+      <view class="filter-pill-minimal {{filterType === 'week' ? 'active' : ''}}" bindtap="setFilter" data-type="week">
+        <text>本周</text>
       </view>
     </view>
   </view>
 
-  <!-- 通知列表 -->
-  <view wx:if="{{filteredNotifications.length > 0}}" class="section section-last">
-    <!-- 日期分组 -->
-    <view wx:for="{{groupedNotifications}}" wx:key="date" class="date-group-premium">
-      <text class="date-label-premium">{{item.date}}</text>
-      <text class="date-count-premium">{{item.notifications.length}}</text>
-    </view>
-
-    <!-- 通知卡片 -->
-    <view wx:for="{{item.notifications}}" wx:key="id" wx:for-item="notification"
-          class="notification-mini-card {{notification.read ? '' : 'unread'}}"
-          bindtap="viewDetail"
-          data-id="{{notification.id}}">
-      <!-- 未读指示器 -->
-      <view wx:if="{{!notification.read}}" class="unread-dot-premium"></view>
-
-      <!-- 头部 -->
-      <view class="notification-mini-header">
-        <view class="notification-mini-left">
-          <view class="notification-mini-avatar">
-            <text class="avatar-mini">@</text>
-          </view>
-          <view class="notification-mini-info">
-            <text class="notification-handle-premium">@{{notification.twitterHandle}}</text>
-            <text class="notification-time-premium">{{notification.createdAt}}</text>
-          </view>
-        </view>
-        <view class="channel-badge-mini">
-          <text class="channel-icon-mini">{{getChannelIcon(notification.channel)}}</text>
-        </view>
-      </view>
-
-      <!-- 推文内容 -->
-      <view class="notification-content-premium">
-        <text class="tweet-text-premium">{{notification.tweetContent}}</text>
-      </view>
-
-      <!-- 关键词标签 -->
-      <view wx:if="{{notification.keywords && notification.keywords.length > 0}}" class="keywords-row-premium">
-        <view wx:for="{{notification.keywords}}" wx:key="*this" wx:for-item="keyword" class="keyword-mini">
-          <text class="keyword-mini-text">{{keyword}}</text>
-        </view>
-      </view>
-
-      <!-- 底部信息 -->
-      <view class="notification-footer-premium">
-        <view class="stats-mini">
-          <view class="stat-mini-inline">
-            <text class="stat-icon-mini">❤️</text>
-            <text class="stat-value-mini">{{notification.likes || 0}}</text>
-          </view>
-          <view class="stat-mini-inline">
-            <text class="stat-icon-mini">🔁</text>
-            <text class="stat-value-mini">{{notification.retweets || 0}}</text>
-          </view>
-          <view class="stat-mini-inline">
-            <text class="stat-icon-mini">💬</text>
-            <text class="stat-value-mini">{{notification.replies || 0}}</text>
+  <!-- 通知列表 - 分组显示 -->
+  <view wx:if="{{groupedNotifications.length > 0}}" class="section">
+    <view class="notification-grouped-list">
+      <view wx:for="{{groupedNotifications}}" wx:key="date" class="notification-group">
+        <text class="group-date-label">{{item.date}}</text>
+        
+        <view class="notification-list-minimal">
+          <view wx:for="{{item.notifications}}" wx:key="id" wx:for-item="notif" wx:for-index="notifIndex" 
+                class="notification-item-minimal {{!notif.read ? 'unread' : ''}}" 
+                bindtap="viewNotificationDetail" 
+                data-id="{{notif.id}}">
+            <view class="notification-avatar-minimal">@{{notif.twitterHandle}}</view>
+            <view class="notification-content-minimal">
+              <text class="notification-text-minimal">{{notif.tweetContent}}</text>
+              <text class="notification-time-minimal">{{notif.createdAt}}</text>
+            </view>
+            <view wx:if="{{!notif.read}}" class="notification-dot-minimal"></view>
           </view>
         </view>
       </view>
@@ -117,21 +62,15 @@
   </view>
 
   <!-- 空状态 -->
-  <view wx:else class="empty-section">
-    <view class="empty-illustration">
-      <text class="empty-icon-premium">🔔</text>
+  <view wx:else class="empty-section-minimal">
+    <view class="empty-illustration-minimal">
+      <text class="empty-icon-premium">📭</text>
     </view>
-    <text class="empty-title-premium">{{filterType === 'unread' ? '没有未读通知' : '暂无通知'}}</text>
-    <text class="empty-desc-premium">
-      {{filterType === 'unread' ? '太棒了！您已处理完所有通知' : '创建监控任务后，新通知会显示在这里'}}
-    </text>
-    <button wx:if="{{filterType !== 'unread'}}" class="btn-primary-premium" bindtap="createTask">
-      创建监控任务
-    </button>
+    <text class="empty-title-premium">暂无通知</text>
+    <text class="empty-desc-premium">创建监控任务后，新通知会显示在这里</text>
+    <button class="premium-btn premium-btn-primary" bindtap="createTask">创建任务</button>
   </view>
-
-  <!-- 加载状态 -->
-  <view wx:if="{{loading}}" class="loading-section">
-    <view class="loading-spinner-premium"></view>
-  </view>
+  
+  <!-- 底部安全区域 -->
+  <view class="tabbar-safe-area"></view>
 </view>

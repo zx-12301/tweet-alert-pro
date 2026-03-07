@@ -1,447 +1,312 @@
-/*
- * 🎨 订阅管理页 - 高级设计样式
- *
- * 设计原则：
- * - 去除廉价渐变，使用纯净背景 + 精致边框
- * - 统一圆角系统，使用 12px/16px/20px
- * - 颜色系统使用莫兰迪色系
- * - 间距使用 24px/32px/48px 标准体系
- * - 状态指示使用简洁的视觉语言
- */
+/* ==========================================================================
+   订阅管理页 - Premium Design
+   极简数据展示
+   ========================================================================== */
 
-/* ====================
-   页面容器 - Page Container
-   ==================== */
-.premium-container {
-  background: #fafafa;
+.page-container {
   min-height: 100vh;
-  padding-bottom: 160rpx;
+  background-color: var(--bg);
+  padding-bottom: 40rpx;
 }
 
-/* ====================
-   订阅卡片 - Subscription Card
-   ==================== */
+/* ==========================================================================
+   订阅卡片 - 极简渐变
+   ========================================================================== */
+
 .subscription-card-premium {
-  margin: 32rpx 24rpx;
-  background: #ffffff;
-  border-radius: 24rpx;
-  padding: 32rpx;
-  border: 2px solid #e5e7eb;
-  position: relative;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  padding: var(--space-2xl) var(--space-lg);
+  margin: 0;
+  box-shadow: var(--shadow-md);
 }
 
-.sub-header-premium {
+.subscription-header-premium {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 24rpx;
+  margin-bottom: var(--space-xl);
 }
 
-.sub-info-left {
-  display: flex;
-  flex-direction: column;
-  gap: 8rpx;
+.subscription-label-premium {
+  display: block;
+  font-size: var(--tiny-size);
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: var(--space-xs);
 }
 
-.sub-label {
-  font-size: 22rpx;
-  color: #9ca3af;
-  font-weight: 500;
-}
-
-.sub-name-premium {
-  font-size: 32rpx;
+.subscription-name-premium {
+  display: block;
+  font-size: 40rpx;
   font-weight: 700;
-  color: #111827;
-  letter-spacing: -0.5rpx;
+  color: #ffffff;
+  letter-spacing: -1rpx;
 }
 
-/* 状态标签 */
-.sub-status-premium {
+.subscription-status-premium {
   display: flex;
   align-items: center;
-  gap: 6rpx;
+  gap: var(--space-xs);
   padding: 8rpx 16rpx;
-  border-radius: 10rpx;
-  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20rpx);
+  border-radius: var(--radius-full);
+  border: 1rpx solid rgba(255, 255, 255, 0.2);
 }
 
-.sub-status-premium.active {
-  background: #f0fdf4;
-  border: 1px solid #bbf7d0;
+.status-dot-premium {
+  width: 8rpx;
+  height: 8rpx;
+  border-radius: 50%;
+  background: var(--success);
+  box-shadow: 0 0 0 4rpx rgba(52, 199, 89, 0.2);
 }
 
-.sub-status-premium.inactive {
-  background: #f9fafb;
-  border: 1px solid #e5e7eb;
+.subscription-status-premium.inactive .status-dot-premium {
+  background: var(--text-tertiary);
+  box-shadow: none;
 }
 
-.status-dot-mini {
-  font-size: 12rpx;
-  line-height: 1;
-}
-
-.sub-status-premium.active .status-dot-mini {
-  color: #22c55e;
-}
-
-.sub-status-premium.inactive .status-dot-mini {
-  color: #9ca3af;
-}
-
-.status-text-mini {
-  font-size: 22rpx;
+.status-text-premium {
+  font-size: var(--tiny-size);
   font-weight: 500;
+  color: #ffffff;
 }
 
-.sub-status-premium.active .status-text-mini {
-  color: #16a34a;
-}
-
-.sub-status-premium.inactive .status-text-mini {
-  color: #6b7280;
-}
-
-/* 价格显示 */
-.sub-price-premium {
+.subscription-price-premium {
   display: flex;
   align-items: baseline;
-  gap: 4rpx;
-  margin-bottom: 24rpx;
+  margin-bottom: var(--space-xl);
 }
 
-.price-symbol {
+.price-symbol-premium {
   font-size: 28rpx;
-  font-weight: 600;
-  color: #6b7280;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+  margin-right: 4rpx;
 }
 
-.price-value-large {
-  font-size: 72rpx;
+.price-value-premium {
+  font-size: 64rpx;
   font-weight: 800;
-  color: #111827;
+  color: #ffffff;
   line-height: 1;
   letter-spacing: -2rpx;
 }
 
-.price-period {
+.price-period-premium {
   font-size: 24rpx;
-  color: #9ca3af;
-  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  margin-left: var(--space-sm);
 }
 
-/* 功能列表 */
-.sub-features-premium {
+.subscription-features-premium {
   display: flex;
   flex-direction: column;
-  gap: 12rpx;
+  gap: var(--space-sm);
 }
 
-.sub-feature-row {
+.feature-item-premium {
   display: flex;
   align-items: center;
-  gap: 12rpx;
+  gap: var(--space-sm);
 }
 
-.sub-feature-icon {
-  font-size: 24rpx;
-  font-weight: 700;
-  color: #059669;
-  line-height: 1.6;
-}
-
-.sub-feature-text {
-  font-size: 26rpx;
-  color: #374151;
-  line-height: 1.6;
-}
-
-/* ====================
-   区块 - Section
-   ==================== */
-.section {
-  padding: 0 24rpx 24rpx;
-}
-
-.section-header-premium {
+.feature-icon-premium {
+  width: 28rpx;
+  height: 28rpx;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 20rpx;
-}
-
-.section-title-premium {
-  font-size: 28rpx;
+  justify-content: center;
+  font-size: 18rpx;
+  color: #ffffff;
   font-weight: 700;
-  color: #111827;
 }
 
-.section-subtitle-premium {
-  font-size: 24rpx;
-  color: #6b7280;
-  font-weight: 500;
+.feature-text-premium {
+  font-size: var(--caption-size);
+  color: rgba(255, 255, 255, 0.9);
 }
 
-/* ====================
-   用量卡片 - Usage Card
-   ==================== */
+/* ==========================================================================
+   用量统计 - 极简进度条
+   ========================================================================== */
+
 .usage-card-premium {
-  background: #ffffff;
-  border-radius: 20rpx;
-  padding: 24rpx;
-  border: 1px solid #e5e7eb;
+  background: var(--surface);
+  border-radius: var(--radius-xl);
+  padding: var(--space-lg);
+  box-shadow: var(--shadow-sm);
 }
 
 .usage-header-premium {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20rpx;
+  margin-bottom: var(--space-md);
 }
 
-.usage-label {
-  font-size: 26rpx;
-  color: #6b7280;
+.usage-label-premium {
+  font-size: var(--body-size);
   font-weight: 500;
+  color: var(--text-secondary);
 }
 
-.usage-value {
-  font-size: 28rpx;
-  font-weight: 700;
-  color: #111827;
+.usage-value-premium {
+  font-size: var(--body-size);
+  font-weight: 600;
+  color: var(--text-primary);
 }
 
-/* 进度条 */
 .usage-progress-premium {
   display: flex;
   align-items: center;
-  gap: 16rpx;
-  margin-bottom: 20rpx;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
 }
 
-.progress-bar-premium {
+.usage-bar-premium {
   flex: 1;
   height: 12rpx;
-  background: #f3f4f6;
-  border-radius: 6rpx;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-full);
   overflow: hidden;
 }
 
-.progress-fill-premium {
+.usage-fill-premium {
   height: 100%;
-  background: #334155;
-  border-radius: 6rpx;
-  transition: width 400ms cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(90deg, var(--accent) 0%, var(--accent-light) 100%);
+  border-radius: var(--radius-full);
+  transition: width 0.5s var(--ease-standard);
 }
 
-.progress-percent {
-  font-size: 24rpx;
-  font-weight: 700;
-  color: #334155;
-  min-width: 60rpx;
+.usage-percent-premium {
+  font-size: var(--caption-size);
+  font-weight: 600;
+  color: var(--accent);
+  min-width: 80rpx;
   text-align: right;
 }
 
-/* 用量状态 */
-.usage-status-premium {
+/* 用量提示 */
+.usage-tip-premium {
   display: flex;
   align-items: center;
-  gap: 8rpx;
-  padding: 12rpx 16rpx;
-  border-radius: 10rpx;
-  background: #f0fdf4;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  font-size: var(--caption-size);
 }
 
-.usage-status-premium.warning {
-  background: #fffbeb;
+.tip-icon-premium {
+  font-size: 28rpx;
 }
 
-.usage-status-premium.urgent {
-  background: #fef2f2;
-}
-
-.status-icon-premium {
-  font-size: 20rpx;
-  font-weight: 700;
-  line-height: 1;
-}
-
-.usage-status-premium.good .status-icon-premium {
-  color: #22c55e;
-}
-
-.usage-status-premium.warning .status-icon-premium {
-  color: #f59e0b;
-}
-
-.usage-status-premium.urgent .status-icon-premium {
-  color: #ef4444;
-}
-
-.status-text-premium {
-  font-size: 24rpx;
+.tip-text-premium {
+  flex: 1;
   font-weight: 500;
 }
 
-.usage-status-premium.good .status-text-premium {
-  color: #16a34a;
+.tip-success {
+  background: var(--success-bg);
+  color: var(--success);
 }
 
-.usage-status-premium.warning .status-text-premium {
-  color: #d97706;
+.tip-warning {
+  background: var(--warning-bg);
+  color: var(--warning);
 }
 
-.usage-status-premium.urgent .status-text-premium {
-  color: #dc2626;
+.tip-danger {
+  background: var(--danger-bg);
+  color: var(--danger);
 }
 
-/* ====================
-   详情卡片 - Detail Card
-   ==================== */
-.detail-card-premium {
-  background: #ffffff;
-  border-radius: 20rpx;
-  border: 1px solid #e5e7eb;
-  overflow: hidden;
+/* ==========================================================================
+   详情列表 - 极简行
+   ========================================================================== */
+
+.detail-list-premium {
+  background: var(--surface);
+  border-radius: var(--radius-xl);
+  padding: 0;
+  box-shadow: var(--shadow-sm);
 }
 
 .detail-row-premium {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 24rpx;
+  padding: var(--space-lg);
 }
 
 .detail-label-premium {
-  font-size: 26rpx;
-  color: #6b7280;
-  font-weight: 500;
+  font-size: var(--body-size);
+  color: var(--text-secondary);
 }
 
 .detail-value-premium {
-  font-size: 26rpx;
-  font-weight: 600;
-  color: #111827;
+  font-size: var(--body-size);
+  font-weight: 500;
+  color: var(--text-primary);
 }
 
-.detail-divider-premium {
-  height: 1px;
-  background: #f3f4f6;
-  margin: 0 24rpx;
-}
-
-/* 开关切换 */
-.toggle-switch-premium {
+/* 开关 */
+.switch-premium {
   width: 80rpx;
   height: 44rpx;
-  background: #e5e7eb;
-  border-radius: 22rpx;
+  background: var(--border);
+  border-radius: var(--radius-full);
   position: relative;
-  transition: background 200ms ease;
+  transition: background 0.3s var(--ease-standard);
 }
 
-.toggle-switch-premium.active {
-  background: #334155;
+.switch-premium.on {
+  background: var(--primary);
 }
 
-.toggle-dot-premium {
+.switch-dot-premium {
   position: absolute;
   top: 4rpx;
   left: 4rpx;
   width: 36rpx;
   height: 36rpx;
   background: #ffffff;
-  border-radius: 18rpx;
-  transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s var(--ease-standard);
 }
 
-.toggle-switch-premium.active .toggle-dot-premium {
+.switch-premium.on .switch-dot-premium {
   transform: translateX(36rpx);
 }
 
-/* ====================
-   底部操作按钮 - Bottom Actions
-   ==================== */
-.bottom-actions {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 24rpx;
-  background: linear-gradient(to top, #ffffff 90%, transparent);
-  border-top: 1px solid #f0f0f0;
+/* ==========================================================================
+   操作区域
+   ========================================================================== */
+
+.action-section-premium {
+  padding: var(--space-xl) var(--space-lg);
   display: flex;
   flex-direction: column;
-  gap: 12rpx;
+  gap: var(--space-md);
 }
 
-.btn-upgrade {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12rpx;
-  width: 100%;
-  padding: 28rpx;
-  background: #334155;
-  color: #ffffff;
-  border-radius: 12rpx;
-  font-size: 28rpx;
-  font-weight: 600;
-  border: none;
-  box-shadow: 0 2px 8px rgba(51, 65, 85, 0.15);
-  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
-}
+/* ==========================================================================
+   响应式优化
+   ========================================================================== */
 
-.btn-upgrade:active {
-  transform: translateY(2rpx);
-  box-shadow: 0 1px 4px rgba(51, 65, 85, 0.1);
-}
-
-.btn-icon-upgrade {
-  font-size: 24rpx;
-  font-weight: 300;
-}
-
-.btn-cancel {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12rpx;
-  width: 100%;
-  padding: 28rpx;
-  background: transparent;
-  color: #ef4444;
-  border-radius: 12rpx;
-  font-size: 28rpx;
-  font-weight: 600;
-  border: 2px solid #fecaca;
-  transition: all 200ms ease;
-}
-
-.btn-cancel:active {
-  background: #fef2f2;
-  border-color: #fca5a5;
-}
-
-.btn-icon-cancel {
-  font-size: 24rpx;
-}
-
-/* ====================
-   页面进入动画 - Page Entry
-   ==================== */
-.page-enter {
-  animation: pageEnter 400ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@keyframes pageEnter {
-  from {
-    opacity: 0;
-    transform: translateY(16rpx);
+@media (min-width: 768px) {
+  .subscription-card-premium {
+    padding: var(--space-3xl) var(--space-2xl);
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  
+  .subscription-name-premium {
+    font-size: 48rpx;
+  }
+  
+  .price-value-premium {
+    font-size: 72rpx;
   }
 }
