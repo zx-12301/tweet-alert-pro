@@ -15,12 +15,12 @@
           <text class="page-title">监控任务</text>
           <view class="task-count-badge">{{tasks.length}} 个任务</view>
         </view>
+        <view class="refresh-btn" bindtap="refreshTasks">
+          <text class="refresh-icon">🔄</text>
+          <text class="refresh-text">刷新</text>
+        </view>
       </view>
       <text class="page-subtitle">实时监控您的 Twitter 账号动态</text>
-      <view class="refresh-btn" bindtap="refreshTasks">
-        <text class="refresh-icon">🔄</text>
-        <text class="refresh-text">刷新</text>
-      </view>
     </view>
 
     <!-- 4 格统计卡片 -->
