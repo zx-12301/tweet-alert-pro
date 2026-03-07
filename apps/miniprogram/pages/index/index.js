@@ -1,6 +1,5 @@
 Page({
   data: {
-    currentTab: 0,
     stats: {
       totalTasks: 0,
       activeTasks: 0,
@@ -69,28 +68,7 @@ Page({
     }
   },
 
-  // 切换底部导航
-  switchTab: function (e) {
-    const index = e.currentTarget.dataset.index;
-    this.setData({ currentTab: index });
-    
-    // 页面跳转
-    const pages = [
-      '/pages/index/index',
-      '/pages/tasks/list',
-      '/pages/subscription/subscription',
-      '/pages/settings/settings'
-    ];
-    
-    if (index === 0) {
-      // 当前页，不跳转
-      return;
-    }
-    
-    wx.switchTab({
-      url: pages[index]
-    });
-  },
+
 
   // 跳转函数
   createTask: function () {

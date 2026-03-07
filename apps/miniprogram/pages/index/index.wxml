@@ -2,6 +2,9 @@
   <!-- 主滚动区域 -->
   <scroll-view class="main-scroll" scroll-y="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}">
     
+    <!-- 顶部安全区域（适配刘海屏） -->
+    <view class="top-safe-area"></view>
+    
     <!-- 顶部标签 -->
     <view class="top-badge">
       <view class="badge-dot"></view>
@@ -111,27 +114,7 @@
       </view>
     </view>
     
-    <!-- 底部占位，防止内容被导航栏遮挡 -->
+    <!-- 底部占位，防止内容被 tabBar 遮挡 -->
     <view class="bottom-spacer"></view>
   </scroll-view>
-
-  <!-- 底部导航栏 -->
-  <view class="bottom-nav">
-    <view class="nav-item {{currentTab === 0 ? 'active' : ''}}" bindtap="switchTab" data-index="0">
-      <text class="nav-icon">🏠</text>
-      <text class="nav-label">首页</text>
-    </view>
-    <view class="nav-item {{currentTab === 1 ? 'active' : ''}}" bindtap="switchTab" data-index="1">
-      <text class="nav-icon">📋</text>
-      <text class="nav-label">任务</text>
-    </view>
-    <view class="nav-item {{currentTab === 2 ? 'active' : ''}}" bindtap="switchTab" data-index="2">
-      <text class="nav-icon">💳</text>
-      <text class="nav-label">订阅</text>
-    </view>
-    <view class="nav-item {{currentTab === 3 ? 'active' : ''}}" bindtap="switchTab" data-index="3">
-      <text class="nav-icon">👤</text>
-      <text class="nav-label">设置</text>
-    </view>
-  </view>
 </view>
