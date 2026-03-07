@@ -22,45 +22,59 @@ export class TasksService {
 
   async createTask(userId: string, data: any) {
     try {
-      // 验证必填字段
-      if (!data.twitterHandle || data.twitterHandle.trim() === '') {
-        throw new BadRequestException('Twitter 账号不能为空');
+      const platform = data.platform || 'twitter';
+
+      // 验证平台
+      if (platform === 'weibo') {
+        throw new BadRequestException('微博监控功能暂未开放，目前仅支持 Twitter 监控');
       }
 
-      // 清理 twitter handle
-      const cleanHandle = data.twitterHandle.replace('@', '').trim();
-      
-      // 验证格式
-      if (!/^[a-zA-Z0-9_]+$/.test(cleanHandle)) {
-        throw new BadRequestException('Twitter 账号格式不正确，只能包含字母、数字和下划线');
+      // 验证 Twitter 账号
+      if (platform === 'twitter') {
+        if (!data.twitterHandle || data.twitterHandle.trim() === '') {
+          throw new BadRequestException('Twitter 账号不能为空');
+        }
+
+        // 清理 twitter handle
+        const cleanHandle = data.twitterHandle.replace('@', '').trim();
+        
+        // 验证格式
+        if (!/^[a-zA-Z0-9_]+$/.test(cleanHandle)) {
+          throw new BadRequestException('Twitter 账号格式不正确，只能包含字母、数字和下划线');
+        }
+
+        // 检查是否已存在相同任务
+        const existingTask = await prisma.monitorTask.findFirst({
+          where: {
+            userId,
+            platform,
+            twitterHandle: cleanHandle,
+          },
+        });
+
+        if (existingTask) {
+          throw new BadRequestException(`已存在监控任务 @${cleanHandle}，请勿重复添加`);
+        }
+
+        // 创建任务
+        return await prisma.monitorTask.create({
+          data: {
+            userId,
+            platform,
+            twitterHandle: cleanHandle,
+            weiboHandle: null,
+            keywords: data.keywords && data.keywords.length > 0 ? JSON.stringify(data.keywords) : null,
+            minLikes: data.minLikes,
+            minRetweets: data.minRetweets,
+            notifyChannels: data.notifyChannels ? JSON.stringify(data.notifyChannels) : null,
+            phoneNumbers: data.phoneNumbers && data.phoneNumbers.length > 0 ? JSON.stringify(data.phoneNumbers) : null,
+            webhooks: data.webhooks && data.webhooks.length > 0 ? JSON.stringify(data.webhooks) : null,
+            emails: data.emails && data.emails.length > 0 ? JSON.stringify(data.emails) : null,
+          },
+        });
       }
 
-      // 检查是否已存在相同任务
-      const existingTask = await prisma.monitorTask.findFirst({
-        where: {
-          userId,
-          twitterHandle: cleanHandle,
-        },
-      });
-
-      if (existingTask) {
-        throw new BadRequestException(`已存在监控任务 @${cleanHandle}，请勿重复添加`);
-      }
-
-      // 创建任务
-      return await prisma.monitorTask.create({
-        data: {
-          userId,
-          twitterHandle: cleanHandle,
-          keywords: data.keywords && data.keywords.length > 0 ? JSON.stringify(data.keywords) : null,
-          minLikes: data.minLikes,
-          minRetweets: data.minRetweets,
-          notifyChannels: data.notifyChannels ? JSON.stringify(data.notifyChannels) : null,
-          phoneNumbers: data.phoneNumbers && data.phoneNumbers.length > 0 ? JSON.stringify(data.phoneNumbers) : null,
-          webhooks: data.webhooks && data.webhooks.length > 0 ? JSON.stringify(data.webhooks) : null,
-          emails: data.emails && data.emails.length > 0 ? JSON.stringify(data.emails) : null,
-        },
-      });
+      throw new BadRequestException(`不支持的平台：${platform}`);
     } catch (error: any) {
       console.error('创建任务失败:', error);
       if (error instanceof BadRequestException) {
@@ -100,19 +114,46 @@ export class TasksService {
         throw new NotFoundException('任务不存在');
       }
 
+      const updateData: any = {
+        isActive: data.isActive,
+      };
+
+      // 根据平台更新对应字段
+      if (data.platform === 'twitter' || !data.platform) {
+        if (data.twitterHandle) {
+          const cleanHandle = data.twitterHandle.replace('@', '').trim();
+          if (!/^[a-zA-Z0-9_]+$/.test(cleanHandle)) {
+            throw new BadRequestException('Twitter 账号格式不正确');
+          }
+          updateData.twitterHandle = cleanHandle;
+        }
+        updateData.weiboHandle = null;
+      } else if (data.platform === 'weibo') {
+        throw new BadRequestException('微博监控功能暂未开放');
+      }
+
+      if (data.keywords) {
+        updateData.keywords = data.keywords.length > 0 ? JSON.stringify(data.keywords) : null;
+      }
+      updateData.minLikes = data.minLikes;
+      updateData.minRetweets = data.minRetweets;
+      
+      if (data.notifyChannels) {
+        updateData.notifyChannels = JSON.stringify(data.notifyChannels);
+      }
+      if (data.phoneNumbers) {
+        updateData.phoneNumbers = data.phoneNumbers.length > 0 ? JSON.stringify(data.phoneNumbers) : null;
+      }
+      if (data.webhooks) {
+        updateData.webhooks = data.webhooks.length > 0 ? JSON.stringify(data.webhooks) : null;
+      }
+      if (data.emails) {
+        updateData.emails = data.emails.length > 0 ? JSON.stringify(data.emails) : null;
+      }
+
       return await prisma.monitorTask.update({
         where: { id },
-        data: {
-          twitterHandle: data.twitterHandle?.replace('@', '').trim(),
-          keywords: data.keywords && data.keywords.length > 0 ? JSON.stringify(data.keywords) : null,
-          minLikes: data.minLikes,
-          minRetweets: data.minRetweets,
-          notifyChannels: data.notifyChannels ? JSON.stringify(data.notifyChannels) : null,
-          phoneNumbers: data.phoneNumbers && data.phoneNumbers.length > 0 ? JSON.stringify(data.phoneNumbers) : null,
-          webhooks: data.webhooks && data.webhooks.length > 0 ? JSON.stringify(data.webhooks) : null,
-          emails: data.emails && data.emails.length > 0 ? JSON.stringify(data.emails) : null,
-          isActive: data.isActive,
-        },
+        data: updateData,
       });
     } catch (error: any) {
       console.error('更新任务失败:', error);

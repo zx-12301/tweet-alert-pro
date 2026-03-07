@@ -6,6 +6,26 @@ import Link from 'next/link';
 
 const DEMO_USER_ID = '4c590dec-2c16-44b9-8291-8855cecc824f';
 
+// 推荐监控账号列表
+const RECOMMENDED_ACCOUNTS = {
+  twitter: [
+    { handle: 'elonmusk', name: 'Elon Musk', description: 'Tesla & SpaceX CEO', avatar: '🚀' },
+    { handle: 'sama', name: 'Sam Altman', description: 'OpenAI CEO', avatar: '🤖' },
+    { handle: 'realDonaldTrump', name: 'Donald Trump', description: '45th US President', avatar: '🇺🇸' },
+    { handle: 'BarackObama', name: 'Barack Obama', description: '44th US President', avatar: '📚' },
+    { handle: 'billgates', name: 'Bill Gates', description: 'Microsoft Co-founder', avatar: '💻' },
+    { handle: 'jeffbezos', name: 'Jeff Bezos', description: 'Amazon Founder', avatar: '📦' },
+  ],
+  weibo: [
+    { handle: '谢娜', name: '谢娜', description: '主持人、演员', avatar: '🎤' },
+    { handle: '何炅', name: '何炅', description: '主持人、演员', avatar: '🎬' },
+    { handle: '杨幂', name: '杨幂', description: '演员、歌手', avatar: '🎵' },
+    { handle: '赵丽颖', name: '赵丽颖', description: '演员', avatar: '🌸' },
+    { handle: '胡歌', name: '胡歌', description: '演员', avatar: '🎭' },
+    { handle: '人民日报', name: '人民日报', description: '官方媒体', avatar: '📰' },
+  ],
+};
+
 export default function CreateTaskPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -13,8 +33,12 @@ export default function CreateTaskPage() {
   const [testing, setTesting] = useState<{[key: string]: boolean}>({});
   const [testResults, setTestResults] = useState<{[key: string]: {success: boolean, message: string}}>({});
   const [settings, setSettings] = useState<any>({});
+  const [selectedPlatform, setSelectedPlatform] = useState<'twitter' | 'weibo'>('twitter');
+  const [showRecommendations, setShowRecommendations] = useState(false);
   const [formData, setFormData] = useState({
+    platform: 'twitter',
     twitterHandle: '',
+    weiboHandle: '',
     keywords: '',
     minLikes: '',
     minRetweets: '',
@@ -57,11 +81,35 @@ export default function CreateTaskPage() {
     }
   };
 
+  const handleSelectRecommendation = (handle: string) => {
+    if (selectedPlatform === 'twitter') {
+      setFormData(prev => ({ ...prev, twitterHandle: handle }));
+    } else {
+      setFormData(prev => ({ ...prev, weiboHandle: handle }));
+    }
+    setShowRecommendations(false);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
+      // 验证平台选择
+      if (selectedPlatform === 'weibo') {
+        alert('⚠️ 微博监控功能暂未开放，目前仅支持 Twitter 监控。请稍后关注更新！');
+        setLoading(false);
+        return;
+      }
+
+      // 验证 Twitter 账号
+      const handleToUse = formData.twitterHandle.replace('@', '');
+      if (!handleToUse) {
+        alert('❌ 请输入 Twitter 账号');
+        setLoading(false);
+        return;
+      }
+
       const response = await fetch('http://localhost:3001/api/tasks', {
         method: 'POST',
         headers: { 
@@ -69,7 +117,9 @@ export default function CreateTaskPage() {
           'x-user-id': DEMO_USER_ID,
         },
         body: JSON.stringify({
-          twitterHandle: formData.twitterHandle.replace('@', ''),
+          platform: selectedPlatform,
+          twitterHandle: handleToUse,
+          weiboHandle: formData.weiboHandle,
           keywords: formData.keywords.split(',').filter(k => k.trim()),
           minLikes: formData.minLikes ? parseInt(formData.minLikes) : null,
           minRetweets: formData.minRetweets ? parseInt(formData.minRetweets) : null,
@@ -137,25 +187,126 @@ export default function CreateTaskPage() {
         <p className="text-gray-600 mb-8">配置要监控的 Twitter 账号和通知规则</p>
 
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* 平台选择 */}
+          <div className="bg-white rounded-xl shadow-md p-6">
+            <h2 className="text-xl font-semibold mb-4">选择监控平台</h2>
+            <div className="grid grid-cols-2 gap-4">
+              {/* Twitter 选项 */}
+              <button
+                type="button"
+                onClick={() => setSelectedPlatform('twitter')}
+                className={`p-4 border-2 rounded-xl transition-all ${
+                  selectedPlatform === 'twitter'
+                    ? 'border-blue-500 bg-blue-50'
+                    : 'border-gray-200 hover:border-gray-300'
+                }`}
+              >
+                <div className="text-3xl mb-2">🐦</div>
+                <div className="font-semibold text-gray-900">Twitter</div>
+                <div className="text-xs text-gray-500 mt-1">✅ 已可用</div>
+              </button>
+
+              {/* 微博选项 */}
+              <button
+                type="button"
+                onClick={() => setSelectedPlatform('weibo')}
+                className={`p-4 border-2 rounded-xl transition-all ${
+                  selectedPlatform === 'weibo'
+                    ? 'border-red-500 bg-red-50'
+                    : 'border-gray-200 hover:border-gray-300'
+                }`}
+              >
+                <div className="text-3xl mb-2">🔴</div>
+                <div className="font-semibold text-gray-900">微博</div>
+                <div className="text-xs text-orange-500 mt-1">⏳ 开发中</div>
+              </button>
+            </div>
+
+            {selectedPlatform === 'weibo' && (
+              <div className="mt-4 p-4 bg-orange-50 border border-orange-200 rounded-lg">
+                <p className="text-sm text-orange-800">
+                  ⚠️ <strong>微博监控功能暂未开放</strong>
+                  <br />
+                  由于微博 API 限制，目前仅支持 Twitter 监控。我们正在努力开发微博监控方案，敬请期待！
+                </p>
+              </div>
+            )}
+          </div>
+
           {/* 基本信息 */}
           <div className="bg-white rounded-xl shadow-md p-6">
-            <h2 className="text-xl font-semibold mb-4">基本信息</h2>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold">
+                {selectedPlatform === 'twitter' ? 'Twitter 账号' : '微博账号'}
+              </h2>
+              <button
+                type="button"
+                onClick={() => setShowRecommendations(!showRecommendations)}
+                className="text-sm text-blue-600 hover:text-blue-700 font-medium flex items-center"
+              >
+                📋 推荐账号
+                <svg className={`w-4 h-4 ml-1 transition-transform ${showRecommendations ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+            </div>
+
+            {/* 推荐账号列表 */}
+            {showRecommendations && (
+              <div className="mb-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                <p className="text-sm text-gray-600 mb-3">
+                  💡 点击账号快速选择：
+                </p>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                  {RECOMMENDED_ACCOUNTS[selectedPlatform].map((account) => (
+                    <button
+                      key={account.handle}
+                      type="button"
+                      onClick={() => handleSelectRecommendation(account.handle)}
+                      className="p-3 bg-white border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition-all text-left"
+                    >
+                      <div className="text-xl mb-1">{account.avatar}</div>
+                      <div className="font-medium text-sm text-gray-900">{account.name}</div>
+                      <div className="text-xs text-gray-500 truncate">@{account.handle}</div>
+                      <div className="text-xs text-gray-400 truncate">{account.description}</div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
 
             <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Twitter 账号 <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  value={formData.twitterHandle}
-                  onChange={(e) => setFormData({ ...formData, twitterHandle: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="@elonmusk"
-                  required
-                />
-                <p className="text-xs text-gray-500 mt-1">输入要监控的 Twitter 用户名（包含或不包含 @ 均可）</p>
-              </div>
+              {selectedPlatform === 'twitter' ? (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Twitter 账号 <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.twitterHandle}
+                    onChange={(e) => setFormData({ ...formData, twitterHandle: e.target.value })}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="@elonmusk"
+                    required
+                  />
+                  <p className="text-xs text-gray-500 mt-1">输入要监控的 Twitter 用户名（包含或不包含 @ 均可）</p>
+                </div>
+              ) : (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    微博账号 <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.weiboHandle}
+                    onChange={(e) => setFormData({ ...formData, weiboHandle: e.target.value })}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent bg-gray-100"
+                    placeholder="谢娜"
+                    disabled
+                  />
+                  <p className="text-xs text-orange-600 mt-1">⚠️ 微博监控功能开发中，暂时无法使用</p>
+                </div>
+              )}
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
