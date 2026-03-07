@@ -1,35 +1,16 @@
 Page({
   data: {
-    selectedPlatform: 'twitter',
-    showRecommendations: false,
-    showAdvanced: false,
-    loading: false,
-    
-    // 表单数据
+    platform: 'twitter',
     twitterHandle: '',
     keywords: '',
     minLikes: '',
     minRetweets: '',
-    notifyEmail: false,
+    notifyMail: false,
     notifyWebhook: false,
-    notifyPhone: false,
-    emails: '',
-    webhooks: '',
-    phoneNumbers: '',
-    
-    // 推荐账号（与网页端一致）
-    recommendedAccounts: [
-      { handle: 'elonmusk', name: 'Elon Musk', description: 'Tesla & SpaceX CEO', avatar: '🚀' },
-      { handle: 'sama', name: 'Sam Altman', description: 'OpenAI CEO', avatar: '🤖' },
-      { handle: 'realDonaldTrump', name: 'Donald Trump', description: '45th US President', avatar: '🇺🇸' },
-      { handle: 'BarackObama', name: 'Barack Obama', description: '44th US President', avatar: '📚' },
-      { handle: 'billgates', name: 'Bill Gates', description: 'Microsoft Co-founder', avatar: '💻' },
-      { handle: 'jeffbezos', name: 'Jeff Bezos', description: 'Amazon Founder', avatar: '📦' }
-    ]
+    notifyPhone: false
   },
 
   onLoad: function () {
-    // 加载配置，自动填充
     this.loadSettings();
   },
 
@@ -41,13 +22,13 @@ Page({
       
       if (settings) {
         if (settings.defaultWebhook) {
-          this.setData({ webhooks: settings.defaultWebhook });
+          this.setData({ notifyWebhook: true, webhooks: settings.defaultWebhook });
         }
         if (settings.smtpFrom) {
-          this.setData({ emails: settings.smtpFrom });
+          this.setData({ notifyMail: true, emails: settings.smtpFrom });
         }
         if (settings.twilioPhoneNumber) {
-          this.setData({ phoneNumbers: settings.twilioPhoneNumber });
+          this.setData({ notifyPhone: true, phoneNumbers: settings.twilioPhoneNumber });
         }
       }
     } catch (error) {
@@ -55,7 +36,7 @@ Page({
     }
   },
 
-  // 平台选择
+  // 选择平台
   selectPlatform: function (e) {
     const platform = e.currentTarget.dataset.platform;
     
@@ -68,34 +49,7 @@ Page({
       return;
     }
     
-    this.setData({ selectedPlatform: platform });
-  },
-
-  // 推荐账号
-  toggleRecommendations: function () {
-    this.setData({
-      showRecommendations: !this.data.showRecommendations
-    });
-  },
-
-  selectAccount: function (e) {
-    const handle = e.currentTarget.dataset.handle;
-    this.setData({ twitterHandle: handle });
-    
-    wx.showToast({
-      title: `已选择 @${handle}`,
-      icon: 'success',
-      duration: 1500
-    });
-    
-    this.setData({ showRecommendations: false });
-  },
-
-  // 高级选项
-  toggleAdvanced: function () {
-    this.setData({
-      showAdvanced: !this.data.showAdvanced
-    });
+    this.setData({ platform });
   },
 
   // 表单输入
@@ -115,29 +69,33 @@ Page({
     this.setData({ minRetweets: e.detail.value });
   },
 
-  onEmailsChange: function (e) {
-    this.setData({ emails: e.detail.value });
+  // 切换通知
+  toggleNotify: function (e) {
+    const type = e.currentTarget.dataset.type;
+    
+    if (type === 'mail') {
+      this.setData({ notifyMail: !this.data.notifyMail });
+    } else if (type === 'webhook') {
+      this.setData({ notifyWebhook: !this.data.notifyWebhook });
+    } else if (type === 'phone') {
+      this.setData({ notifyPhone: !this.data.notifyPhone });
+    }
   },
 
-  onWebhooksChange: function (e) {
-    this.setData({ webhooks: e.detail.value });
-  },
-
-  onPhoneNumbersChange: function (e) {
-    this.setData({ phoneNumbers: e.detail.value });
-  },
-
-  // 通知开关
-  toggleEmail: function () {
-    this.setData({ notifyEmail: !this.data.notifyEmail });
-  },
-
-  toggleWebhook: function () {
-    this.setData({ notifyWebhook: !this.data.notifyWebhook });
-  },
-
-  togglePhone: function () {
-    this.setData({ notifyPhone: !this.data.notifyPhone });
+  // 显示推荐账号
+  showRecommendations: function () {
+    wx.showActionSheet({
+      itemList: ['Elon Musk', 'Sam Altman', 'Donald Trump', 'Barack Obama', 'Bill Gates', 'Jeff Bezos'],
+      success: (res) => {
+        const handles = ['elonmusk', 'sama', 'realDonaldTrump', 'BarackObama', 'billgates', 'jeffbezos'];
+        this.setData({ twitterHandle: handles[res.tapIndex] });
+        
+        wx.showToast({
+          title: `已选择 @${handles[res.tapIndex]}`,
+          icon: 'success'
+        });
+      }
+    });
   },
 
   // 跳转
@@ -147,7 +105,7 @@ Page({
     });
   },
 
-  cancel: function () {
+  goBack: function () {
     wx.navigateBack();
   },
 
@@ -163,7 +121,7 @@ Page({
     }
 
     // 验证平台
-    if (this.data.selectedPlatform === 'weibo') {
+    if (this.data.platform === 'weibo') {
       wx.showToast({
         title: '微博监控功能暂未开放',
         icon: 'none'
@@ -171,7 +129,7 @@ Page({
       return;
     }
 
-    this.setData({ loading: true });
+    wx.showLoading({ title: '创建中...', mask: true });
 
     try {
       const app = getApp();
@@ -187,13 +145,13 @@ Page({
         url: '/tasks',
         method: 'POST',
         data: {
-          platform: this.data.selectedPlatform,
+          platform: this.data.platform,
           twitterHandle: handle,
           keywords: keywords,
           minLikes: this.data.minLikes ? parseInt(this.data.minLikes) : null,
           minRetweets: this.data.minRetweets ? parseInt(this.data.minRetweets) : null,
           notifyChannels: {
-            email: this.data.notifyEmail,
+            email: this.data.notifyMail,
             wechat: this.data.notifyWebhook,
             phone: this.data.notifyPhone
           },
@@ -203,6 +161,8 @@ Page({
         }
       });
 
+      wx.hideLoading();
+      
       wx.showToast({
         title: '创建成功',
         icon: 'success',
@@ -213,13 +173,13 @@ Page({
         wx.navigateBack();
       }, 2000);
     } catch (error) {
+      wx.hideLoading();
       console.error('创建失败:', error);
+      
       wx.showToast({
         title: error.message || '创建失败',
         icon: 'none'
       });
-    } finally {
-      this.setData({ loading: false });
     }
   }
 });

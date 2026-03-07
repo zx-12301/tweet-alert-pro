@@ -1,256 +1,188 @@
-<view class="page-container">
-  <!-- 页面头部 -->
-  <view class="page-header card-gradient-blue">
-    <text class="page-title">创建监控任务</text>
-    <text class="page-subtitle">配置要监控的 Twitter 账号和通知规则</text>
-  </view>
+<view class="dark-page">
+  <!-- 背景装饰光晕 -->
+  <view class="bg-glow"></view>
 
-  <!-- 平台选择 -->
-  <view class="section">
-    <text class="section-label">选择监控平台</text>
-    <view class="platform-grid">
-      <view class="platform-card {{selectedPlatform === 'twitter' ? 'selected' : ''}}" bindtap="selectPlatform" data-platform="twitter">
-        <view class="platform-icon-wrapper platform-icon-twitter">
-          <text class="platform-icon">🐦</text>
-        </view>
-        <text class="platform-name">Twitter</text>
-        <view class="platform-badge available">✅ 已可用</view>
+  <!-- 头部（固定） -->
+  <view class="header-sticky">
+    <view class="header-content">
+      <view class="back-btn" bindtap="goBack">
+        <text class="back-icon">←</text>
       </view>
-      
-      <view class="platform-card {{selectedPlatform === 'weibo' ? 'selected' : ''}}" bindtap="selectPlatform" data-platform="weibo">
-        <view class="platform-icon-wrapper platform-icon-weibo">
-          <text class="platform-icon">🔴</text>
-        </view>
-        <text class="platform-name">微博</text>
-        <view class="platform-badge coming">⏳ 开发中</view>
-      </view>
-    </view>
-    
-    <view wx:if="{{selectedPlatform === 'weibo'}}" class="platform-notice card-notice">
-      <text class="notice-icon">⚠️</text>
-      <text class="notice-text">微博监控功能暂未开放，由于微博 API 限制，目前仅支持 Twitter 监控。</text>
-    </view>
-  </view>
-
-  <!-- 推荐账号 -->
-  <view wx:if="{{showRecommendations}}" class="section">
-    <view class="section-header">
-      <text class="section-title">推荐账号</text>
-      <text class="section-action" bindtap="toggleRecommendations">收起 ›</text>
-    </view>
-    
-    <view class="recommendation-grid">
-      <view wx:for="{{recommendedAccounts}}" wx:key="handle" class="recommendation-card" bindtap="selectAccount" data-handle="{{item.handle}}">
-        <view class="recommendation-avatar">{{item.avatar}}</view>
-        <view class="recommendation-info">
-          <text class="recommendation-name">{{item.name}}</text>
-          <text class="recommendation-handle">@{{item.handle}}</text>
-          <text class="recommendation-desc">{{item.description}}</text>
-        </view>
+      <view class="header-info">
+        <text class="header-title">创建监控任务</text>
+        <text class="header-subtitle">配置要监控的账号和通知规则</text>
       </view>
     </view>
   </view>
 
-  <!-- 基本信息 -->
-  <view class="section">
-    <view class="section-header">
-      <text class="section-title">基本信息</text>
-      <text class="section-action" bindtap="toggleRecommendations">
-        {{showRecommendations ? '隐藏' : '推荐账号'}} ›
-      </text>
-    </view>
+  <!-- 主滚动表单 -->
+  <scroll-view class="main-scroll" scroll-y="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}">
     
-    <view class="form-card card">
-      <view class="form-item">
-        <view class="form-label">
-          <text>Twitter 账号</text>
-          <text class="required">*</text>
+    <!-- 顶部占位 -->
+    <view class="top-spacer"></view>
+
+    <!-- 平台选择 -->
+    <view class="form-section">
+      <text class="section-title">选择监控平台</text>
+      
+      <view class="platform-grid">
+        <!-- Twitter 卡片 -->
+        <view class="platform-card {{platform === 'twitter' ? 'selected' : ''}}" bindtap="selectPlatform" data-platform="twitter">
+          <view class="platform-icon-wrapper icon-twitter">
+            <text class="platform-icon">𝕏</text>
+          </view>
+          <text class="platform-name">Twitter</text>
+          <view class="platform-badge {{platform === 'twitter' ? 'active' : ''}}">
+            <text class="badge-icon">✓</text>
+            <text>已可用</text>
+          </view>
         </view>
-        <view class="input-wrapper">
-          <input 
-            class="form-input" 
-            value="{{twitterHandle}}" 
-            bindinput="onHandleChange" 
-            placeholder="@elonmusk"
-            placeholder-class="input-placeholder"
-          />
+
+        <!-- 微博卡片 -->
+        <view class="platform-card {{platform === 'weibo' ? 'selected' : ''}}" bindtap="selectPlatform" data-platform="weibo">
+          <view class="platform-icon-wrapper icon-weibo">
+            <text class="platform-icon">🔴</text>
+          </view>
+          <text class="platform-name">微博</text>
+          <view class="platform-badge warning">
+            <text class="badge-icon">⏳</text>
+            <text>开发中</text>
+          </view>
         </view>
-        <text class="form-tip">输入要监控的 Twitter 用户名（包含或不包含 @ 均可）</text>
       </view>
-      
-      <view class="divider"></view>
-      
-      <view class="form-item">
-        <view class="form-label">
-          <text>关键词过滤</text>
-          <text class="optional">可选</text>
-        </view>
-        <view class="input-wrapper">
-          <input 
-            class="form-input" 
-            value="{{keywords}}" 
-            bindinput="onKeywordsChange" 
-            placeholder="AI, Tesla, SpaceX"
-            placeholder-class="input-placeholder"
-          />
-        </view>
-        <text class="form-tip">用逗号分隔多个关键词，留空则监控所有推文</text>
+    </view>
+
+    <!-- 基本信息 -->
+    <view class="form-section">
+      <view class="section-header">
+        <text class="section-title">基本信息</text>
+        <text class="section-link" bindtap="showRecommendations">推荐账号 ›</text>
       </view>
-      
-      <view class="divider"></view>
-      
-      <view class="form-row">
-        <view class="form-item half">
+
+      <view class="info-card">
+        <!-- Twitter 账号输入 -->
+        <view class="form-item">
           <view class="form-label">
-            <text>最小点赞数</text>
-            <text class="optional">可选</text>
+            <text>Twitter 账号</text>
+            <text class="required">*</text>
           </view>
           <view class="input-wrapper">
-            <input 
-              class="form-input" 
-              type="number"
-              value="{{minLikes}}" 
-              bindinput="onMinLikesChange" 
-              placeholder="1000"
-              placeholder-class="input-placeholder"
-            />
+            <input class="form-input" value="{{twitterHandle}}" bindinput="onHandleChange" placeholder="@elonmusk" />
           </view>
-          <text class="form-tip">只通知点赞数达到此值的推文</text>
+          <view class="input-tip">
+            <text class="tip-icon">ℹ️</text>
+            <text>输入要监控的 Twitter 用户名（包含或不包含 @ 均可）</text>
+          </view>
         </view>
-        
-        <view class="form-item half">
+
+        <view class="form-divider"></view>
+
+        <!-- 关键词过滤 -->
+        <view class="form-item">
           <view class="form-label">
-            <text>最小转发数</text>
-            <text class="optional">可选</text>
+            <text>关键词过滤</text>
+            <view class="optional-badge">可选</view>
           </view>
-          <view class="input-wrapper">
-            <input 
-              class="form-input" 
-              type="number"
-              value="{{minRetweets}}" 
-              bindinput="onMinRetweetsChange" 
-              placeholder="100"
-              placeholder-class="input-placeholder"
-            />
+          <input class="form-input" value="{{keywords}}" bindinput="onKeywordsChange" placeholder="AI, Tesla, SpaceX" />
+          <view class="input-tip">
+            <text>用逗号分隔多个关键词，留空则监控所有推文</text>
           </view>
-          <text class="form-tip">只通知转发数达到此值的推文</text>
         </view>
-      </view>
-    </view>
-  </view>
 
-  <!-- 通知设置 -->
-  <view class="section">
-    <view class="section-header">
-      <text class="section-title">通知设置</text>
-      <text class="section-action" bindtap="toggleAdvanced">
-        {{showAdvanced ? '收起' : '展开'}}高级选项 ›
-      </text>
-    </view>
-    
-    <view class="notification-cards">
-      <!-- 邮件通知 -->
-      <view class="notification-card card" bindtap="toggleEmail">
-        <view class="notification-header">
-          <view class="notification-left">
-            <view class="checkbox {{notifyEmail ? 'checked' : ''}}">
-              <text wx:if="{{notifyEmail}}" class="checkmark">✓</text>
-            </view>
-            <view class="notification-info">
-              <text class="notification-title">邮件通知</text>
-              <text class="notification-desc">发送邮件到指定邮箱</text>
-            </view>
-          </view>
-          <text class="notification-require">需要配置 SMTP</text>
-        </view>
-        
-        <view wx:if="{{notifyEmail}}" class="notification-content">
-          <view class="input-wrapper">
-            <input 
-              class="form-input" 
-              type="email"
-              value="{{emails}}" 
-              bindinput="onEmailsChange" 
-              placeholder="user@example.com（多个邮箱用逗号分隔）"
-              placeholder-class="input-placeholder"
-            />
-          </view>
-        </view>
-      </view>
-      
-      <!-- Webhook 通知 -->
-      <view class="notification-card card" bindtap="toggleWebhook">
-        <view class="notification-header">
-          <view class="notification-left">
-            <view class="checkbox {{notifyWebhook ? 'checked' : ''}}">
-              <text wx:if="{{notifyWebhook}}" class="checkmark">✓</text>
-            </view>
-            <view class="notification-info">
-              <text class="notification-title">微信/钉钉/飞书通知</text>
-              <text class="notification-desc">发送消息到协作平台</text>
-            </view>
-          </view>
-          <text class="notification-require">需要配置 Webhook</text>
-        </view>
-        
-        <view wx:if="{{notifyWebhook}}" class="notification-content">
-          <view class="input-wrapper">
-            <input 
-              class="form-input" 
-              type="url"
-              value="{{webhooks}}" 
-              bindinput="onWebhooksChange" 
-              placeholder="https://oapi.dingtalk.com/robot/send?access_token=xxx"
-              placeholder-class="input-placeholder"
-            />
-          </view>
-        </view>
-      </view>
-      
-      <!-- 语音电话 -->
-      <view class="notification-card card" bindtap="togglePhone">
-        <view class="notification-header">
-          <view class="notification-left">
-            <view class="checkbox {{notifyPhone ? 'checked' : ''}}">
-              <text wx:if="{{notifyPhone}}" class="checkmark">✓</text>
-            </view>
-            <view class="notification-info">
-              <text class="notification-title">语音电话通知</text>
-              <text class="notification-desc">接到自动语音电话通知</text>
-            </view>
-          </view>
-          <text class="notification-require">需要配置 Twilio</text>
-        </view>
-        
-        <view wx:if="{{notifyPhone}}" class="notification-content">
-          <view class="input-wrapper">
-            <input 
-              class="form-input" 
-              type="tel"
-              value="{{phoneNumbers}}" 
-              bindinput="onPhoneNumbersChange" 
-              placeholder="+8613800138000（多个号码用逗号分隔）"
-              placeholder-class="input-placeholder"
-            />
-          </view>
-        </view>
-      </view>
-    </view>
-    
-    <!-- 配置提示 -->
-    <view class="config-notice card-notice">
-      <text class="notice-icon">💡</text>
-      <text class="notice-text">还没有配置？前往</text>
-      <text class="notice-link" bindtap="goToSettings">功能配置</text>
-      <text class="notice-text">页面设置</text>
-    </view>
-  </view>
+        <view class="form-divider"></view>
 
-  <!-- 提交按钮 -->
-  <view class="action-section safe-area-bottom">
-    <button class="action-btn btn-primary" bindtap="submitTask" disabled="{{loading}}">
-      {{loading ? '创建中...' : '创建监控任务'}}
-    </button>
-    <button class="action-btn btn-secondary" bindtap="cancel">取消</button>
+        <!-- 最小点赞/转发 -->
+        <view class="form-row">
+          <view class="form-item half">
+            <view class="form-label">
+              <text>最小点赞数</text>
+              <view class="optional-badge">可选</view>
+            </view>
+            <input class="form-input" type="number" value="{{minLikes}}" bindinput="onMinLikesChange" placeholder="1000" />
+            <view class="input-tip">
+              <text>只通知点赞数达到此值的推文</text>
+            </view>
+          </view>
+
+          <view class="form-item half">
+            <view class="form-label">
+              <text>最小转发数</text>
+              <view class="optional-badge">可选</view>
+            </view>
+            <input class="form-input" type="number" value="{{minRetweets}}" bindinput="onMinRetweetsChange" placeholder="100" />
+            <view class="input-tip">
+              <text>只通知转发数达到此值的推文</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 通知设置 -->
+    <view class="form-section">
+      <view class="section-header">
+        <text class="section-title">通知设置</text>
+        <text class="section-link">展开高级选项 ›</text>
+      </view>
+
+      <view class="notify-options">
+        <!-- 邮件通知 -->
+        <view class="notify-option {{notifyMail ? 'selected' : ''}}" bindtap="toggleNotify" data-type="mail">
+          <view class="notify-checkbox {{notifyMail ? 'checked' : ''}}">
+            <text wx:if="{{notifyMail}}" class="checkmark">✓</text>
+          </view>
+          <view class="notify-content">
+            <text class="notify-title">邮件通知</text>
+            <text class="notify-desc">发送邮件到指定邮箱</text>
+          </view>
+          <view class="notify-config">需要配置 SMTP</view>
+        </view>
+
+        <!-- 微信/钉钉/飞书通知 -->
+        <view class="notify-option {{notifyWebhook ? 'selected' : ''}}" bindtap="toggleNotify" data-type="webhook">
+          <view class="notify-checkbox {{notifyWebhook ? 'checked' : ''}}">
+            <text wx:if="{{notifyWebhook}}" class="checkmark">✓</text>
+          </view>
+          <view class="notify-content">
+            <text class="notify-title">微信/钉钉/飞书通知</text>
+            <text class="notify-desc">发送消息到协作平台</text>
+          </view>
+          <view class="notify-config">需要配置 Webhook</view>
+        </view>
+
+        <!-- 语音电话通知 -->
+        <view class="notify-option {{notifyPhone ? 'selected' : ''}}" bindtap="toggleNotify" data-type="phone">
+          <view class="notify-checkbox {{notifyPhone ? 'checked' : ''}}">
+            <text wx:if="{{notifyPhone}}" class="checkmark">✓</text>
+          </view>
+          <view class="notify-content">
+            <text class="notify-title">语音电话通知</text>
+            <text class="notify-desc">接到自动语音电话通知</text>
+          </view>
+          <view class="notify-config">需要配置 Twilio</view>
+        </view>
+      </view>
+
+      <!-- 提示框 -->
+      <view class="alert-box">
+        <text class="alert-icon">💡</text>
+        <text class="alert-text">还没有配置？前往 </text>
+        <text class="alert-link" bindtap="goToSettings">功能配置</text>
+        <text class="alert-text"> 页面设置 Twitter API、Twilio、邮件服务等</text>
+      </view>
+    </view>
+
+    <!-- 底部占位 -->
+    <view class="bottom-spacer-large"></view>
+  </scroll-view>
+
+  <!-- 底部操作栏（固定） -->
+  <view class="bottom-action-bar">
+    <view class="action-btn action-btn-primary" bindtap="submitTask">
+      <text>创建监控任务</text>
+    </view>
+    <view class="action-btn action-btn-secondary" bindtap="goBack">
+      <text>取消</text>
+    </view>
   </view>
 </view>
