@@ -66,16 +66,18 @@
             <text class="recommendations-title">推荐账号</text>
             <text class="recommendations-close" bindtap="hideRecommendations">✕</text>
           </view>
-          <view class="recommendations-grid">
-            <view wx:for="{{recommendedAccounts}}" wx:key="handle" class="recommendation-item" bindtap="selectRecommendation" data-handle="{{item.handle}}">
-              <view class="rec-avatar">{{item.avatar}}</view>
-              <view class="rec-info">
-                <text class="rec-name">{{item.name}}</text>
-                <text class="rec-handle">@{{item.handle}}</text>
-                <text class="rec-desc">{{item.description}}</text>
+          <scroll-view class="recommendations-scroll" scroll-y="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}">
+            <view class="recommendations-grid">
+              <view wx:for="{{recommendedAccounts}}" wx:key="handle" class="recommendation-item" bindtap="selectRecommendation" data-handle="{{item.handle}}">
+                <view class="rec-avatar">{{item.avatar}}</view>
+                <view class="rec-info">
+                  <text class="rec-name">{{item.name}}</text>
+                  <text class="rec-handle">@{{item.handle}}</text>
+                  <text class="rec-desc">{{item.description}}</text>
+                </view>
               </view>
             </view>
-          </view>
+          </scroll-view>
         </view>
       </view>
 
