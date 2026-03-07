@@ -105,29 +105,22 @@
     <view wx:else class="task-list-section">
       <view wx:for="{{filteredTasks}}" wx:key="id" class="task-card" bindtap="viewTaskDetail" data-id="{{item.id}}">
         <view class="task-card-header">
-          <view class="task-left">
-            <view class="task-avatar">@{{item.twitterHandle}}</view>
-            <view class="task-info">
-              <text class="task-handle">@{{item.twitterHandle}}</text>
-              <text class="task-meta">ID: {{item.id.slice(-6)}}</text>
-            </view>
+          <view class="task-avatar">@{{item.twitterHandle}}</view>
+          <view class="task-info">
+            <text class="task-handle">@{{item.twitterHandle}}</text>
+            <text class="task-meta">ID: {{item.id.slice(-6)}}</text>
           </view>
-          <view class="task-status {{item.isActive ? 'active' : 'inactive'}}">
+          <view class="task-status {{item.isActive ? 'active' : ''}}">
             <view class="status-dot"></view>
             <text class="status-text">{{item.isActive ? '运行中' : '已暂停'}}</text>
           </view>
         </view>
         
-        <view wx:if="{{item.keywords}}" class="task-keywords">
-          <text wx:for="{{JSON.parse(item.keywords)}}" wx:key="*this" wx:for-item="keyword" class="keyword-tag">{{keyword}}</text>
-        </view>
-        
         <view class="task-card-footer">
           <view class="footer-stat">
-            <text class="footer-stat-icon">📬</text>
+            <text class="footer-stat-icon">👍</text>
             <text class="footer-stat-value">{{item.totalNotifications || 0}}</text>
           </view>
-          <view class="footer-divider"></view>
           <view class="footer-stat">
             <text class="footer-stat-icon">🕐</text>
             <text class="footer-stat-value">{{item.lastCheckedAt ? '刚刚' : '-'}}</text>
