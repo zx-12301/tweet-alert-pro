@@ -1,225 +1,260 @@
-<view class="page-container">
-  <!-- 页面头部 -->
-  <view class="page-header card-gradient-blue">
-    <text class="page-title">功能配置</text>
-    <text class="page-subtitle">配置第三方服务和通知渠道</text>
-  </view>
+<view class="dark-page">
+  <!-- 背景装饰光晕 -->
+  <view class="bg-glow"></view>
 
-  <!-- 配置说明 -->
-  <view class="config-notice card">
-    <view class="notice-content">
-      <text class="notice-icon">💡</text>
-      <view class="notice-text-wrapper">
-        <text class="notice-title">配置指南</text>
-        <text class="notice-desc">详细配置步骤请查看配置清单文档或访问 GitHub 仓库</text>
+  <!-- 头部（固定） -->
+  <view class="header-sticky">
+    <view class="header-content">
+      <view class="back-btn" bindtap="goBack">
+        <text class="back-icon">←</text>
+      </view>
+      <view class="header-info">
+        <text class="header-title">功能配置</text>
+        <text class="header-subtitle">配置第三方服务和通知渠道</text>
       </view>
     </view>
   </view>
 
-  <!-- 选项卡 -->
-  <view class="tabs-container">
-    <scroll-view class="tabs-scroll" scroll-x="{{true}}" enable-flex="{{true}}">
-      <view class="tabs-wrapper">
-        <view wx:for="{{tabs}}" wx:key="id" 
-              class="tab-item {{activeTab === item.id ? 'active' : ''}}" 
-              bindtap="switchTab" 
-              data-id="{{item.id}}">
-          <text class="tab-icon">{{item.icon}}</text>
-          <text class="tab-name">{{item.name}}</text>
-          <view wx:if="{{item.required}}" class="tab-badge"></view>
+  <!-- 主滚动内容 -->
+  <scroll-view class="main-scroll" scroll-y="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}" bounces="{{false}}">
+    
+    <!-- 顶部占位 -->
+    <view class="top-spacer"></view>
+
+    <!-- 全局提示框 -->
+    <view class="guide-alert">
+      <view class="alert-content">
+        <text class="alert-icon">💡</text>
+        <view class="alert-text-wrapper">
+          <text class="alert-title">配置指南</text>
+          <text class="alert-desc">详细配置步骤请查看 
+            <text class="alert-link" bindtap="viewDocs">配置清单文档</text> 
+            或访问 
+            <text class="alert-link" bindtap="viewGithub">GitHub 仓库</text>
+          </text>
         </view>
       </view>
-    </scroll-view>
-  </view>
-
-  <!-- Twitter API 配置 -->
-  <view wx:if="{{activeTab === 'twitter'}}" class="tab-content animate-fade-in">
-    <view class="config-header card-gradient-twitter">
-      <text class="config-title">🐦 Twitter API 配置</text>
-      <text class="config-desc">在 Twitter Developer Portal 申请 API 密钥</text>
-      <view class="config-badge required">必须配置</view>
     </view>
-    
-    <view class="config-form card">
-      <view class="form-row">
-        <view class="form-item half">
-          <view class="form-label">
+
+    <!-- Tab 导航 -->
+    <view class="tab-navigation">
+      <view class="tab-item {{activeTab === 'twitter' ? 'active' : ''}}" bindtap="switchTab" data-tab="twitter">
+        <view class="tab-icon-wrapper {{activeTab === 'twitter' ? 'active' : ''}}">
+          <text class="tab-icon">𝕏</text>
+        </view>
+        <text class="tab-label">Twitter</text>
+        <view class="required-dot"></view>
+      </view>
+      
+      <view class="tab-item {{activeTab === 'twilio' ? 'active' : ''}}" bindtap="switchTab" data-tab="twilio">
+        <view class="tab-icon-wrapper {{activeTab === 'twilio' ? 'active' : ''}}">
+          <text class="tab-icon">📞</text>
+        </view>
+        <text class="tab-label">语音电话</text>
+        <view class="required-dot"></view>
+      </view>
+      
+      <view class="tab-item {{activeTab === 'email' ? 'active' : ''}}" bindtap="switchTab" data-tab="email">
+        <view class="tab-icon-wrapper {{activeTab === 'email' ? 'active' : ''}}">
+          <text class="tab-icon">📧</text>
+        </view>
+        <text class="tab-label">邮件服务</text>
+        <view class="required-dot"></view>
+      </view>
+      
+      <view class="tab-item {{activeTab === 'webhook' ? 'active' : ''}}" bindtap="switchTab" data-tab="webhook">
+        <view class="tab-icon-wrapper {{activeTab === 'webhook' ? 'active' : ''}}">
+          <text class="tab-icon">💬</text>
+        </view>
+        <text class="tab-label">消息通知</text>
+      </view>
+    </view>
+
+    <!-- Twitter 配置 -->
+    <view wx:if="{{activeTab === 'twitter'}}" class="config-panel animate-show">
+      <view class="config-header header-twitter">
+        <view class="header-icon-wrapper icon-twitter">
+          <text>𝕏</text>
+        </view>
+        <view class="header-info-wrapper">
+          <text class="config-title">Twitter API 配置</text>
+          <text class="config-desc">在 Developer Portal 申请 API 密钥</text>
+          <view class="config-badges">
+            <view class="badge badge-required">必须配置</view>
+            <text class="badge-desc">用于监控 Twitter 用户推文</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="config-form">
+        <view class="form-input-group">
+          <view class="input-label">
             <text>API Key</text>
             <text class="required">*</text>
           </view>
           <input class="form-input" type="text" value="{{settings.twitterApiKey}}" bindinput="onInput" data-field="twitterApiKey" placeholder="请输入 API Key" />
         </view>
-        
-        <view class="form-item half">
-          <view class="form-label">
+
+        <view class="form-input-group">
+          <view class="input-label">
             <text>API Secret</text>
             <text class="required">*</text>
           </view>
           <input class="form-input" type="password" value="{{settings.twitterApiSecret}}" bindinput="onInput" data-field="twitterApiSecret" placeholder="请输入 API Secret" />
         </view>
-      </view>
-      
-      <view class="divider"></view>
-      
-      <view class="form-row">
-        <view class="form-item half">
-          <view class="form-label">
+
+        <view class="form-input-group">
+          <view class="input-label">
             <text>Access Token</text>
             <text class="required">*</text>
           </view>
           <input class="form-input" type="password" value="{{settings.twitterAccessToken}}" bindinput="onInput" data-field="twitterAccessToken" placeholder="请输入 Access Token" />
         </view>
-        
-        <view class="form-item half">
-          <view class="form-label">
+
+        <view class="form-input-group">
+          <view class="input-label">
             <text>Access Token Secret</text>
             <text class="required">*</text>
           </view>
           <input class="form-input" type="password" value="{{settings.twitterAccessSecret}}" bindinput="onInput" data-field="twitterAccessSecret" placeholder="请输入 Access Token Secret" />
         </view>
-      </view>
-      
-      <view class="form-actions">
-        <button class="action-btn btn-test" bindtap="testConnection" data-type="twitter">
-          {{testing.twitter ? '测试中...' : '🔍 测试连接'}}
-        </button>
-      </view>
-      
-      <view wx:if="{{testResults.twitter}}" class="test-result {{testResults.twitter.success ? 'success' : 'error'}}">
-        <text class="result-icon">{{testResults.twitter.success ? '✅' : '❌'}}</text>
-        <text class="result-text">{{testResults.twitter.message}}</text>
-      </view>
-      
-      <view class="config-tip">
-        <text class="tip-icon">⚠️</text>
-        <text class="tip-text">注意：需要申请 Twitter API v2 的读取权限才能监控用户推文</text>
-      </view>
-    </view>
-  </view>
 
-  <!-- Twilio 配置 -->
-  <view wx:if="{{activeTab === 'twilio'}}" class="tab-content animate-fade-in">
-    <view class="config-header card-gradient-twilio">
-      <text class="config-title">📞 Twilio 语音电话配置</text>
-      <text class="config-desc">在 Twilio Console 获取账户信息</text>
-      <view class="config-badge required">必须配置</view>
+        <view class="form-actions">
+          <view class="test-btn" bindtap="testConnection" data-type="twitter">
+            <text class="test-btn-icon">▶</text>
+            <text>测试连接</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="warning-box">
+        <text class="warning-icon">⚠️</text>
+        <text class="warning-text">注意：需要申请 Twitter API v2 的读取权限才能监控用户推文</text>
+      </view>
     </view>
-    
-    <view class="config-form card">
-      <view class="form-item">
-        <view class="form-label">
-          <text>Account SID</text>
-          <text class="required">*</text>
+
+    <!-- Twilio 配置 -->
+    <view wx:if="{{activeTab === 'twilio'}}" class="config-panel animate-show">
+      <view class="config-header header-twilio">
+        <view class="header-icon-wrapper icon-twilio">
+          <text>📞</text>
         </view>
-        <input class="form-input" type="text" value="{{settings.twilioAccountSid}}" bindinput="onInput" data-field="twilioAccountSid" placeholder="ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" />
-      </view>
-      
-      <view class="divider"></view>
-      
-      <view class="form-item">
-        <view class="form-label">
-          <text>Auth Token</text>
-          <text class="required">*</text>
+        <view class="header-info-wrapper">
+          <text class="config-title">Twilio 语音电话配置</text>
+          <text class="config-desc">在 Twilio Console 获取账户信息</text>
+          <view class="config-badges">
+            <view class="badge badge-required">必须配置</view>
+          </view>
         </view>
-        <input class="form-input" type="password" value="{{settings.twilioAuthToken}}" bindinput="onInput" data-field="twilioAuthToken" placeholder="请输入 Auth Token" />
       </view>
-      
-      <view class="divider"></view>
-      
-      <view class="form-item">
-        <view class="form-label">
-          <text>电话号码</text>
-          <text class="optional">可选</text>
+
+      <view class="config-form">
+        <view class="form-input-group">
+          <view class="input-label">
+            <text>Account SID</text>
+            <text class="required">*</text>
+          </view>
+          <input class="form-input" type="text" value="{{settings.twilioAccountSid}}" bindinput="onInput" data-field="twilioAccountSid" placeholder="ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" />
         </view>
-        <input class="form-input" type="tel" value="{{settings.twilioPhoneNumber}}" bindinput="onInput" data-field="twilioPhoneNumber" placeholder="+1234567890" />
-        <text class="form-tip">用于外呼的 Twilio 号码</text>
+
+        <view class="form-input-group">
+          <view class="input-label">
+            <text>Auth Token</text>
+            <text class="required">*</text>
+          </view>
+          <input class="form-input" type="password" value="{{settings.twilioAuthToken}}" bindinput="onInput" data-field="twilioAuthToken" placeholder="请输入 Auth Token" />
+        </view>
+
+        <view class="form-input-group">
+          <view class="input-label">
+            <text>电话号码</text>
+          </view>
+          <input class="form-input" type="tel" value="{{settings.twilioPhoneNumber}}" bindinput="onInput" data-field="twilioPhoneNumber" placeholder="+1234567890" />
+          <text class="input-helper">用于外呼的 Twilio 号码</text>
+        </view>
+
+        <view class="form-actions">
+          <view class="test-btn" bindtap="testConnection" data-type="twilio">
+            <text class="test-btn-icon">▶</text>
+            <text>测试电话</text>
+          </view>
+        </view>
       </view>
-      
-      <view class="form-actions">
-        <button class="action-btn btn-test" bindtap="testConnection" data-type="twilio">
-          {{testing.twilio ? '测试中...' : '📞 测试电话'}}
-        </button>
-      </view>
-      
-      <view wx:if="{{testResults.twilio}}" class="test-result {{testResults.twilio.success ? 'success' : 'error'}}">
-        <text class="result-icon">{{testResults.twilio.success ? '✅' : '❌'}}</text>
-        <text class="result-text">{{testResults.twilio.message}}</text>
-      </view>
-      
-      <view class="config-tip tip-green">
+
+      <view class="tip-box tip-success">
         <text class="tip-icon">💡</text>
         <text class="tip-text">提示：Twilio 新账户默认有$15 试用额度，可以发送测试短信和拨打验证过的号码</text>
       </view>
     </view>
-  </view>
 
-  <!-- 邮件服务配置 -->
-  <view wx:if="{{activeTab === 'email'}}" class="tab-content animate-fade-in">
-    <view class="config-header card-gradient-email">
-      <text class="config-title">📧 SMTP 邮件服务配置</text>
-      <text class="config-desc">推荐使用 SendGrid 或阿里云邮件推送</text>
-      <view class="config-badge required">必须配置</view>
-    </view>
-    
-    <view class="config-form card">
-      <view class="form-row">
-        <view class="form-item half">
-          <view class="form-label">
-            <text>SMTP 服务器</text>
+    <!-- 邮件配置 -->
+    <view wx:if="{{activeTab === 'email'}}" class="config-panel animate-show">
+      <view class="config-header header-email">
+        <view class="header-icon-wrapper icon-email">
+          <text>📧</text>
+        </view>
+        <view class="header-info-wrapper">
+          <text class="config-title">SMTP 邮件服务配置</text>
+          <text class="config-desc">推荐使用 SendGrid 或阿里云邮件推送</text>
+          <view class="config-badges">
+            <view class="badge badge-required">必须配置</view>
           </view>
-          <input class="form-input" type="text" value="{{settings.smtpHost}}" bindinput="onInput" data-field="smtpHost" placeholder="smtp.example.com" />
         </view>
-        
-        <view class="form-item half">
-          <view class="form-label">
-            <text>端口</text>
+      </view>
+
+      <view class="config-form">
+        <view class="form-row">
+          <view class="form-input-group half">
+            <view class="input-label">
+              <text>SMTP 服务器</text>
+            </view>
+            <input class="form-input" type="text" value="{{settings.smtpHost}}" bindinput="onInput" data-field="smtpHost" placeholder="smtp.example.com" />
           </view>
-          <picker class="form-picker" mode="selector" range="{{smtpPorts}}" value="{{smtpPortIndex}}" bindchange="onSmtpPortChange">
-            <view class="form-input form-picker-value">{{smtpPorts[smtpPortIndex]}}</view>
-          </picker>
+
+          <view class="form-input-group half">
+            <view class="input-label">
+              <text>端口</text>
+            </view>
+            <picker class="form-picker" mode="selector" range="{{smtpPorts}}" value="{{smtpPortIndex}}" bindchange="onSmtpPortChange">
+              <view class="form-input form-picker-value">{{smtpPorts[smtpPortIndex]}}</view>
+            </picker>
+          </view>
+        </view>
+
+        <view class="form-input-group">
+          <view class="input-label">
+            <text>用户名</text>
+          </view>
+          <input class="form-input" type="text" value="{{settings.smtpUser}}" bindinput="onInput" data-field="smtpUser" placeholder="username@example.com" />
+        </view>
+
+        <view class="form-input-group">
+          <view class="input-label">
+            <text>密码 / 授权码</text>
+          </view>
+          <input class="form-input" type="password" value="{{settings.smtpPassword}}" bindinput="onInput" data-field="smtpPassword" placeholder="请输入密码或授权码" />
+        </view>
+
+        <view class="form-input-group">
+          <view class="input-label">
+            <text>发件人邮箱</text>
+          </view>
+          <input class="form-input" type="email" value="{{settings.smtpFrom}}" bindinput="onInput" data-field="smtpFrom" placeholder="noreply@example.com" />
+        </view>
+
+        <view class="form-actions">
+          <view class="test-btn" bindtap="testConnection" data-type="email">
+            <text class="test-btn-icon">▶</text>
+            <text>测试邮件</text>
+          </view>
         </view>
       </view>
-      
-      <view class="divider"></view>
-      
-      <view class="form-item">
-        <view class="form-label">
-          <text>用户名</text>
+
+      <view class="tip-box tip-amber">
+        <view class="tip-header">
+          <text class="tip-icon">ℹ️</text>
+          <text class="tip-title">常用邮箱 SMTP 配置</text>
         </view>
-        <input class="form-input" type="text" value="{{settings.smtpUser}}" bindinput="onInput" data-field="smtpUser" placeholder="username@example.com" />
-      </view>
-      
-      <view class="divider"></view>
-      
-      <view class="form-item">
-        <view class="form-label">
-          <text>密码 / 授权码</text>
-        </view>
-        <input class="form-input" type="password" value="{{settings.smtpPassword}}" bindinput="onInput" data-field="smtpPassword" placeholder="请输入密码或授权码" />
-      </view>
-      
-      <view class="divider"></view>
-      
-      <view class="form-item">
-        <view class="form-label">
-          <text>发件人邮箱</text>
-        </view>
-        <input class="form-input" type="email" value="{{settings.smtpFrom}}" bindinput="onInput" data-field="smtpFrom" placeholder="noreply@example.com" />
-      </view>
-      
-      <view class="form-actions">
-        <button class="action-btn btn-test" bindtap="testConnection" data-type="email">
-          {{testing.email ? '测试中...' : '📧 测试邮件'}}
-        </button>
-      </view>
-      
-      <view wx:if="{{testResults.email}}" class="test-result {{testResults.email.success ? 'success' : 'error'}}">
-        <text class="result-icon">{{testResults.email.success ? '✅' : '❌'}}</text>
-        <text class="result-text">{{testResults.email.message}}</text>
-      </view>
-      
-      <view class="config-tip">
-        <text class="tip-title">常用邮箱 SMTP 配置</text>
         <view class="tip-list">
           <text class="tip-item">• Gmail: smtp.gmail.com:587</text>
           <text class="tip-item">• 163 邮箱：smtp.163.com:587</text>
@@ -227,67 +262,74 @@
         </view>
       </view>
     </view>
-  </view>
 
-  <!-- Webhook 配置 -->
-  <view wx:if="{{activeTab === 'webhook'}}" class="tab-content animate-fade-in">
-    <view class="config-header card-gradient-webhook">
-      <text class="config-title">💬 消息通知配置</text>
-      <text class="config-desc">配置默认的 Webhook 地址，用于发送通知到飞书、钉钉、企业微信等平台</text>
-      <view class="config-badge optional">可选配置</view>
-    </view>
-    
-    <view class="config-form card">
-      <view class="form-item">
-        <view class="form-label">
-          <text>默认 Webhook URL</text>
+    <!-- Webhook 配置 -->
+    <view wx:if="{{activeTab === 'webhook'}}" class="config-panel animate-show">
+      <view class="config-header header-webhook">
+        <view class="header-icon-wrapper icon-webhook">
+          <text>💬</text>
         </view>
-        <input class="form-input" type="url" value="{{settings.defaultWebhook}}" bindinput="onInput" data-field="defaultWebhook" placeholder="https://open.feishu.cn/open-apis/bot/v2/hook/xxx" />
-        <text class="form-tip">此地址将作为创建任务时的默认 Webhook 选项</text>
-      </view>
-      
-      <view class="form-actions">
-        <button class="action-btn btn-test" bindtap="testConnection" data-type="webhook">
-          {{testing.webhook ? '测试中...' : '💬 测试 Webhook'}}
-        </button>
-      </view>
-      
-      <view wx:if="{{testResults.webhook}}" class="test-result {{testResults.webhook.success ? 'success' : 'error'}}">
-        <text class="result-icon">{{testResults.webhook.success ? '✅' : '❌'}}</text>
-        <text class="result-text">{{testResults.webhook.message}}</text>
-      </view>
-      
-      <!-- Webhook 格式示例 -->
-      <view class="webhook-examples">
-        <view class="example-title">常用 Webhook 格式</view>
-        
-        <view class="example-card example-feishu">
-          <view class="example-header">
-            <text class="example-icon">🚀</text>
-            <text class="example-name">飞书机器人</text>
+        <view class="header-info-wrapper">
+          <text class="config-title">消息通知配置</text>
+          <text class="config-desc">配置默认的 Webhook 地址，用于发送通知到飞书、钉钉、企业微信等平台</text>
+          <view class="config-badges">
+            <view class="badge badge-optional">可选配置</view>
           </view>
-          <text class="example-url">https://open.feishu.cn/open-apis/bot/v2/hook/TOKEN</text>
-        </view>
-        
-        <view class="example-card example-dingtalk">
-          <view class="example-header">
-            <text class="example-icon">📌</text>
-            <text class="example-name">钉钉机器人</text>
-          </view>
-          <text class="example-url">https://oapi.dingtalk.com/robot/send?access_token=TOKEN</text>
-        </view>
-        
-        <view class="example-card example-wechat">
-          <view class="example-header">
-            <text class="example-icon">💼</text>
-            <text class="example-name">企业微信机器人</text>
-          </view>
-          <text class="example-url">https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=KEY</text>
         </view>
       </view>
-      
-      <view class="config-tip">
-        <text class="tip-title">💡 如何获取 Webhook</text>
+
+      <view class="config-form">
+        <view class="form-input-group">
+          <view class="input-label">
+            <text>默认 Webhook URL</text>
+          </view>
+          <input class="form-input" type="text" value="{{settings.defaultWebhook}}" bindinput="onInput" data-field="defaultWebhook" placeholder="https://open.feishu.cn/open-apis/bot/v2/hook/xxx" />
+          <text class="input-helper">此地址将作为创建任务时的默认 Webhook 选项</text>
+        </view>
+
+        <view class="form-actions">
+          <view class="test-btn" bindtap="testConnection" data-type="webhook">
+            <text class="test-btn-icon">▶</text>
+            <text>测试 Webhook</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="webhook-section">
+        <view class="section-divider-title">
+          <text class="divider-title">常用 Webhook 格式</text>
+          <view class="divider-line"></view>
+        </view>
+
+        <view class="webhook-cards">
+          <view class="webhook-card card-blue">
+            <text class="webhook-card-title">飞书机器人</text>
+            <view class="webhook-url-box">
+              <text class="webhook-url">https://open.feishu.cn/open-apis/bot/v2/hook/TOKEN</text>
+            </view>
+          </view>
+
+          <view class="webhook-card card-blue-light">
+            <text class="webhook-card-title">钉钉机器人</text>
+            <view class="webhook-url-box">
+              <text class="webhook-url">https://oapi.dingtalk.com/robot/send?access_token=TOKEN</text>
+            </view>
+          </view>
+
+          <view class="webhook-card card-green">
+            <text class="webhook-card-title">企业微信机器人</text>
+            <view class="webhook-url-box">
+              <text class="webhook-url">https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=KEY</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view class="tip-box tip-amber">
+        <view class="tip-header">
+          <text class="tip-icon">💡</text>
+          <text class="tip-title">如何获取 Webhook</text>
+        </view>
         <view class="tip-list">
           <text class="tip-item">• 飞书：群聊 → ... → 添加机器人 → 自定义机器人</text>
           <text class="tip-item">• 钉钉：群聊 → ... → 智能群助手 → 添加机器人 → 自定义</text>
@@ -295,15 +337,15 @@
         </view>
       </view>
     </view>
-  </view>
 
-  <!-- 底部安全区域（防止内容被固定按钮遮挡） -->
-  <view class="save-button-spacer"></view>
-  
-  <!-- 保存按钮 -->
-  <view class="save-section">
-    <button class="save-btn btn-primary" bindtap="saveSettings" disabled="{{saving}}">
-      {{saving ? '保存中...' : '保存配置'}}
-    </button>
+    <!-- 底部占位 -->
+    <view class="bottom-spacer-large"></view>
+  </scroll-view>
+
+  <!-- 底部保存按钮 -->
+  <view class="bottom-save-bar">
+    <view class="save-btn" bindtap="saveSettings">
+      <text>保存所有配置</text>
+    </view>
   </view>
 </view>

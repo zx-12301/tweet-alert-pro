@@ -1,23 +1,6 @@
 Page({
   data: {
     activeTab: 'twitter',
-    saving: false,
-    testing: {},
-    testResults: {},
-    
-    // SMTP 端口选项
-    smtpPorts: ['25 (SMTP)', '465 (SSL)', '587 (TLS)'],
-    smtpPortIndex: 1,
-    
-    // 选项卡
-    tabs: [
-      { id: 'twitter', name: 'Twitter API', icon: '🐦', required: true },
-      { id: 'twilio', name: '语音电话', icon: '📞', required: true },
-      { id: 'email', name: '邮件服务', icon: '📧', required: true },
-      { id: 'webhook', name: '消息通知', icon: '💬', required: false }
-    ],
-    
-    // 配置数据
     settings: {
       twitterApiKey: '',
       twitterApiSecret: '',
@@ -32,7 +15,11 @@ Page({
       smtpPassword: '',
       smtpFrom: '',
       defaultWebhook: ''
-    }
+    },
+    smtpPorts: ['25 (SMTP)', '465 (SSL)', '587 (TLS)'],
+    smtpPortIndex: 1,
+    testing: {},
+    testResults: {}
   },
 
   onLoad: function () {
@@ -48,13 +35,10 @@ Page({
       const settings = await app.request({ url: '/settings' });
       
       if (settings) {
-        this.setData({ settings: { ...this.data.settings, ...settings } });
-        
-        // 设置 SMTP 端口索引
-        const portIndex = this.data.smtpPorts.findIndex(p => p.includes(settings.smtpPort || '587'));
-        if (portIndex >= 0) {
-          this.setData({ smtpPortIndex: portIndex });
-        }
+        this.setData({ 
+          settings: { ...this.data.settings, ...settings },
+          smtpPortIndex: this.data.smtpPorts.findIndex(p => p.includes(settings.smtpPort || '587'))
+        });
       }
     } catch (error) {
       console.error('加载配置失败:', error);
@@ -63,10 +47,10 @@ Page({
     }
   },
 
-  // 切换选项卡
+  // 切换 Tab
   switchTab: function (e) {
-    const tabId = e.currentTarget.dataset.id;
-    this.setData({ activeTab: tabId });
+    const tab = e.currentTarget.dataset.tab;
+    this.setData({ activeTab: tab });
   },
 
   // 输入处理
@@ -99,6 +83,8 @@ Page({
       [`testResults.${type}`]: null
     });
 
+    wx.showLoading({ title: '测试中...', mask: true });
+
     try {
       const app = getApp();
       const result = await app.request({
@@ -110,6 +96,8 @@ Page({
         }
       });
 
+      wx.hideLoading();
+      
       this.setData({
         [`testResults.${type}`]: result
       });
@@ -120,6 +108,8 @@ Page({
         duration: 3000
       });
     } catch (error) {
+      wx.hideLoading();
+      
       console.error('测试失败:', error);
       this.setData({
         [`testResults.${type}`]: {
@@ -141,7 +131,7 @@ Page({
 
   // 保存配置
   saveSettings: async function () {
-    this.setData({ saving: true });
+    wx.showLoading({ title: '保存中...', mask: true });
 
     try {
       const app = getApp();
@@ -151,19 +141,40 @@ Page({
         data: this.data.settings
       });
 
+      wx.hideLoading();
+      
       wx.showToast({
         title: '✅ 保存成功！配置已更新',
         icon: 'success',
         duration: 2500
       });
     } catch (error) {
+      wx.hideLoading();
+      
       console.error('保存失败:', error);
       wx.showToast({
         title: '❌ 保存失败，请重试',
         icon: 'none'
       });
-    } finally {
-      this.setData({ saving: false });
     }
+  },
+
+  // 跳转
+  goBack: function () {
+    wx.navigateBack();
+  },
+
+  viewDocs: function () {
+    wx.showToast({
+      title: '查看文档功能开发中',
+      icon: 'none'
+    });
+  },
+
+  viewGithub: function () {
+    wx.showToast({
+      title: '访问 GitHub 功能开发中',
+      icon: 'none'
+    });
   }
 });
