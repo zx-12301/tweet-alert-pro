@@ -47,15 +47,15 @@ page {
    ========================================================================== */
 
 .header-section {
-  padding: 0 40rpx 32rpx;
-  padding-top: calc(40rpx + env(safe-area-inset-top));
+  padding: 0 40rpx 24rpx;
 }
 
 .header-row {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 8rpx;
+  align-items: center;
+  margin-bottom: 24rpx;
+  margin-top: 88rpx;
 }
 
 .title-wrapper {
@@ -84,12 +84,9 @@ page {
 
 .refresh-btn {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 4rpx;
-  width: 88rpx;
-  height: 88rpx;
+  gap: 8rpx;
+  padding: 12rpx 24rpx;
   background: rgba(59, 130, 246, 0.1);
   border: 1rpx solid rgba(59, 130, 246, 0.2);
   border-radius: 20rpx;
@@ -102,12 +99,12 @@ page {
 }
 
 .refresh-icon {
-  font-size: 36rpx;
+  font-size: 32rpx;
 }
 
 .refresh-text {
-  font-size: 18rpx;
-  font-weight: 500;
+  font-size: 22rpx;
+  font-weight: 600;
   color: #60a5fa;
 }
 
@@ -416,12 +413,10 @@ page {
 
 .task-card {
   background: #121A2F;
-  border-radius: 24rpx;
-  padding: 24rpx;
+  border-radius: 20rpx;
+  padding: 20rpx;
   margin-bottom: 16rpx;
   border: 1rpx solid rgba(255, 255, 255, 0.05);
-  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.15);
-  transition: all 0.2s ease;
 }
 
 .task-card:active {
@@ -430,37 +425,35 @@ page {
 
 .task-card-header {
   display: flex;
-  align-items: flex-start;
-  gap: 20rpx;
+  align-items: center;
+  gap: 16rpx;
   margin-bottom: 16rpx;
 }
 
 .task-avatar {
-  width: 80rpx;
-  height: 80rpx;
+  width: 64rpx;
+  height: 64rpx;
   flex-shrink: 0;
   background: rgba(59, 130, 246, 0.08);
-  border-radius: 16rpx;
+  border-radius: 12rpx;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 32rpx;
+  font-size: 28rpx;
   font-weight: 600;
   color: #60a5fa;
-  border: 1rpx solid rgba(59, 130, 246, 0.15);
 }
 
 .task-info {
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  flex: 1;
-  min-width: 0;
 }
 
 .task-handle {
   display: block;
-  font-size: 28rpx;
+  font-size: 26rpx;
   font-weight: 600;
   color: #60a5fa;
   margin-bottom: 4rpx;
@@ -468,7 +461,7 @@ page {
 
 .task-meta {
   display: block;
-  font-size: 18rpx;
+  font-size: 16rpx;
   color: #64748b;
   font-family: monospace;
 }
@@ -476,35 +469,29 @@ page {
 .task-status {
   display: flex;
   align-items: center;
-  gap: 8rpx;
-  padding: 8rpx 16rpx;
+  gap: 6rpx;
+  padding: 6rpx 12rpx;
   background: rgba(16, 185, 129, 0.08);
-  border-radius: 16rpx;
-  flex-shrink: 0;
+  border-radius: 12rpx;
 }
 
 .task-status .status-dot {
-  width: 8rpx;
-  height: 8rpx;
+  width: 6rpx;
+  height: 6rpx;
   border-radius: 50%;
   background: #10b981;
-  box-shadow: 0 0 8rpx rgba(16, 185, 129, 0.5);
 }
 
 .task-status .status-text {
-  font-size: 18rpx;
+  font-size: 16rpx;
   font-weight: 500;
   color: #10b981;
-}
-
-.task-keywords {
-  display: none;
 }
 
 .task-card-footer {
   display: flex;
   align-items: center;
-  gap: 24rpx;
+  gap: 20rpx;
 }
 
 .footer-stat {
@@ -514,12 +501,11 @@ page {
 }
 
 .footer-stat-icon {
-  font-size: 24rpx;
+  font-size: 20rpx;
 }
 
 .footer-stat-value {
-  font-size: 18rpx;
-  font-weight: 500;
+  font-size: 16rpx;
   color: #64748b;
 }
 
