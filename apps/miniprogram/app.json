@@ -6,7 +6,8 @@
     "pages/tasks/detail",
     "pages/subscription/subscription",
     "pages/settings/settings",
-    "pages/notifications/notifications"
+    "pages/notifications/notifications",
+    "pages/pricing/pricing"
   ],
   "window": {
     "backgroundTextStyle": "light",

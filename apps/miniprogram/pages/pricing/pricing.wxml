@@ -1,0 +1,230 @@
+<view class="page-container">
+  <!-- 页面头部 -->
+  <view class="page-header card-gradient-blue">
+    <text class="page-title">选择适合你的计划</text>
+    <text class="page-subtitle">灵活订阅，随时取消，7 天无理由退款</text>
+    
+    <view class="header-badges">
+      <view class="badge-item">
+        <text class="badge-icon">✅</text>
+        <text class="badge-text">支持支付宝/微信</text>
+      </view>
+      <view class="badge-item">
+        <text class="badge-icon">✅</text>
+        <text class="badge-text">7 天无理由退款</text>
+      </view>
+      <view class="badge-item">
+        <text class="badge-icon">✅</text>
+        <text class="badge-text">随时取消</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 计划卡片 -->
+  <view class="plans-section">
+    <view wx:for="{{plans}}" wx:key="id" class="plan-card card {{item.popular ? 'popular' : ''}}">
+      <!-- 热门标签 -->
+      <view wx:if="{{item.popular}}" class="popular-badge">
+        <text class="badge-star">⭐</text>
+        <text class="badge-text">最受欢迎</text>
+      </view>
+      
+      <!-- 计划名称 -->
+      <view class="plan-header">
+        <text class="plan-name">{{item.name}}</text>
+      </view>
+      
+      <!-- 价格 -->
+      <view class="plan-price">
+        <text class="price-symbol">¥</text>
+        <text class="price-value">{{item.price}}</text>
+        <text class="price-period">/{{item.period}}</text>
+      </view>
+      
+      <!-- 功能列表 -->
+      <view class="plan-features">
+        <view wx:for="{{item.features}}" wx:key="*this" wx:for-item="feature" class="feature-item">
+          <view class="feature-icon-wrapper">
+            <text class="feature-icon">✓</text>
+          </view>
+          <text class="feature-text">{{feature}}</text>
+        </view>
+      </view>
+      
+      <!-- 订阅按钮 -->
+      <button class="plan-btn {{item.popular ? 'btn-primary' : 'btn-secondary'}}" 
+              bindtap="subscribe" 
+              data-plan="{{item.id}}">
+        {{item.cta}}
+      </button>
+    </view>
+  </view>
+
+  <!-- 支付方式 -->
+  <view class="payment-methods card">
+    <view class="section-header">
+      <text class="section-title">💳 支付方式</text>
+    </view>
+    <view class="payment-grid">
+      <view class="payment-item">
+        <text class="payment-icon">💳</text>
+        <text class="payment-name">支付宝</text>
+      </view>
+      <view class="payment-item">
+        <text class="payment-icon">💳</text>
+        <text class="payment-name">微信支付</text>
+      </view>
+      <view class="payment-item">
+        <text class="payment-icon">💳</text>
+        <text class="payment-name">银联云闪付</text>
+      </view>
+      <view class="payment-item">
+        <text class="payment-icon">💳</text>
+        <text class="payment-name">信用卡</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 常见问题 -->
+  <view class="faq-section card">
+    <view class="section-header">
+      <text class="section-title">❓ 常见问题</text>
+    </view>
+    <view class="faq-list">
+      <view wx:for="{{faqs}}" wx:key="question" class="faq-item" bindtap="toggleFaq" data-index="{{index}}">
+        <view class="faq-question">
+          <text class="faq-icon">ℹ️</text>
+          <text class="faq-text">{{item.question}}</text>
+          <text class="faq-arrow {{item.open ? 'open' : ''}}">›</text>
+        </view>
+        <view wx:if="{{item.open}}" class="faq-answer animate-fade-in">
+          {{item.answer}}
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 支付弹窗 -->
+  <view wx:if="{{showPayment}}" class="modal-overlay" catchtap="closePayment">
+    <view class="modal-content animate-slide-up" catchtap="stop">
+      <!-- 关闭按钮 -->
+      <view class="modal-close" bindtap="closePayment">
+        <text class="close-icon">✕</text>
+      </view>
+      
+      <!-- 支付状态 -->
+      <view wx:if="{{paymentStatus === 'selecting'}}" class="payment-flow">
+        <text class="modal-title">确认订阅</text>
+        <text class="modal-subtitle">选择支付方式并完成支付</text>
+        
+        <!-- 订单信息 -->
+        <view class="order-info">
+          <view class="info-row">
+            <text class="info-label">订单号</text>
+            <text class="info-value">{{orderId}}</text>
+          </view>
+          <view class="info-row">
+            <text class="info-label">支付超时</text>
+            <text class="info-value countdown {{countdown < 60 ? 'urgent' : ''}}">{{countdownText}}</text>
+          </view>
+        </view>
+        
+        <!-- 计划信息 -->
+        <view class="selected-plan">
+          <view class="plan-row">
+            <text class="plan-name">{{selectedPlan.name}}</text>
+            <text class="plan-price">¥{{selectedPlan.price}}</text>
+          </view>
+          <text class="plan-period">周期：{{selectedPlan.period}}</text>
+        </view>
+        
+        <!-- 支付方式选择 -->
+        <view class="payment-options">
+          <text class="options-title">选择支付方式</text>
+          <view class="options-grid">
+            <view wx:for="{{paymentMethods}}" wx:key="id" 
+                  class="payment-option {{paymentMethod === item.id ? 'selected' : ''}}"
+                  bindtap="selectPaymentMethod" 
+                  data-id="{{item.id}}">
+              <text class="option-icon">{{item.icon}}</text>
+              <text class="option-name">{{item.name}}</text>
+            </view>
+          </view>
+        </view>
+        
+        <!-- 模拟二维码 -->
+        <view class="qr-section">
+          <view class="qr-placeholder">
+            <view class="qr-inner">
+              <text class="qr-icon">{{paymentMethods.find(m => m.id === paymentMethod)?.icon || '💳'}}</text>
+              <text class="qr-text">{{paymentMethods.find(m => m.id === paymentMethod)?.name || '支付'}}</text>
+              <text class="qr-sub">扫码支付</text>
+            </view>
+          </view>
+          <text class="qr-tip">请在 {{countdownText}} 内完成支付</text>
+        </view>
+        
+        <!-- 支付按钮 -->
+        <view class="modal-actions">
+          <button class="action-btn btn-cancel" bindtap="closePayment">取消</button>
+          <button class="action-btn btn-pay" bindtap="confirmPayment" disabled="{{paying}}">
+            {{paying ? '支付中...' : '立即支付 ¥' + selectedPlan.price}}
+          </button>
+        </view>
+        
+        <!-- 安全提示 -->
+        <view class="security-tips">
+          <view class="tip-item">
+            <text class="tip-icon">🔒</text>
+            <text class="tip-text">SSL 加密</text>
+          </view>
+          <view class="tip-item">
+            <text class="tip-icon">✅</text>
+            <text class="tip-text">7 天退款</text>
+          </view>
+          <view class="tip-item">
+            <text class="tip-icon">🛡️</text>
+            <text class="tip-text">安全保障</text>
+          </view>
+        </view>
+      </view>
+      
+      <!-- 支付中 -->
+      <view wx:elif="{{paymentStatus === 'paying'}}" class="payment-status paying">
+        <view class="status-icon-wrapper">
+          <view class="loading-spinner"></view>
+        </view>
+        <text class="status-title">正在处理支付...</text>
+        <text class="status-subtitle">请稍候，正在与支付网关通信</text>
+        <text class="order-id">订单号：{{orderId}}</text>
+      </view>
+      
+      <!-- 支付成功 -->
+      <view wx:if="{{paymentStatus === 'success'}}" class="payment-status success">
+        <view class="status-icon-wrapper success">
+          <text class="status-icon">✓</text>
+        </view>
+        <text class="status-title">支付成功！</text>
+        <text class="status-subtitle">正在跳转到订阅管理页面...</text>
+        <view class="loading-dots">
+          <view class="dot"></view>
+          <view class="dot"></view>
+          <view class="dot"></view>
+        </view>
+      </view>
+      
+      <!-- 支付失败 -->
+      <view wx:if="{{paymentStatus === 'failed'}}" class="payment-status failed">
+        <view class="status-icon-wrapper failed">
+          <text class="status-icon">✕</text>
+        </view>
+        <text class="status-title">支付失败</text>
+        <text class="status-subtitle">{{countdown === 0 ? '支付超时，请重新下单' : '支付失败，请重试'}}</text>
+        <view class="status-actions">
+          <button class="action-btn btn-cancel" bindtap="closePayment">关闭</button>
+          <button class="action-btn btn-pay" bindtap="retryPayment">重新支付</button>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
