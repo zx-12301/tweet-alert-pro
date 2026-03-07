@@ -156,8 +156,8 @@
         <view class="qr-section">
           <view class="qr-placeholder">
             <view class="qr-inner">
-              <text class="qr-icon">{{paymentMethods.find(m => m.id === paymentMethod)?.icon || '💳'}}</text>
-              <text class="qr-text">{{paymentMethods.find(m => m.id === paymentMethod)?.name || '支付'}}</text>
+              <text class="qr-icon">{{currentPaymentMethod.icon}}</text>
+              <text class="qr-text">{{currentPaymentMethod.name}}</text>
               <text class="qr-sub">扫码支付</text>
             </view>
           </view>

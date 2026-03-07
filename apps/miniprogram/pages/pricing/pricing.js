@@ -93,7 +93,10 @@ Page({
       { id: 'wechat', name: '微信支付', icon: '💳' },
       { id: 'unionpay', name: '云闪付', icon: '💳' },
       { id: 'credit', name: '信用卡', icon: '💳' }
-    ]
+    ],
+    
+    // 当前支付方式（用于 WXML 显示）
+    currentPaymentMethod: { name: '支付宝', icon: '💳' }
   },
 
   onLoad: function () {
@@ -145,6 +148,7 @@ Page({
   // 打开支付
   openPayment: function (plan) {
     const orderId = `ORDER-${Date.now()}-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
+    const currentMethod = this.data.paymentMethods[0];
     
     this.setData({
       showPayment: true,
@@ -152,7 +156,9 @@ Page({
       paymentStatus: 'selecting',
       orderId: orderId,
       countdown: 900,
-      countdownText: '15:00'
+      countdownText: '15:00',
+      paymentMethod: 'alipay',
+      currentPaymentMethod: currentMethod
     });
     
     // 开始倒计时
@@ -189,7 +195,12 @@ Page({
   // 选择支付方式
   selectPaymentMethod: function (e) {
     const methodId = e.currentTarget.dataset.id;
-    this.setData({ paymentMethod: methodId });
+    const method = this.data.paymentMethods.find(m => m.id === methodId);
+    
+    this.setData({ 
+      paymentMethod: methodId,
+      currentPaymentMethod: method || this.data.paymentMethods[0]
+    });
   },
 
   // 确认支付
@@ -229,6 +240,8 @@ Page({
   confirmSubscription: async function (planId) {
     try {
       const app = getApp();
+      const plan = this.data.plans.find(p => p.id === planId);
+      
       await app.request({
         url: '/billing/subscribe',
         method: 'POST',
@@ -236,7 +249,7 @@ Page({
       });
       
       wx.showToast({
-        title: `✅ 订阅${this.data.plans.find(p => p.id === planId)?.name}成功！`,
+        title: `✅ 订阅${plan ? plan.name : '成功'}！`,
         icon: 'success',
         duration: 2500
       });
