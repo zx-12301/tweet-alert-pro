@@ -1,16 +1,14 @@
-/* ==========================================================================
-   Tweet Alert Pro - Premium Design System
-   苹果风格 + 现代极简主义
-   ========================================================================== */
+/* Tweet Alert Pro - Premium Design System */
+/* 苹果风格极简主义 */
 
+/* 全局变量 - 高级色彩体系 */
 page {
-  /* ==================== 高级色彩体系 ==================== */
-  /* 主色调 - 深空灰系列（替代蓝色） */
+  /* 主色调 - 深空灰系列 */
   --primary: #1a1a2e;
   --primary-light: #2d2d44;
   --primary-soft: #3d3d5c;
   
-  /* 强调色 - 柔光紫（低饱和点缀） */
+  /* 强调色 - 柔光紫 */
   --accent: #5e60ce;
   --accent-light: #7b7dd6;
   --accent-soft: #a2a2d6;
@@ -19,19 +17,18 @@ page {
   --bg: #faf9f8;
   --bg-secondary: #f5f4f2;
   --surface: #ffffff;
-  --surface-elevated: #ffffff;
   
-  /* 文字颜色 - 清晰的灰度层级 */
+  /* 文字颜色 */
   --text-primary: #1a1a2e;
   --text-secondary: #6e6e73;
   --text-tertiary: #a1a1a6;
   --text-disabled: #c7c7cc;
   
-  /* 边框颜色 - 极细极淡 */
+  /* 边框 */
   --border: rgba(0, 0, 0, 0.06);
   --border-light: rgba(0, 0, 0, 0.04);
   
-  /* 状态色 - iOS 风格低饱和 */
+  /* 状态色 */
   --success: #34c759;
   --success-bg: rgba(52, 199, 89, 0.1);
   --warning: #ff9500;
@@ -41,19 +38,14 @@ page {
   --info: #007aff;
   --info-bg: rgba(0, 122, 255, 0.1);
   
-  /* ==================== 阴影系统 - 多层柔和 ==================== */
-  /* 物理光照模拟，避免黑色投影 */
+  /* 阴影 */
   --shadow-xs: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
   --shadow-sm: 0 4rpx 16rpx rgba(0, 0, 0, 0.06);
   --shadow-md: 0 8rpx 30rpx rgba(0, 0, 0, 0.08);
   --shadow-lg: 0 12rpx 48rpx rgba(0, 0, 0, 0.1);
-  --shadow-xl: 0 20rpx 64rpx rgba(0, 0, 0, 0.12);
-  
-  /* 彩色阴影 - 极淡 */
   --shadow-accent: 0 8rpx 24rpx rgba(94, 96, 206, 0.15);
-  --shadow-success: 0 8rpx 24rpx rgba(52, 199, 89, 0.15);
   
-  /* ==================== 圆角系统 - 非对称变化 ==================== */
+  /* 圆角 */
   --radius-sm: 10rpx;
   --radius-md: 14rpx;
   --radius-lg: 20rpx;
@@ -61,7 +53,7 @@ page {
   --radius-2xl: 40rpx;
   --radius-full: 9999rpx;
   
-  /* ==================== 间距系统 - 呼吸感 ==================== */
+  /* 间距 */
   --space-xs: 4rpx;
   --space-sm: 8rpx;
   --space-md: 16rpx;
@@ -70,9 +62,7 @@ page {
   --space-2xl: 64rpx;
   --space-3xl: 96rpx;
   
-  /* ==================== 字体阶梯 ==================== */
-  --font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'PingFang SC', 'HarmonyOS Sans', sans-serif;
-  
+  /* 字体 */
   --h1-size: 44rpx;
   --h1-weight: 600;
   --h2-size: 34rpx;
@@ -84,27 +74,21 @@ page {
   --caption-size: 24rpx;
   --tiny-size: 22rpx;
   
-  /* ==================== 缓动函数 ==================== */
+  /* 缓动 */
   --ease-standard: cubic-bezier(0.4, 0.0, 0.2, 1);
   --ease-decelerate: cubic-bezier(0.0, 0.0, 0.2, 1);
-  --ease-accelerate: cubic-bezier(0.4, 0.0, 1, 1);
   --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
   
-  /* ==================== 全局应用 ==================== */
+  /* 全局应用 */
   background-color: var(--bg);
-  font-family: var(--font-family);
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'PingFang SC', sans-serif;
   font-size: var(--body-size);
   line-height: var(--body-line);
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
-/* ==========================================================================
-   基础组件 - Premium Components
-   ========================================================================== */
-
-/* 卡片 - 极简无边框 */
+/* 基础组件 */
 .premium-card {
   background: var(--surface);
   border-radius: var(--radius-xl);
@@ -112,7 +96,6 @@ page {
   margin-bottom: var(--space-lg);
   box-shadow: var(--shadow-sm);
   transition: all 0.3s var(--ease-standard);
-  border: none;
 }
 
 .premium-card:active {
@@ -120,7 +103,6 @@ page {
   box-shadow: var(--shadow-xs);
 }
 
-/* 按钮 - 现代极简 */
 .premium-btn {
   display: inline-flex;
   align-items: center;
@@ -131,7 +113,6 @@ page {
   font-weight: 500;
   transition: all 0.3s var(--ease-standard);
   border: none;
-  cursor: pointer;
 }
 
 .premium-btn-primary {
@@ -142,36 +123,12 @@ page {
 
 .premium-btn-primary:active {
   transform: scale(0.96);
-  box-shadow: var(--shadow-xs);
 }
 
 .premium-btn-secondary {
   background: var(--bg-secondary);
   color: var(--text-primary);
 }
-
-/* 标签 - 柔和背景 */
-.premium-badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 8rpx 20rpx;
-  border-radius: var(--radius-full);
-  font-size: var(--tiny-size);
-  font-weight: 500;
-  background: var(--bg-secondary);
-  color: var(--text-secondary);
-}
-
-/* 分隔线 - 极淡 */
-.premium-divider {
-  height: 1rpx;
-  background: var(--border);
-  margin: var(--space-md) 0;
-}
-
-/* ==========================================================================
-   排版系统 - Typography
-   ========================================================================== */
 
 .premium-h1 {
   font-size: var(--h1-size);
@@ -189,98 +146,23 @@ page {
   line-height: 1.4;
 }
 
-.premium-h3 {
-  font-size: var(--h3-size);
-  font-weight: var(--h3-weight);
-  color: var(--text-primary);
-  line-height: 1.5;
-}
-
-.premium-body {
-  font-size: var(--body-size);
-  color: var(--text-secondary);
-  line-height: var(--body-line);
-}
-
 .premium-caption {
   font-size: var(--caption-size);
   color: var(--text-tertiary);
   line-height: 1.5;
 }
 
-/* ==========================================================================
-   动画系统 - Animations
-   ========================================================================== */
-
+/* 动画 */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(40rpx);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
 }
 
 .animate-fade-in {
   animation: fadeIn 0.4s var(--ease-decelerate);
 }
 
-.animate-slide-up {
-  animation: slideUp 0.5s var(--ease-decelerate);
-}
-
-.animate-scale-in {
-  animation: scaleIn 0.3s var(--ease-spring);
-}
-
-/* ==========================================================================
-   工具类 - Utilities
-   ========================================================================== */
-
-.text-center { text-align: center; }
-.text-left { text-align: left; }
-.text-right { text-align: right; }
-
-.flex { display: flex; }
-.flex-col { flex-direction: column; }
-.items-center { align-items: center; }
-.justify-between { justify-content: space-between; }
-.justify-center { justify-content: center; }
-.gap-sm { gap: var(--space-sm); }
-.gap-md { gap: var(--space-md); }
-.gap-lg { gap: var(--space-lg); }
-
-.mt-lg { margin-top: var(--space-lg); }
-.mb-lg { margin-bottom: var(--space-lg); }
-.p-lg { padding: var(--space-lg); }
-
-/* ==========================================================================
-   安全区域
-   ========================================================================== */
-
-.safe-area-bottom {
-  padding-bottom: constant(safe-area-inset-bottom);
-  padding-bottom: env(safe-area-inset-bottom);
-}
-
+/* 安全区域 */
 .tabbar-safe-area {
   height: 140rpx;
   flex-shrink: 0;
