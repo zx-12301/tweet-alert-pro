@@ -3,62 +3,48 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
+// 内存存储配置（演示用，重启后清空）
+const settingsStore: {[userId: string]: any} = {};
+
 @Controller('settings')
 export class SettingsController {
   @Get()
   async getSettings(@Request() req: any) {
     const userId = req.headers['x-user-id'];
     
-    try {
-      // 从数据库获取用户设置
-      const user = await prisma.user.findUnique({
-        where: { id: userId },
-        include: { subscription: true },
-      });
-
-      if (!user) {
-        return {};
-      }
-
-      // 返回设置（从用户模型中获取）
-      return {
-        smtpHost: user.phone || '', // 临时使用 phone 字段存储 smtpHost
-        smtpPort: '587',
-        smtpUser: user.email,
-        smtpFrom: user.email,
-        defaultWebhook: '',
-      };
-    } catch (error: any) {
-      console.error('获取设置失败:', error);
+    if (!userId) {
       return {};
     }
+
+    // 返回该用户的配置
+    return settingsStore[userId] || {};
   }
 
   @Put()
   async updateSettings(@Request() req: any, @Body() data: any) {
     const userId = req.headers['x-user-id'];
     
+    if (!userId) {
+      return { 
+        success: false, 
+        message: '缺少用户 ID' 
+      };
+    }
+    
     try {
-      // 验证用户是否存在
-      const user = await prisma.user.findUnique({
-        where: { id: userId },
-      });
+      // 保存到内存存储
+      settingsStore[userId] = {
+        ...settingsStore[userId],
+        ...data,
+      };
 
-      if (!user) {
-        return { 
-          success: false, 
-          message: '用户不存在，请先注册或登录' 
-        };
-      }
-
-      // 保存到数据库（临时方案：使用现有字段）
-      // TODO: 添加专门的 settings 表
-      console.log('更新用户设置:', userId, data);
+      console.log('✅ 配置已保存 - 用户:', userId);
+      console.log('配置内容:', JSON.stringify(settingsStore[userId], null, 2));
       
       return {
         success: true,
         message: '配置已保存',
-        data,
+        data: settingsStore[userId],
       };
     } catch (error: any) {
       console.error('保存设置失败:', error);
