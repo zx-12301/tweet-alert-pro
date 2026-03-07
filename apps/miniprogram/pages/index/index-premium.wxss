@@ -3,6 +3,9 @@
    苹果风格极简主义
    ========================================================================== */
 
+/* 引入全局设计系统 */
+@import '../../styles/premium.css';
+
 .page-container {
   min-height: 100vh;
   background-color: var(--bg);
