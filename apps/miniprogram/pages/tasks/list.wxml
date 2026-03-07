@@ -101,15 +101,8 @@
     <text class="empty-title-premium">暂无监控任务</text>
     <text class="empty-desc-premium">创建第一个任务，开始追踪您关注的用户动态</text>
     <button class="btn-primary-premium" bindtap="createTask">
-      创建第一个任务
+      + 创建任务
     </button>
   </view>
-
-  <!-- 底部创建按钮 -->
-  <view class="bottom-bar">
-    <button class="create-btn-fixed" bindtap="createTask">
-      <text class="create-btn-icon">+</text>
-      <text class="create-btn-text">创建任务</text>
-    </button>
-  </view>
+</view>
 </view>
