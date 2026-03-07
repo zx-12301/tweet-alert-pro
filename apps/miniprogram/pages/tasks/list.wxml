@@ -105,7 +105,7 @@
     <view wx:else class="task-list-section">
       <view wx:for="{{filteredTasks}}" wx:key="id" class="task-card" bindtap="viewTaskDetail" data-id="{{item.id}}">
         <view class="task-card-header">
-          <view class="task-avatar">@{{item.twitterHandle}}</view>
+          <view class="task-avatar"></view>
           <view class="task-info">
             <text class="task-handle">@{{item.twitterHandle}}</text>
             <text class="task-meta">ID: {{item.id.slice(-6)}}</text>
