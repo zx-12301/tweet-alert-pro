@@ -191,51 +191,6 @@
         <text class="alert-text"> 页面设置 Twitter API、Twilio、邮件服务等</text>
       </view>
     </view>
-        <!-- 邮件通知 -->
-        <view class="notify-option {{notifyMail ? 'selected' : ''}}" bindtap="toggleNotify" data-type="mail">
-          <view class="notify-checkbox {{notifyMail ? 'checked' : ''}}">
-            <text wx:if="{{notifyMail}}" class="checkmark">✓</text>
-          </view>
-          <view class="notify-content">
-            <text class="notify-title">邮件通知</text>
-            <text class="notify-desc">发送邮件到指定邮箱</text>
-          </view>
-          <view class="notify-config">需要配置 SMTP</view>
-        </view>
-
-        <!-- 微信/钉钉/飞书通知 -->
-        <view class="notify-option {{notifyWebhook ? 'selected' : ''}}" bindtap="toggleNotify" data-type="webhook">
-          <view class="notify-checkbox {{notifyWebhook ? 'checked' : ''}}">
-            <text wx:if="{{notifyWebhook}}" class="checkmark">✓</text>
-          </view>
-          <view class="notify-content">
-            <text class="notify-title">微信/钉钉/飞书通知</text>
-            <text class="notify-desc">发送消息到协作平台</text>
-          </view>
-          <view class="notify-config">需要配置 Webhook</view>
-        </view>
-
-        <!-- 语音电话通知 -->
-        <view class="notify-option {{notifyPhone ? 'selected' : ''}}" bindtap="toggleNotify" data-type="phone">
-          <view class="notify-checkbox {{notifyPhone ? 'checked' : ''}}">
-            <text wx:if="{{notifyPhone}}" class="checkmark">✓</text>
-          </view>
-          <view class="notify-content">
-            <text class="notify-title">语音电话通知</text>
-            <text class="notify-desc">接到自动语音电话通知</text>
-          </view>
-          <view class="notify-config">需要配置 Twilio</view>
-        </view>
-      </view>
-
-      <!-- 提示框 -->
-      <view class="alert-box">
-        <text class="alert-icon">💡</text>
-        <text class="alert-text">还没有配置？前往 </text>
-        <text class="alert-link" bindtap="goToSettings">功能配置</text>
-        <text class="alert-text"> 页面设置 Twitter API、Twilio、邮件服务等</text>
-      </view>
-    </view>
 
     <!-- 底部占位 -->
     <view class="bottom-spacer-large"></view>
@@ -252,5 +207,4 @@
       </view>
     </view>
   </view>
-</view>
 </view>
