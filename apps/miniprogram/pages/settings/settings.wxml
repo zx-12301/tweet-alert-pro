@@ -348,12 +348,12 @@
         </view>
       </view>
     </view>
-  </view>
+  </scroll-view>
+</view>
 
-  <!-- 底部保存按钮 -->
-  <view class="bottom-save-bar">
-    <view class="save-btn" bindtap="saveSettings">
-      <text>保存所有配置</text>
-    </view>
+<!-- 底部保存按钮 -->
+<view class="bottom-save-bar">
+  <view class="save-btn" bindtap="saveSettings">
+    <text>保存所有配置</text>
   </view>
 </view>
