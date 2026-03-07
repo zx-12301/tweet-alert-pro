@@ -20,26 +20,34 @@
     "navigationBarShadowStyle": 1
   },
   "tabBar": {
-    "color": "#94a3b8",
-    "selectedColor": "#2563eb",
-    "backgroundColor": "#ffffff",
-    "borderStyle": "white",
+    "color": "#64748b",
+    "selectedColor": "#3b82f6",
+    "backgroundColor": "#0B1120",
+    "borderStyle": "black",
     "list": [
       {
         "pagePath": "pages/index/index",
-        "text": "首页"
+        "text": "首页",
+        "iconPath": "images/home.svg",
+        "selectedIconPath": "images/home-active.svg"
       },
       {
         "pagePath": "pages/tasks/list",
-        "text": "任务"
+        "text": "任务",
+        "iconPath": "images/task.svg",
+        "selectedIconPath": "images/task-active.svg"
       },
       {
         "pagePath": "pages/subscription/subscription",
-        "text": "订阅"
+        "text": "订阅",
+        "iconPath": "images/subscription.svg",
+        "selectedIconPath": "images/subscription-active.svg"
       },
       {
         "pagePath": "pages/settings/settings",
-        "text": "设置"
+        "text": "设置",
+        "iconPath": "images/settings.svg",
+        "selectedIconPath": "images/settings-active.svg"
       }
     ]
   },

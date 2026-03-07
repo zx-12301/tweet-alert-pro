@@ -36,9 +36,9 @@ page {
   z-index: 10;
 }
 
-/* 顶部安全区域 */
+/* 顶部安全区域（增加间距） */
 .top-safe-area {
-  height: calc(env(safe-area-inset-top) + 20rpx);
+  height: calc(88rpx + env(safe-area-inset-top));
   flex-shrink: 0;
 }
 

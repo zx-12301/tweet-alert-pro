@@ -5,39 +5,39 @@
     <!-- 顶部安全区域（适配刘海屏） -->
     <view class="top-safe-area"></view>
     
-    <!-- 顶部标签 -->
-    <view class="top-badge">
-      <view class="badge-dot"></view>
-      <text>7×24 小时实时监控</text>
-    </view>
-
     <!-- 主标题区域 -->
     <view class="hero-section">
+      <!-- 顶部标签 -->
+      <view class="top-badge">
+        <view class="badge-dot"></view>
+        <text>7×24 小时实时监控</text>
+      </view>
+      
       <text class="hero-title">当关注的用户发推时</text>
       <text class="hero-highlight">第一时间通知你</text>
       <text class="hero-desc">智能监控 Twitter 账号动态，支持语音电话、邮件、微信等多种通知方式，让你不错过任何重要信息</text>
     </view>
 
-    <!-- 统计卡片 -->
-    <view class="stats-card">
-      <view class="stat-item">
-        <view class="stat-icon-box">
-          <text class="stat-icon">📋</text>
+    <!-- 统计卡片（2 列网格） -->
+    <view class="stats-grid-new">
+      <view class="stat-card-new stat-blue">
+        <view class="stat-card-header">
+          <text class="stat-card-title">监控任务</text>
+          <view class="stat-icon-box icon-blue">
+            <text>📋</text>
+          </view>
         </view>
-        <view class="stat-content">
-          <text class="stat-value">{{stats.totalTasks}}</text>
-          <text class="stat-label">监控任务</text>
-        </view>
+        <text class="stat-card-value">{{stats.totalTasks}}</text>
       </view>
-      <view class="stat-divider"></view>
-      <view class="stat-item">
-        <view class="stat-icon-box">
-          <text class="stat-icon">📧</text>
+      
+      <view class="stat-card-new stat-orange">
+        <view class="stat-card-header">
+          <text class="stat-card-title">今日通知</text>
+          <view class="stat-icon-box icon-orange">
+            <text>📧</text>
+          </view>
         </view>
-        <view class="stat-content">
-          <text class="stat-value">{{stats.todayNotifications}}</text>
-          <text class="stat-label">今日通知</text>
-        </view>
+        <text class="stat-card-value">{{stats.todayNotifications}}</text>
       </view>
     </view>
 
