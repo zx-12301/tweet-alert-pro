@@ -84,6 +84,7 @@ export default function PricingPage() {
   const handleConfirmSubscription = async (planId: string) => {
     setLoading(planId);
     try {
+      console.log('开始订阅:', planId);
       const response = await fetch('http://localhost:3001/api/billing/subscribe', {
         method: 'POST',
         headers: {
@@ -93,15 +94,20 @@ export default function PricingPage() {
         body: JSON.stringify({ plan: planId }),
       });
 
+      console.log('响应状态:', response.status);
+      const result = await response.json();
+      console.log('响应内容:', result);
+
       if (response.ok) {
         alert(`✅ 订阅${plans.find(p => p.id === planId)?.name}成功！`);
-        router.push('/dashboard?subscribed=true');
+        router.push('/subscription');
       } else {
-        alert('❌ 订阅失败，请重试');
+        const errorMsg = result.message || '订阅失败';
+        alert(`❌ 订阅失败：${errorMsg}`);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('订阅失败:', error);
-      alert('❌ 网络错误，请重试');
+      alert(`❌ 网络错误：${error.message}`);
     } finally {
       setLoading(null);
     }
@@ -322,8 +328,8 @@ function PaymentModal({ plan, onClose, onConfirm, loading }: any) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl max-w-lg w-full p-6 relative animate-fade-in">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto">
+      <div className="bg-white rounded-2xl max-w-lg w-full p-6 relative animate-fade-in my-8 max-h-[90vh] overflow-y-auto">
         {/* 关闭按钮 */}
         <button
           onClick={onClose}
