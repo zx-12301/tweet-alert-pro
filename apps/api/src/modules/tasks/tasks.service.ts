@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
@@ -6,57 +6,142 @@ const prisma = new PrismaClient();
 @Injectable()
 export class TasksService {
   async getUserTasks(userId: string) {
-    return prisma.monitorTask.findMany({
-      where: { userId },
-      orderBy: { createdAt: 'desc' },
-      include: {
-        _count: { select: { notifications: true } },
-      },
-    });
+    try {
+      return await prisma.monitorTask.findMany({
+        where: { userId },
+        orderBy: { createdAt: 'desc' },
+        include: {
+          _count: { select: { notifications: true } },
+        },
+      });
+    } catch (error: any) {
+      console.error('获取任务列表失败:', error);
+      throw new BadRequestException(`获取任务失败：${error.message}`);
+    }
   }
 
   async createTask(userId: string, data: any) {
-    return prisma.monitorTask.create({
-      data: {
-        userId,
-        twitterHandle: data.twitterHandle,
-        keywords: data.keywords ? JSON.stringify(data.keywords) : null,
-        minLikes: data.minLikes,
-        minRetweets: data.minRetweets,
-        notifyChannels: data.notifyChannels ? JSON.stringify(data.notifyChannels) : null,
-        phoneNumbers: data.phoneNumbers ? JSON.stringify(data.phoneNumbers) : null,
-        webhooks: data.webhooks ? JSON.stringify(data.webhooks) : null,
-      },
-    });
+    try {
+      // 验证必填字段
+      if (!data.twitterHandle || data.twitterHandle.trim() === '') {
+        throw new BadRequestException('Twitter 账号不能为空');
+      }
+
+      // 清理 twitter handle
+      const cleanHandle = data.twitterHandle.replace('@', '').trim();
+      
+      // 验证格式
+      if (!/^[a-zA-Z0-9_]+$/.test(cleanHandle)) {
+        throw new BadRequestException('Twitter 账号格式不正确，只能包含字母、数字和下划线');
+      }
+
+      // 检查是否已存在相同任务
+      const existingTask = await prisma.monitorTask.findFirst({
+        where: {
+          userId,
+          twitterHandle: cleanHandle,
+        },
+      });
+
+      if (existingTask) {
+        throw new BadRequestException(`已存在监控任务 @${cleanHandle}，请勿重复添加`);
+      }
+
+      // 创建任务
+      return await prisma.monitorTask.create({
+        data: {
+          userId,
+          twitterHandle: cleanHandle,
+          keywords: data.keywords && data.keywords.length > 0 ? JSON.stringify(data.keywords) : null,
+          minLikes: data.minLikes,
+          minRetweets: data.minRetweets,
+          notifyChannels: data.notifyChannels ? JSON.stringify(data.notifyChannels) : null,
+          phoneNumbers: data.phoneNumbers && data.phoneNumbers.length > 0 ? JSON.stringify(data.phoneNumbers) : null,
+          webhooks: data.webhooks && data.webhooks.length > 0 ? JSON.stringify(data.webhooks) : null,
+          emails: data.emails && data.emails.length > 0 ? JSON.stringify(data.emails) : null,
+        },
+      });
+    } catch (error: any) {
+      console.error('创建任务失败:', error);
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
+      throw new BadRequestException(`创建任务失败：${error.message}`);
+    }
   }
 
   async getTask(id: string) {
-    const task = await prisma.monitorTask.findUnique({
-      where: { id },
-      include: { notifications: { orderBy: { createdAt: 'desc' }, take: 50 } },
-    });
-    if (!task) throw new NotFoundException('任务不存在');
-    return task;
+    try {
+      const task = await prisma.monitorTask.findUnique({
+        where: { id },
+        include: { notifications: { orderBy: { createdAt: 'desc' }, take: 50 } },
+      });
+      if (!task) {
+        throw new NotFoundException('任务不存在');
+      }
+      return task;
+    } catch (error: any) {
+      console.error('获取任务详情失败:', error);
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      throw new BadRequestException(`获取任务失败：${error.message}`);
+    }
   }
 
   async updateTask(id: string, data: any) {
-    return prisma.monitorTask.update({
-      where: { id },
-      data: {
-        twitterHandle: data.twitterHandle,
-        keywords: data.keywords ? JSON.stringify(data.keywords) : null,
-        minLikes: data.minLikes,
-        minRetweets: data.minRetweets,
-        notifyChannels: data.notifyChannels ? JSON.stringify(data.notifyChannels) : null,
-        phoneNumbers: data.phoneNumbers ? JSON.stringify(data.phoneNumbers) : null,
-        webhooks: data.webhooks ? JSON.stringify(data.webhooks) : null,
-        isActive: data.isActive,
-      },
-    });
+    try {
+      // 验证任务是否存在
+      const existingTask = await prisma.monitorTask.findUnique({
+        where: { id },
+      });
+
+      if (!existingTask) {
+        throw new NotFoundException('任务不存在');
+      }
+
+      return await prisma.monitorTask.update({
+        where: { id },
+        data: {
+          twitterHandle: data.twitterHandle?.replace('@', '').trim(),
+          keywords: data.keywords && data.keywords.length > 0 ? JSON.stringify(data.keywords) : null,
+          minLikes: data.minLikes,
+          minRetweets: data.minRetweets,
+          notifyChannels: data.notifyChannels ? JSON.stringify(data.notifyChannels) : null,
+          phoneNumbers: data.phoneNumbers && data.phoneNumbers.length > 0 ? JSON.stringify(data.phoneNumbers) : null,
+          webhooks: data.webhooks && data.webhooks.length > 0 ? JSON.stringify(data.webhooks) : null,
+          emails: data.emails && data.emails.length > 0 ? JSON.stringify(data.emails) : null,
+          isActive: data.isActive,
+        },
+      });
+    } catch (error: any) {
+      console.error('更新任务失败:', error);
+      if (error instanceof NotFoundException || error instanceof BadRequestException) {
+        throw error;
+      }
+      throw new BadRequestException(`更新任务失败：${error.message}`);
+    }
   }
 
   async deleteTask(id: string) {
-    await prisma.monitorTask.delete({ where: { id } });
-    return { success: true };
+    try {
+      // 验证任务是否存在
+      const existingTask = await prisma.monitorTask.findUnique({
+        where: { id },
+      });
+
+      if (!existingTask) {
+        throw new NotFoundException('任务不存在');
+      }
+
+      await prisma.monitorTask.delete({ where: { id } });
+      return { success: true, message: '任务已删除' };
+    } catch (error: any) {
+      console.error('删除任务失败:', error);
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      throw new BadRequestException(`删除任务失败：${error.message}`);
+    }
   }
 }

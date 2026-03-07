@@ -1,11 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
@@ -36,7 +37,7 @@ export default function Sidebar() {
 
       {/* Mobile menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 z-40 bg-black/60 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)}>
+        <div className="md:hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)}>
           <div className="fixed bottom-24 right-6 bg-slate-900/95 backdrop-blur-xl rounded-2xl shadow-2xl p-4 w-64 border border-white/10">
             <nav className="space-y-2">
               {navigation.map((item, index) => (
@@ -61,12 +62,12 @@ export default function Sidebar() {
         </div>
       )}
 
-      {/* Desktop sidebar - Fixed position */}
-      <div className="hidden md:block fixed inset-y-0 left-0 z-30 w-64 bg-slate-900/95 backdrop-blur-xl border-r border-white/10 shadow-2xl">
+      {/* Desktop sidebar - Fixed position with proper z-index */}
+      <div className="hidden md:block fixed inset-y-0 left-0 z-40 w-64 bg-slate-900/95 backdrop-blur-xl border-r border-white/10 shadow-2xl">
         <div className="flex flex-col h-full">
           {/* Logo */}
-          <Link href="/" className="flex items-center justify-center h-20 border-b border-white/10 hover:bg-white/5 transition-all duration-300 group">
-            <div className="flex items-center space-x-3">
+          <Link href="/" className="flex items-center justify-center h-20 border-b border-white/10 hover:bg-white/5 transition-all duration-300 group flex-shrink-0">
+            <div className="flex items-center space-x-3 px-4">
               <div className="relative">
                 <span className="text-3xl animate-pulse">🦞</span>
                 <div className="absolute inset-0 bg-blue-500/20 blur-xl rounded-full group-hover:bg-blue-500/30 transition-all duration-300"></div>
@@ -79,7 +80,7 @@ export default function Sidebar() {
           </Link>
 
           {/* Navigation */}
-          <nav className="flex-1 px-3 py-6 space-y-1 overflow-y-auto">
+          <nav className="flex-1 px-3 py-6 space-y-1 overflow-y-auto custom-scrollbar">
             {navigation.map((item, index) => (
               <Link
                 key={item.name}
@@ -127,9 +128,12 @@ export default function Sidebar() {
             ))}
           </nav>
 
-          {/* User info */}
-          <div className="p-4 border-t border-white/10">
-            <div className="bg-gradient-to-br from-white/5 to-white/0 rounded-xl p-4 border border-white/10 hover:border-blue-500/30 transition-all duration-300 group cursor-pointer">
+          {/* User info - Clickable to go to pricing */}
+          <div className="p-4 border-t border-white/10 flex-shrink-0">
+            <div 
+              onClick={() => router.push('/pricing')}
+              className="bg-gradient-to-br from-white/5 to-white/0 rounded-xl p-4 border border-white/10 hover:border-blue-500/30 transition-all duration-300 group cursor-pointer"
+            >
               <div className="flex items-center space-x-3">
                 <div className="relative">
                   <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white font-semibold shadow-lg shadow-blue-500/30 group-hover:shadow-blue-500/50 transition-all duration-300">
@@ -147,33 +151,37 @@ export default function Sidebar() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </div>
+              <p className="text-xs text-gray-500 mt-2 text-center group-hover:text-blue-400 transition-colors">
+                💳 点击升级到专业版
+              </p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Global styles for sidebar */}
+      {/* Global styles for scrollbar */}
       <style jsx global>{`
-        .overflow-y-auto {
-          scrollbar-width: thin;
-          scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
-        }
-        
-        .overflow-y-auto::-webkit-scrollbar {
+        .custom-scrollbar::-webkit-scrollbar {
           width: 4px;
         }
         
-        .overflow-y-auto::-webkit-scrollbar-track {
+        .custom-scrollbar::-webkit-scrollbar-track {
           background: transparent;
         }
         
-        .overflow-y-auto::-webkit-scrollbar-thumb {
+        .custom-scrollbar::-webkit-scrollbar-thumb {
           background-color: rgba(255, 255, 255, 0.1);
           border-radius: 2px;
         }
         
-        .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
           background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* 确保侧边栏在所有内容之上 */
+        .custom-scrollbar {
+          scrollbar-width: thin;
+          scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
         }
       `}</style>
     </>
