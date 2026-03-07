@@ -2,19 +2,17 @@
   <!-- 背景装饰光晕 -->
   <view class="bg-glow"></view>
 
-  <!-- 头部（固定） -->
-  <view class="header-sticky">
-    <view class="header-content">
+  <!-- 主滚动内容 -->
+  <scroll-view class="main-scroll" scroll-y="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}"
+    bounces="{{false}}">
+
+    <!-- 头部区域 -->
+    <view class="header-section">
       <view class="header-info">
         <text class="header-title">功能配置</text>
         <text class="header-subtitle">配置第三方服务和通知渠道</text>
       </view>
     </view>
-  </view>
-
-  <!-- 主滚动内容 -->
-  <scroll-view class="main-scroll" scroll-y="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}"
-    bounces="{{false}}">
 
     <!-- 内容容器 -->
     <view class="content-wrapper">
@@ -348,12 +346,12 @@
         </view>
       </view>
     </view>
-  </scroll-view>
-</view>
 
-<!-- 底部保存按钮 -->
-<view class="bottom-save-bar">
-  <view class="save-btn" bindtap="saveSettings">
-    <text>保存所有配置</text>
-  </view>
+    <!-- 底部保存按钮 -->
+    <view class="bottom-save-bar">
+      <view class="save-btn" bindtap="saveSettings">
+        <text>保存所有配置</text>
+      </view>
+    </view>
+  </scroll-view>
 </view>
