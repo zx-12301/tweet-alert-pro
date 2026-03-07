@@ -620,8 +620,15 @@ page {
    ========================================================================== */
 
 .bottom-save-bar {
-  padding: 40rpx 40rpx calc(40rpx + env(safe-area-inset-bottom));
-  background: transparent;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 24rpx 40rpx calc(24rpx + env(safe-area-inset-bottom));
+  background: linear-gradient(to top, #0B1120 0%, rgba(11, 17, 32, 0.95) 100%);
+  backdrop-filter: blur(20rpx);
+  -webkit-backdrop-filter: blur(20rpx);
+  z-index: 100;
 }
 
 .save-btn {
