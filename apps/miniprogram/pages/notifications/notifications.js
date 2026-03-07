@@ -65,16 +65,35 @@ Page({
         const end = start + 20;
         const newNotifications = allNotifications.slice(start, end);
 
+        // 合并数组（避免使用展开运算符）
+        var allNotifs = [];
+        if (this.data.page === 1) {
+          allNotifs = newNotifications;
+        } else {
+          allNotifs = this.data.notifications.concat(newNotifications);
+        }
+
+        // 计算统计
+        var todayCount = 0;
+        var unreadCount = 0;
+        var today = new Date();
+        for (var i = 0; i < allNotifications.length; i++) {
+          var n = allNotifications[i];
+          var notifDate = new Date(n.createdAt);
+          if (today.toDateString() === notifDate.toDateString()) {
+            todayCount++;
+          }
+          if (!n.read) {
+            unreadCount++;
+          }
+        }
+
         this.setData({
-          notifications: this.data.page === 1 ? newNotifications : [...this.data.notifications, ...newNotifications],
+          notifications: allNotifs,
           stats: {
             total: allNotifications.length,
-            today: allNotifications.filter(n => {
-              const today = new Date();
-              const notifDate = new Date(n.createdAt);
-              return today.toDateString() === notifDate.toDateString();
-            }).length,
-            unread: allNotifications.filter(n => !n.read).length
+            today: todayCount,
+            unread: unreadCount
           },
           hasMore: end < allNotifications.length,
           page: this.data.page + 1
@@ -90,49 +109,68 @@ Page({
   },
 
   applyFilter: function () {
-    const { notifications, filterType } = this.data;
-    let filteredNotifications = [...notifications];
-    const now = new Date();
-    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
+    var notifications = this.data.notifications;
+    var filterType = this.data.filterType;
+    var filteredNotifications = notifications.slice();
+    var now = new Date();
+    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    var weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
 
     if (filterType === 'unread') {
-      filteredNotifications = notifications.filter(n => !n.read);
+      filteredNotifications = [];
+      for (var i = 0; i < notifications.length; i++) {
+        if (!notifications[i].read) {
+          filteredNotifications.push(notifications[i]);
+        }
+      }
     } else if (filterType === 'today') {
-      filteredNotifications = notifications.filter(n => {
-        const notifDate = new Date(n.createdAt);
-        return notifDate >= today;
-      });
+      filteredNotifications = [];
+      for (var i = 0; i < notifications.length; i++) {
+        var notifDate = new Date(notifications[i].createdAt);
+        if (notifDate >= today) {
+          filteredNotifications.push(notifications[i]);
+        }
+      }
     } else if (filterType === 'week') {
-      filteredNotifications = notifications.filter(n => {
-        const notifDate = new Date(n.createdAt);
-        return notifDate >= weekAgo;
-      });
+      filteredNotifications = [];
+      for (var i = 0; i < notifications.length; i++) {
+        var notifDate = new Date(notifications[i].createdAt);
+        if (notifDate >= weekAgo) {
+          filteredNotifications.push(notifications[i]);
+        }
+      }
     }
 
-    this.setData({ filteredNotifications }, () => {
-      this.groupNotifications();
+    var that = this;
+    this.setData({ filteredNotifications: filteredNotifications }, function() {
+      that.groupNotifications();
     });
   },
 
   groupNotifications: function () {
-    const { filteredNotifications } = this.data;
-    const groups = {};
+    var filteredNotifications = this.data.filteredNotifications;
+    var groups = {};
 
-    filteredNotifications.forEach(notif => {
-      const date = this.formatDate(notif.createdAt);
+    for (var i = 0; i < filteredNotifications.length; i++) {
+      var notif = filteredNotifications[i];
+      var date = this.formatDate(notif.createdAt);
       if (!groups[date]) {
         groups[date] = [];
       }
       groups[date].push(notif);
-    });
+    }
 
-    const groupedNotifications = Object.keys(groups).map(date => ({
-      date,
-      notifications: groups[date]
-    }));
+    var groupedNotifications = [];
+    var dates = Object.keys(groups);
+    for (var i = 0; i < dates.length; i++) {
+      var date = dates[i];
+      groupedNotifications.push({
+        date: date,
+        notifications: groups[date]
+      });
+    }
 
-    this.setData({ groupedNotifications });
+    this.setData({ groupedNotifications: groupedNotifications });
   },
 
   formatDate: function (dateStr) {
@@ -153,9 +191,10 @@ Page({
   },
 
   setFilter: function (e) {
-    const filterType = e.currentTarget.dataset.type;
-    this.setData({ filterType }, () => {
-      this.applyFilter();
+    var filterType = e.currentTarget.dataset.type;
+    var that = this;
+    this.setData({ filterType: filterType }, function() {
+      that.applyFilter();
     });
   },
 
