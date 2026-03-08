@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/17816/Desktop/Redesign app page/**)",
+      "Read(//c/Users/17816/Desktop/**)"
+    ]
+  }
+}

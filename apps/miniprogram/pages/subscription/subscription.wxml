@@ -1,104 +1,161 @@
-<view class="premium-container page-enter">
-  <!-- 订阅卡片 - 极简设计 -->
-  <view class="subscription-card-premium">
-    <view class="sub-header-premium">
-      <view class="sub-info-left">
-        <text class="sub-label">当前计划</text>
-        <text class="sub-name-premium">{{subscription.plan === 'pro' ? '专业版' : subscription.plan === 'enterprise' ? '企业版' : '免费版'}}</text>
-      </view>
-      <view class="sub-status-premium {{subscription.status === 'active' ? 'active' : 'inactive'}}">
-        <text class="status-dot-mini">●</text>
-        <text class="status-text-mini">{{subscription.status === 'active' ? '活跃' : '已取消'}}</text>
-      </view>
-    </view>
+<view class="dark-page">
+  <!-- 背景装饰光晕 -->
+  <view class="bg-glow"></view>
 
-    <view class="sub-price-premium">
-      <text class="price-symbol">¥</text>
-      <text class="price-value-large">{{subscription.plan === 'pro' ? '29' : subscription.plan === 'enterprise' ? '99' : '0'}}</text>
-      <text class="price-period">/月</text>
-    </view>
+  <!-- 主滚动内容 -->
+  <scroll-view class="main-scroll" scroll-y="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}" bounces="{{false}}">
 
-    <view class="sub-features-premium">
-      <view class="sub-feature-row">
-        <text class="sub-feature-icon">✓</text>
-        <text class="sub-feature-text">{{subscription.dailyNotificationLimit || 5}} 次通知/天</text>
-      </view>
-      <view class="sub-feature-row">
-        <text class="sub-feature-icon">✓</text>
-        <text class="sub-feature-text">{{subscription.maxTasks || 3}} 个监控任务</text>
-      </view>
-    </view>
-  </view>
-
-  <!-- 用量统计 -->
-  <view class="section">
-    <view class="section-header-premium">
-      <text class="section-title-premium">用量统计</text>
-      <text class="section-subtitle-premium">今日剩余 {{subscription.dailyNotificationLimit - usedNotifications}} 次</text>
-    </view>
-
-    <view class="usage-card-premium">
-      <view class="usage-header-premium">
-        <text class="usage-label">通知额度</text>
-        <text class="usage-value">{{usedNotifications}} / {{subscription.dailyNotificationLimit || 5}}</text>
-      </view>
-
-      <view class="usage-progress-premium">
-        <view class="progress-bar-premium">
-          <view class="progress-fill-premium" style="width: {{usagePercent}}%"></view>
+    <!-- 头部区域 -->
+    <view class="header-section">
+      <h1 class="page-title">订阅管理</h1>
+      <view class="header-badges">
+        <view class="badge-item">
+          <text class="badge-icon">✓</text>
+          <text class="badge-text">7 天无理由退款</text>
         </view>
-        <text class="progress-percent">{{usagePercent}}%</text>
-      </view>
-
-      <view class="usage-status-premium {{usagePercent < 50 ? 'good' : usagePercent < 80 ? 'warning' : 'urgent'}}">
-        <text class="status-icon-premium">{{usagePercent < 50 ? '✓' : usagePercent < 80 ? '!' : '×'}}</text>
-        <text class="status-text-premium">
-          {{usagePercent < 50 ? '用量健康' : usagePercent < 80 ? '即将耗尽' : '已耗尽，请升级'}}
-        </text>
-      </view>
-    </view>
-  </view>
-
-  <!-- 订阅详情 -->
-  <view class="section">
-    <view class="section-header-premium">
-      <text class="section-title-premium">订阅详情</text>
-    </view>
-
-    <view class="detail-card-premium">
-      <view class="detail-row-premium">
-        <text class="detail-label-premium">订阅周期</text>
-        <text class="detail-value-premium">按月订阅</text>
-      </view>
-      <view class="detail-divider-premium"></view>
-      <view class="detail-row-premium">
-        <text class="detail-label-premium">下次账单日</text>
-        <text class="detail-value-premium">2026-04-07</text>
-      </view>
-      <view class="detail-divider-premium"></view>
-      <view class="detail-row-premium">
-        <text class="detail-label-premium">自动续费</text>
-        <view class="toggle-switch-premium active">
-          <text class="toggle-dot-premium"></text>
+        <view class="badge-divider"></view>
+        <view class="badge-item">
+          <text class="badge-text">随时取消</text>
         </view>
       </view>
-      <view class="detail-divider-premium"></view>
-      <view class="detail-row-premium">
-        <text class="detail-label-premium">支付方式</text>
-        <text class="detail-value-premium">支付宝</text>
+    </view>
+
+    <!-- 当前计划卡片 -->
+    <view class="plan-card-wrapper">
+      <view class="plan-card">
+        <!-- 右上角标签 -->
+        <view class="plan-badge">
+          <text class="plan-badge-icon">♛</text>
+          <text class="plan-badge-text">专业版</text>
+        </view>
+
+        <view class="plan-label">当前计划</view>
+
+        <view class="plan-price">
+          <text class="price-symbol">¥</text>
+          <text class="price-value">29</text>
+          <text class="price-period">/月</text>
+        </view>
+
+        <view class="plan-features">
+          <view class="feature-item">
+            <view class="feature-icon">✓</view>
+            <text class="feature-text">100 次通知/天</text>
+          </view>
+          <view class="feature-item">
+            <view class="feature-icon">✓</view>
+            <text class="feature-text">20 个监控任务</text>
+          </view>
+          <view class="feature-item">
+            <view class="feature-icon">✓</view>
+            <text class="feature-text">全部通知渠道 (含语音电话)</text>
+          </view>
+          <view class="feature-item">
+            <view class="feature-icon">✓</view>
+            <text class="feature-text">1 分钟检测间隔</text>
+          </view>
+        </view>
+
+        <view class="plan-actions">
+          <view class="view-features-btn">
+            <text>查看全部权益</text>
+            <text class="chevron-icon">›</text>
+          </view>
+        </view>
       </view>
     </view>
-  </view>
 
-  <!-- 底部操作按钮 -->
-  <view class="bottom-actions">
-    <button class="btn-upgrade" bindtap="upgradePlan">
-      <text class="btn-icon-upgrade">↑</text>
-      <text>升级计划</text>
-    </button>
-    <button class="btn-cancel" bindtap="cancelSubscription">
-      <text class="btn-icon-cancel">✕</text>
-      <text>取消订阅</text>
-    </button>
-  </view>
+    <!-- 用量统计 -->
+    <view class="section">
+      <view class="section-header">
+        <view class="section-title-wrapper">
+          <text class="section-icon">⚡</text>
+          <text class="section-title">用量统计</text>
+        </view>
+        <view class="section-remaining">
+          <text>今日剩余 88 次</text>
+        </view>
+      </view>
+
+      <view class="usage-card">
+        <view class="usage-header">
+          <text class="usage-label">通知额度</text>
+          <view class="usage-value-wrapper">
+            <text class="usage-value-large">12</text>
+            <text class="usage-total">/ 100</text>
+          </view>
+        </view>
+
+        <!-- 进度条 -->
+        <view class="progress-container">
+          <view class="progress-track">
+            <view class="progress-fill" style="width: 12%">
+              <view class="progress-glow"></view>
+            </view>
+          </view>
+        </view>
+        <view class="progress-percent">12%</view>
+
+        <!-- 状态提示 -->
+        <view class="usage-status good">
+          <view class="status-icon-wrapper">
+            <text class="status-check">✓</text>
+          </view>
+          <text class="status-text">用量健康，额度充足</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 订阅详情 -->
+    <view class="section">
+      <view class="section-header">
+        <view class="section-title-wrapper">
+          <text class="section-icon card">💳</text>
+          <text class="section-title">订阅详情</text>
+        </view>
+      </view>
+
+      <view class="detail-card">
+        <view class="detail-row">
+          <text class="detail-label">订阅周期</text>
+          <text class="detail-value">按月订阅</text>
+        </view>
+        <view class="detail-divider"></view>
+        <view class="detail-row">
+          <text class="detail-label">下次账单日</text>
+          <text class="detail-value">2026-04-07</text>
+        </view>
+        <view class="detail-divider"></view>
+        <view class="detail-row">
+          <text class="detail-label">自动续费</text>
+          <view class="toggle-switch {{autoRenew ? 'active' : ''}}" bindtap="toggleAutoRenew">
+            <view class="toggle-dot"></view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 底部操作按钮 -->
+    <view class="bottom-actions">
+      <view class="action-btn primary" bindtap="upgradePlan">
+        <text class="btn-icon">↑</text>
+        <text class="btn-text">升级计划</text>
+      </view>
+      <view class="action-btn danger" bindtap="cancelSubscription">
+        <text class="btn-icon">×</text>
+        <text class="btn-text">取消订阅</text>
+      </view>
+    </view>
+
+    <!-- 常见问题 -->
+    <view class="help-section">
+      <view class="help-link" bindtap="viewHelp">
+        <text class="help-icon">?</text>
+        <text class="help-text">遇到问题？查看常见问题</text>
+      </view>
+    </view>
+
+    <!-- 底部占位 -->
+    <view class="bottom-spacer"></view>
+  </scroll-view>
 </view>

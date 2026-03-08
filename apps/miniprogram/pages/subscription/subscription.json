@@ -1,0 +1,10 @@
+{
+  "usingComponents": {},
+  "navigationBarTitleText": "订阅管理",
+  "navigationBarBackgroundColor": "#0B1120",
+  "navigationBarTextStyle": "white",
+  "backgroundColor": "#0B1120",
+  "navigationStyle": "custom",
+  "style": "v2",
+  "disableScroll": false
+}

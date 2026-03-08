@@ -1,5 +1,8 @@
 {
-  "rules": {
-    "*": "allow"
-  }
+  "rules": [
+    {
+      "action": "allow",
+      "page": "*"
+    }
+  ]
 }

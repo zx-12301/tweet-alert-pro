@@ -2,7 +2,8 @@ Page({
   data: {
     subscription: {},
     usedNotifications: 12,
-    usagePercent: 12
+    usagePercent: 12,
+    autoRenew: true
   },
 
   onLoad: function () {
@@ -46,13 +47,13 @@ Page({
               url: '/billing/cancel',
               method: 'POST'
             });
-            
+
             wx.showToast({
               title: '已取消订阅',
               icon: 'success',
               duration: 2000
             });
-            
+
             this.loadSubscription();
           } catch (error) {
             console.error('取消失败:', error);
@@ -63,6 +64,18 @@ Page({
           }
         }
       }
+    });
+  },
+
+  toggleAutoRenew: function () {
+    const current = this.data.autoRenew;
+    this.setData({ autoRenew: !current });
+  },
+
+  viewHelp: function () {
+    wx.showToast({
+      title: '查看常见问题',
+      icon: 'none'
     });
   }
 });
