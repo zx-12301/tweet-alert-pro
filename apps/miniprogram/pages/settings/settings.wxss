@@ -30,6 +30,15 @@ page {
 }
 
 /* ==========================================================================
+   主滚动区域
+   ========================================================================== */
+
+.main-scroll {
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
    头部区域
    ========================================================================== */
 
@@ -607,10 +616,16 @@ page {
    ========================================================================== */
 
 .bottom-save-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
   padding: 24rpx 40rpx calc(24rpx + env(safe-area-inset-bottom));
-  background: rgba(11, 17, 32, 0.95);
+  background: linear-gradient(to top, #0B1120 0%, rgba(11, 17, 32, 0.98) 100%);
   backdrop-filter: blur(20rpx);
   -webkit-backdrop-filter: blur(20rpx);
+  z-index: 100;
+  box-shadow: 0 -4rpx 24rpx rgba(0, 0, 0, 0.3);
 }
 
 .save-btn {
